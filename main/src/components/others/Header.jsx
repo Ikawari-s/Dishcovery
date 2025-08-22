@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
+  const [theme, setTheme] = useState("light");
+
+  // Load theme from localStorage
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme") || "light";
+    setTheme(storedTheme);
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
+  }, []);
+
+  // Toggle theme
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
+
   return (
     <div>
       <nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -23,6 +40,12 @@ function Header() {
               Dishcovery
             </Link>
           </a>
+          <button
+            onClick={toggleTheme}
+            className="text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-lg"
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
           <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button
               type="button"

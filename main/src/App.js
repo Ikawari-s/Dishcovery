@@ -7,7 +7,7 @@ import Header from "./components/others/Header";
 
 function App() {
   return (
-    <div className="text-center p-6 bg-red-100 min-h-screen">
+    <div className="text-center p-6 bg-red-100 dark:bg-gray-900 text-black dark:text-white min-h-screen">
       <Router>
         <Header />
         <Routes>
