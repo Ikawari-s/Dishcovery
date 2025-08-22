@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchUsers } from "../services/userService";
 
 function Home() {
-  return <div>Home</div>;
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetchUsers().then((res) => setUsers(res.data));
+  }, []);
+  return (
+    <div>
+      Home
+      <ul>
+        {users.map((u) => (
+          <li key={u.id}>
+            {u.name} ({u.email})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default Home;
