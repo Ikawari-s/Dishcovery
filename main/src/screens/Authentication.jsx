@@ -6,7 +6,6 @@ function Authentication() {
   return (
     <div>
       <CreateAccount />
-
       <Login />
     </div>
   );
