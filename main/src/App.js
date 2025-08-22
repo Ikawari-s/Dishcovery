@@ -1,10 +1,19 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./screens/Home";
+import Restaurants from "./screens/Restaurants";
+import Authentication from "./screens/Authentication";
 
 function App() {
   return (
     <div className="text-center p-6 bg-red-100 min-h-screen">
-      <h1 className="text-4xl font-bold text-blue-800">WEA RE SOOOOOO BACK</h1>
-      <h1>ROQUE TEST COMMIT</h1>
+      <Router>
+        <Routes>
+          <Route element={<Home />} path="/" />
+          <Route element={<Restaurants />} path="/restaurants" />
+          <Route element={<Authentication />} path="/authentication" />
+        </Routes>
+      </Router>
     </div>
   );
 }
