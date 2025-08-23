@@ -18,3 +18,4 @@ export const addUser = (req, res) => {
   dummyUsers.push(newUser);
   res.status(201).json(newUser);
 };
+z;
