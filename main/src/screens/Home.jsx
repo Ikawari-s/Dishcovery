@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchUsers } from "../services/userService";
+import Search from "../components/locations/Search";
 
 function Home() {
   const [users, setUsers] = useState([]);
@@ -8,6 +9,7 @@ function Home() {
   }, []);
   return (
     <div>
+      <Search />
       Home
       <ul>
         {users.map((u) => (
