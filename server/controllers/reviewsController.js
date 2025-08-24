@@ -7,7 +7,6 @@ export const getAllReviews = async (req, res) => {
     const db = mongoose.connection.db;
     const reviews = await db.collection("reviews").find({}).toArray();
 
-    // Convert _id to string
     const formattedReviews = reviews.map((r) => ({
       ...r,
       _id: r._id.toString(),
