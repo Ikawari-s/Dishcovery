@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getReviews } from "../../api/reviewsApi";
+import { Link } from "react-router-dom";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -21,6 +22,7 @@ const Reviews = () => {
             key={review._id}
             className="review-card border p-4 mb-4 rounded shadow"
           >
+            <Link to={`/review/${review._id}`}>{review._id}</Link>
             <h3 className="font-bold text-lg">{review.username.trim()}</h3>
             <p>{review.comment}</p>
             <p>Rating: {review.rating} / 5</p>

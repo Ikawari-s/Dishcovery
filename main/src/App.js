@@ -4,6 +4,7 @@ import Home from "./screens/Home";
 import Restaurants from "./screens/Restaurants";
 import Authentication from "./screens/Authentication";
 import Header from "./components/others/Header";
+import ReviewDetailed from "./components/reviews/ReviewDetailed";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route element={<Home />} path="/" />
           <Route element={<Restaurants />} path="/restaurants" />
           <Route element={<Authentication />} path="/authentication" />
+          <Route element={<ReviewDetailed />} path="/review/:id" />
         </Routes>
       </Router>
     </div>
