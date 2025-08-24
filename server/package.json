@@ -4,6 +4,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.18.0",
     "mysql2": "^3.14.3"
   },
   "devDependencies": {
