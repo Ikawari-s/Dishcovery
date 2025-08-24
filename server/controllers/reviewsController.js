@@ -6,7 +6,14 @@ export const getAllReviews = async (req, res) => {
   try {
     const db = mongoose.connection.db;
     const reviews = await db.collection("reviews").find({}).toArray();
-    res.json(reviews);
+
+    // Convert _id to string
+    const formattedReviews = reviews.map((r) => ({
+      ...r,
+      _id: r._id.toString(),
+    }));
+
+    res.json(formattedReviews);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
