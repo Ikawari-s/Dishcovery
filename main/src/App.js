@@ -5,6 +5,7 @@ import Restaurants from "./screens/Restaurants";
 import Authentication from "./screens/Authentication";
 import Header from "./components/others/Header";
 import ReviewDetailed from "./components/reviews/ReviewDetailed";
+import RestaurantDetailed from "./screens/RestaurantDetailed";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route element={<Restaurants />} path="/restaurants" />
           <Route element={<Authentication />} path="/authentication" />
           <Route element={<ReviewDetailed />} path="/review/:id" />
+          <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
         </Routes>
       </Router>
     </div>
