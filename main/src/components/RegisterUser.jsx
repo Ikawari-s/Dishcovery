@@ -1,16 +1,46 @@
 import React, { useState } from "react";
+import { registerUser } from "../api/authenticationsApi";
 
-function CreateAccount() {
+function RegisterUser() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [showPass, setShowPass] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== password2) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const data = await registerUser({
+        name: username,
+        email,
+        password,
+      });
+
+      setMessage("Registration successful!");
+      console.log("Registered user:", data);
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (err) {
+      setMessage(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       Create Account
-      <form class="max-w-sm mx-auto">
+      <form class="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div class="mb-5">
           <label
             for="email"
@@ -74,6 +104,8 @@ function CreateAccount() {
             id="password2"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
           />
         </div>
         <div class="flex items-start mb-5">
@@ -83,7 +115,6 @@ function CreateAccount() {
               type="checkbox"
               value=""
               class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-              required
               checked={showPass}
               onChange={() => setShowPass(!showPass)}
             />
@@ -106,4 +137,4 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+export default RegisterUser;

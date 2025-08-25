@@ -1,11 +1,11 @@
 import React from "react";
-import CreateAccount from "../components/CreateAccount";
 import Login from "../components/Login";
+import RegisterUser from "../components/RegisterUser";
 
 function Authentication() {
   return (
     <div>
-      <CreateAccount />
+      <RegisterUser />
       <Login />
     </div>
   );
