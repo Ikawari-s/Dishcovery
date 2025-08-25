@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const [theme, setTheme] = useState("light");
-
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   // Load theme from localStorage
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "light";
     setTheme(storedTheme);
     document.documentElement.classList.toggle("dark", storedTheme === "dark");
+
+    const storedUser = localStorage.getItem("userInfo");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
   // Toggle theme
@@ -17,6 +23,12 @@ function Header() {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    setUser(null);
+    navigate("/authentication"); // redirect to login
   };
 
   return (
@@ -40,6 +52,24 @@ function Header() {
               Dishcovery
             </Link>
           </a>
+
+          <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-900 dark:text-white">
+                  {user.email}
+                </span>
+                <button onClick={handleLogout}>LOGOUT</button>
+              </div>
+            ) : (
+              <Link
+                to="/authentication"
+                className="text-sm font-medium text-blue-600 dark:text-blue-400"
+              >
+                Login
+              </Link>
+            )}
+          </div>
           <button
             onClick={toggleTheme}
             className="text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-lg"
