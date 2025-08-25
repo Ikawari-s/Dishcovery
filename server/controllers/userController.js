@@ -17,6 +17,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      profilePicture: user.profilePicture,
     });
   } else {
     res.status(401);
@@ -49,4 +50,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser };
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}); // You can use `.select("-password")` to exclude password
+  res.json(users);
+});
+
+export { registerUser, authUser, getUsers };

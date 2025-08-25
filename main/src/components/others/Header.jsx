@@ -13,7 +13,9 @@ function Header() {
 
     const storedUser = localStorage.getItem("userInfo");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      console.log("User loaded from localStorage:", parsedUser); // ✅ Add this line
+      setUser(parsedUser);
     }
   }, []);
 
@@ -59,6 +61,10 @@ function Header() {
                 <span className="text-sm text-gray-900 dark:text-white">
                   {user.email}
                 </span>
+                <img
+                  src={user.profilePicture}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
                 <button onClick={handleLogout}>LOGOUT</button>
               </div>
             ) : (
