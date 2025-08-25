@@ -4,8 +4,8 @@ import Home from "./screens/Home";
 import Restaurants from "./screens/Restaurants";
 import Authentication from "./screens/Authentication";
 import Header from "./components/others/Header";
-import ReviewDetailed from "./components/reviews/ReviewDetailed";
 import RestaurantDetailed from "./screens/RestaurantDetailed";
+import ReviewDetailed from "./screens/ReviewDetailed";
 
 function App() {
   return (

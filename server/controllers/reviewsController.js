@@ -54,3 +54,32 @@ export const addReview = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Get reviews for a specific restaurant
+export const getReviewsByRestaurantId = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+    const db = mongoose.connection.db;
+
+    const reviews = await db
+      .collection("reviews")
+      .find({ restaurantId: new ObjectId(restaurantId) })
+      .toArray();
+
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No reviews found for this restaurant" });
+    }
+
+    const formattedReviews = reviews.map((r) => ({
+      ...r,
+      _id: r._id.toString(),
+      restaurantId: r.restaurantId.toString(),
+    }));
+
+    res.json(formattedReviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

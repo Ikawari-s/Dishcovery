@@ -23,3 +23,13 @@ export const getReviewById = async (id) => {
     return null;
   }
 };
+
+export const getReviewsByRestaurantId = async (restaurantId) => {
+  try {
+    const response = await axios.get(`${API_URL}/restaurant/${restaurantId}`);
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching restaurant reviews:", err);
+    return [];
+  }
+};

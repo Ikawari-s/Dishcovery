@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getReviewById } from "../../api/reviewsApi";
+import { getReviewById } from "../api/reviewsApi";
+import RestaurantReviews from "../components/reviews/RestaurantReviews";
+import AddReviews from "../components/reviews/AddReviews";
 
 const ReviewDetailed = () => {
   const { id } = useParams(); // get ID from URL
@@ -20,11 +22,15 @@ const ReviewDetailed = () => {
   if (!review) return <p>Review not found.</p>;
 
   return (
-    <div className="review-detailed border p-4 rounded shadow">
-      <h1>REVIEW DETAIED</h1>
-      <h2 className="font-bold text-xl">{review.username}</h2>
-      <p>{review.comment}</p>
-      <p>Rating: {review.rating} / 5</p>
+    <div>
+      <div className="review-detailed border p-4 rounded shadow">
+        <h1>REVIEW DETAIED</h1>
+        <h2 className="font-bold text-xl">{review.username}</h2>
+        <p>{review.comment}</p>
+        <p>Rating: {review.rating} / 5</p>
+      </div>
+      <AddReviews />
+      <RestaurantReviews restaurantId={id} />
     </div>
   );
 };
