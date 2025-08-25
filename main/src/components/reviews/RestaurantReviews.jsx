@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getReviewsByRestaurantId } from "../../api/reviewsApi";
 
 function RestaurantReviews() {
@@ -40,9 +40,12 @@ function RestaurantReviews() {
             className="border border-gray-200 rounded-lg p-4 shadow-sm"
           >
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-gray-800">
+              <Link
+                to={`/user/${review.userId}`}
+                className="font-semibold text-gray-800"
+              >
                 {review.username}
-              </span>
+              </Link>
               <span className="text-yellow-500 font-medium">
                 ⭐ {review.rating}/5
               </span>

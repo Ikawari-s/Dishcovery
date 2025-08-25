@@ -33,3 +33,13 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     return [];
   }
 };
+
+export const getReviewsByUserId = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/${userId}`);
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching user reviews:", err);
+    return [];
+  }
+};

@@ -7,6 +7,7 @@ import Header from "./components/others/Header";
 import RestaurantDetailed from "./screens/RestaurantDetailed";
 import ReviewDetailed from "./screens/ReviewDetailed";
 import Profile from "./screens/Profile";
+import User from "./screens/User";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route element={<Authentication />} path="/authentication" />
           <Route element={<ReviewDetailed />} path="/review/:id" />
           <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
+          <Route element={<User />} path="/user/:id" />
           <Route element={<Profile />} path="/profile" />
         </Routes>
       </Router>
