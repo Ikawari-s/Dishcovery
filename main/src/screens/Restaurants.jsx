@@ -63,6 +63,11 @@ const Restaurants = () => {
                 </span>
               ))}
             </div>
+            <img
+              class="h-auto max-w-lg"
+              src={restaurant.image}
+              alt="image description"
+            />
           </div>
         ))
       ) : (
