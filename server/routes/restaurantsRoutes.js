@@ -1,6 +1,5 @@
 import express from "express";
 
-import { getReviewById } from "../controllers/reviewsController.js";
 import {
   getAllRestaurants,
   getRestaurantById,

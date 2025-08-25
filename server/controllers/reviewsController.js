@@ -83,3 +83,31 @@ export const getReviewsByRestaurantId = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getReviewsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const db = mongoose.connection.db;
+
+    const reviews = await db
+      .collection("reviews")
+      .find({ userId: new ObjectId(userId) })
+      .toArray();
+
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No reviews found for this user" });
+    }
+
+    const formattedReviews = reviews.map((r) => ({
+      ...r,
+      _id: r._id.toString(),
+      userId: r.userId.toString(),
+    }));
+
+    res.json(formattedReviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
