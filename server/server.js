@@ -17,6 +17,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/restaurants", restaurantsRoutes);
 app.use("/api/users", userRoutes);
+app.use("/profilepictures", express.static("public/profilepictures"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

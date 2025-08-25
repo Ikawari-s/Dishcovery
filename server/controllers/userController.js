@@ -5,6 +5,22 @@ import generateToken from "../utils/generateToken.js";
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
+
+const uploadProfilePicture = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    res.status(400);
+    throw new Error("No file uploaded");
+  }
+
+  // Path where file is served
+  const filePath = `/profilepictures/${req.file.filename}`;
+
+  res.json({
+    message: "File uploaded successfully",
+    filePath,
+  });
+});
+
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -55,4 +71,4 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-export { registerUser, authUser, getUsers };
+export { registerUser, authUser, getUsers, uploadProfilePicture };

@@ -21,20 +21,33 @@ function SelectProfilePic() {
   };
 
   // Handle save (simulated for now)
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedFile) {
       alert("Please select an image first.");
       return;
     }
-    const newFileName = generateUniqueName(selectedFile);
 
-    // Simulate "saving" inside /profilepictures folder
-    console.log("Saving as:", `/profilepictures/${newFileName}`);
+    const formData = new FormData();
+    formData.append("profilePicture", selectedFile);
 
-    // In real app: send file -> backend/Firebase/etc.
-    alert(`Profile picture saved as: ${newFileName}`);
+    try {
+      const response = await fetch("http://localhost:5000/api/users/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    // Reset
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`Profile picture saved at: ${data.filePath}`);
+        console.log("Saved at:", data.filePath);
+      } else {
+        alert("Error: " + data.message);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+
     setSelectedFile(null);
     setPreview(null);
   };
