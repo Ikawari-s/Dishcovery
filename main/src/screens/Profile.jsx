@@ -2,6 +2,7 @@ import React from "react";
 import SelectProfilePic from "../components/profile/SelectProfilePic";
 import Followers from "../components/profile/Followers";
 import Following from "../components/profile/Following";
+import UserReviews from "../components/reviews/UserReviews";
 
 function Profile() {
   const storedUser = localStorage.getItem("userInfo");
@@ -15,6 +16,7 @@ function Profile() {
       <SelectProfilePic />
       <Followers userId={userId} />
       <Following userId={userId} />
+      <UserReviews />
     </div>
   );
 }

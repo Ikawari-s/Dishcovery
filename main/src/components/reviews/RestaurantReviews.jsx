@@ -74,7 +74,7 @@ function RestaurantReviews() {
               alt={review.username}
             />
             <div className="font-medium dark:text-white">
-              <Link to={`/user/${review.userId}`}>{review.username}</Link>
+              <Link to={`/profile/${review.userId}`}>{review.username}</Link>
             </div>
           </div>
 

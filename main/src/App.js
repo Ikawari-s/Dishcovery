@@ -6,9 +6,8 @@ import Authentication from "./screens/Authentication";
 import Header from "./components/others/Header";
 import RestaurantDetailed from "./screens/RestaurantDetailed";
 import ReviewDetailed from "./screens/ReviewDetailed";
-import Profile from "./screens/Profile";
-import User from "./screens/User";
 import Lists from "./screens/Lists";
+import ProfileRouter from "./screens/profile/ProfileRouter";
 
 function App() {
   return (
@@ -21,8 +20,7 @@ function App() {
           <Route element={<Authentication />} path="/authentication" />
           <Route element={<ReviewDetailed />} path="/review/:id" />
           <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
-          <Route element={<User />} path="/user/:id" />
-          <Route element={<Profile />} path="/profile" />
+          <Route element={<ProfileRouter />} path="/profile/:id" />
           <Route element={<Lists />} path="/lists" />
         </Routes>
       </Router>

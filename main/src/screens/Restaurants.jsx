@@ -7,7 +7,6 @@ const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedCuisine, setSelectedCuisine] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
 
   const cuisines = ["All", ...new Set(restaurants.map((r) => r.cuisine))];
 
@@ -32,7 +31,8 @@ const Restaurants = () => {
       : restaurants.filter((r) => r.cuisine === selectedCuisine);
 
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="p-4">
+      {/* Filter Dropdown */}
       <div className="mb-6">
         <label
           htmlFor="cuisine"
@@ -53,15 +53,17 @@ const Restaurants = () => {
           ))}
         </select>
       </div>
+
+      {/* Restaurant Cards Grid */}
       {loading ? (
         <Spinner />
       ) : (
-        <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredRestaurants.length > 0 ? (
             filteredRestaurants.map((restaurant) => (
               <div
                 key={restaurant._id}
-                className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
               >
                 <Link to={`/restaurant/${restaurant._id}`}>
                   <img
@@ -81,9 +83,9 @@ const Restaurants = () => {
               </div>
             ))
           ) : (
-            <p>No restaurants found.</p>
+            <p className="text-gray-600">No restaurants found.</p>
           )}
-        </>
+        </div>
       )}
     </div>
   );
