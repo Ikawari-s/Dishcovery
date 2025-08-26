@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   deleteReviewApi,
   getReviewsByRestaurantId,
 } from "../../api/reviewsApi";
-import DeleteReviewModal from "../models/DeleteReviewModal";
+
 import StarRating from "./StarRating";
+import DeleteReviewModal from "../modals/DeleteReviewModal";
 
 function RestaurantReviews() {
   const { id } = useParams(); // restaurantId from route
@@ -73,7 +74,7 @@ function RestaurantReviews() {
               alt={review.username}
             />
             <div className="font-medium dark:text-white">
-              <p>{review.username}</p>
+              <Link to={`/user/${review.userId}`}>{review.username}</Link>
             </div>
           </div>
 

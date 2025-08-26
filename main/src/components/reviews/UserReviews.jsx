@@ -37,7 +37,7 @@ function UserReviews() {
           <div className="flex items-center mb-2">
             <img
               className="w-10 h-10 me-4 rounded-full"
-              src="/placeholder-avatar.jpg"
+              src={review.userImage || "/placeholder-avatar.jpg"}
               alt="User avatar"
             />
             <div class="font-medium dark:text-white">

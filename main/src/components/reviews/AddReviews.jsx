@@ -19,10 +19,10 @@ function AddReviews({ restaurantId }) {
     }
   };
   return (
-    <div>
+    <div className="w-full">
       <h1>ADD REVIEW</h1>
       {message && <p className="mb-2 text-sm">{message}</p>}
-      <form class="max-w-sm mx-auto" onSubmit={handleSubmit}>
+      <form class="max-w-xl mx-auto" onSubmit={handleSubmit}>
         <div class="mb-5">
           <label
             for="large-input"
