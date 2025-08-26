@@ -2,10 +2,6 @@ import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 
-// @desc    Register a new user
-// @route   POST /api/users
-// @access  Public
-
 const uploadProfilePicture = asyncHandler(async (req, res) => {
   if (!req.file) {
     res.status(400);

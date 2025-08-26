@@ -36,26 +36,37 @@ export const getReviewById = async (req, res) => {
 // Add a new review
 export const addReview = async (req, res) => {
   try {
-    const { username, rating, comment } = req.body;
-    if (!username || !rating || !comment) {
+    const { restaurantId, rating, comment } = req.body;
+
+    if (!restaurantId || !rating || !comment) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const db = mongoose.connection.db;
+
     const newReview = {
-      username,
+      userId: new ObjectId(req.user._id),
+      restaurantId: new ObjectId(restaurantId),
       rating: rating.toString(),
       comment,
       createdAt: new Date(),
     };
+
     const result = await db.collection("reviews").insertOne(newReview);
-    res.status(201).json(result);
+    res.status(201).json({
+      message: "Review added successfully",
+      review: {
+        ...newReview,
+        _id: result.insertedId.toString(),
+        userId: newReview.userId.toString(),
+        restaurantId: newReview.restaurantId.toString(),
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Get reviews for a specific restaurant
 export const getReviewsByRestaurantId = async (req, res) => {
   try {
     const { restaurantId } = req.params;
