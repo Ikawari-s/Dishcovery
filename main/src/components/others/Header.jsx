@@ -203,8 +203,10 @@ function Header() {
               </li>
               <li>
                 <Link to="/">Home</Link>
+              </li>
+              <li>
                 {user ? (
-                  <Link to={`/profile/${user._id}`}>My Profile</Link>
+                  <Link to={`/profile/${user._id}`}>Profile</Link>
                 ) : (
                   <></>
                 )}

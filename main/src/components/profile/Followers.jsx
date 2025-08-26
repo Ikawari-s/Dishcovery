@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchFollowers } from "../../api/authenticationsApi";
+import { Link } from "react-router-dom";
 
 function Followers({ userId }) {
   const [followers, setFollowers] = useState([]);
@@ -51,7 +52,7 @@ function Followers({ userId }) {
               alt={f.name}
               className="w-8 h-8 rounded-full"
             />
-            <span>{f.name}</span>
+            <Link to={`/profile/${f._id}`}>{f.name}</Link>
           </li>
         ))}
       </ul>

@@ -17,41 +17,29 @@ function App() {
 
   return (
     <div className="text-center p-6 bg-red-100 dark:bg-gray-900 text-black dark:text-white min-h-screen">
-      <Router>
-        <Header />
-        <Routes>
-          <Route element={<Home />} path="/" />
-          <Route element={<Restaurants />} path="/restaurants" />
-          <Route element={<Authentication />} path="/authentication" />
-          <Route element={<ReviewDetailed />} path="/review/:id" />
-          <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
-          <Route element={<ProfileRouter />} path="/profile/:id" />
-          <Route element={<Lists />} path="/lists" />
-        </Routes>
-      </Router>
-    <div className="relative text-center p-6 dark:bg-gray-900 text-black dark:text-white min-h-screen overflow-hidden">
-      {/* 👇 Loading screen covers the whole app, swipes up on finish */}
-      {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
+      <div className="relative text-center p-6 dark:bg-gray-900 text-black dark:text-white min-h-screen overflow-hidden">
+        {/* 👇 Loading screen covers the whole app, swipes up on finish */}
+        {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
 
-      {/* 👇 Always render the app, but fade in when loading finishes */}
-      <div
-        className={`transition-opacity duration-500 ease-in-out ${
-          loading ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <Router>
-          <Header />
-          <Routes>
-            <Route element={<Home />} path="/" />
-            <Route element={<Restaurants />} path="/restaurants" />
-            <Route element={<Authentication />} path="/authentication" />
-            <Route element={<ReviewDetailed />} path="/review/:id" />
-            <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
-            <Route element={<User />} path="/user/:id" />
-            <Route element={<Profile />} path="/profile" />
-            <Route element={<Lists />} path="/lists" />
-          </Routes>
-        </Router>
+        {/* 👇 Always render the app, but fade in when loading finishes */}
+        <div
+          className={`transition-opacity duration-500 ease-in-out ${
+            loading ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          <Router>
+            <Header />
+            <Routes>
+              <Route element={<Home />} path="/" />
+              <Route element={<Restaurants />} path="/restaurants" />
+              <Route element={<Authentication />} path="/authentication" />
+              <Route element={<ReviewDetailed />} path="/review/:id" />
+              <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
+              <Route element={<ProfileRouter />} path="/profile/:id" />
+              <Route element={<Lists />} path="/lists" />
+            </Routes>
+          </Router>
+        </div>
       </div>
     </div>
   );
