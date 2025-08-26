@@ -72,3 +72,15 @@ export const deleteReviewApi = async (reviewId) => {
 
   return res.data;
 };
+
+export const getRatingStatsByRestaurantId = async (restaurantId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/restaurant/${restaurantId}/stats`
+    );
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching restaurant rating stats:", err);
+    return { totalReviews: 0, avgRating: 0, distribution: [] };
+  }
+};

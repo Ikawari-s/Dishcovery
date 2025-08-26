@@ -48,7 +48,7 @@ export const addReview = async (req, res) => {
     const newReview = {
       userId: new ObjectId(req.user._id),
       restaurantId: new ObjectId(restaurantId),
-      rating: rating.toString(),
+      rating: Number(rating),
       comment,
       createdAt: new Date(),
     };
@@ -176,6 +176,61 @@ export const updateReview = async (req, res) => {
     res.json({
       message: "Review updated successfully",
       review: updatedReview,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getRatingStatsByRestaurantId = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
+    const db = mongoose.connection.db;
+
+    const stats = await db
+      .collection("reviews")
+      .aggregate([
+        { $match: { restaurantId: new ObjectId(restaurantId) } },
+        {
+          $group: {
+            _id: "$rating",
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { _id: -1 }, // Sort by rating (5 → 1)
+        },
+      ])
+      .toArray();
+
+    const totalReviews = stats.reduce((acc, cur) => acc + cur.count, 0);
+
+    // Build rating distribution
+    const distribution = [5, 4, 3, 2, 1].map((star) => {
+      const starObj = stats.find((s) => s._id === star);
+      return {
+        star,
+        count: starObj ? starObj.count : 0,
+        percentage:
+          totalReviews > 0
+            ? (((starObj ? starObj.count : 0) / totalReviews) * 100).toFixed(1)
+            : 0,
+      };
+    });
+
+    // Compute average rating
+    const avgRating =
+      totalReviews > 0
+        ? (
+            stats.reduce((acc, cur) => acc + cur._id * cur.count, 0) /
+            totalReviews
+          ).toFixed(2)
+        : 0;
+
+    res.json({
+      totalReviews,
+      avgRating,
+      distribution,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

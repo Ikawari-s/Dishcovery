@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getRestaurantsById } from "../api/restaurantsApi";
 import RestaurantReviews from "../components/reviews/RestaurantReviews";
 import AddReviews from "../components/reviews/AddReviews";
+import RatingStats from "../components/reviews/RatingStats";
 
 function RestaurantDetailed() {
   const { id } = useParams(); // Get restaurant ID from route
@@ -68,6 +69,7 @@ function RestaurantDetailed() {
 
       {/* Reviews Section */}
       <RestaurantReviews restaurantId={id} />
+      <RatingStats restaurantId={id} />
       <AddReviews restaurantId={id} />
     </div>
   );
