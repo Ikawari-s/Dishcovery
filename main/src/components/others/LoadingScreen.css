@@ -1,7 +1,7 @@
 .loading-screen {
   position: fixed;
   inset: 0;
-  background-color: rgb(255, 239, 216);
+  background-color: #8e5300;
   color: black;
   display: flex;
   align-items: center;
