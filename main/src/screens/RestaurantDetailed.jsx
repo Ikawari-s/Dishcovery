@@ -25,7 +25,6 @@ function RestaurantDetailed() {
         setLoading(false);
       }
     };
-
     fetchRestaurant();
   }, [id]);
 
@@ -34,54 +33,41 @@ function RestaurantDetailed() {
   if (!restaurant) return null;
 
   return (
-    <div>
-      <h1>RESTAURANT DETAIED</h1>
-      <div className=" max-w-xl mx-auto bg-white rounded shadow">
-        <h2 className="text-2xl font-bold mb-2">{restaurant.name}</h2>
-        <p className="text-gray-700 mb-1">
-          <span className="font-semibold">Cuisine:</span> {restaurant.cuisine}
-        </p>
-        <p className="text-gray-700 mb-1">
-          <span className="font-semibold">Rating:</span> {restaurant.rating} / 5
-        </p>
-        <p className="text-gray-700 mb-1">
-          <span className="font-semibold">Status:</span>{" "}
-          <span
-            className={restaurant.is_open ? "text-green-600" : "text-red-600"}
-          >
-            {restaurant.is_open ? "Open" : "Closed"}
-          </span>
-        </p>
-        <p className="text-gray-700 mb-1">
-          <span className="font-semibold">Address:</span>{" "}
-          {restaurant.address.street}, {restaurant.address.city},{" "}
-          {restaurant.address.zipcode}
-        </p>
-        <p className="text-gray-700 mb-1">
-          <span className="font-semibold">Created:</span>{" "}
-          {new Date(restaurant.created_at).toLocaleDateString()}
-        </p>
-
-        <div className="mt-3">
-          <span className="font-semibold">Tags:</span>
-          <div className="mt-1 flex flex-wrap gap-2">
-            {restaurant.tags.map((tag) => (
-              <span
-                key={tag}
-                className="bg-gray-200 text-gray-800 text-sm px-2 py-1 rounded"
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-          <img
-            class="h-auto max-w-lg"
-            src={restaurant.image}
-            alt="image description"
-          />
+    <div className="p-4 flex flex-col items-center space-y-6">
+      {/* Restaurant Card */}
+      <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-4xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <img
+          className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+          src={restaurant.image || "/placeholder-image.jpg"}
+          alt={restaurant.name}
+        />
+        <div className="flex flex-col justify-between p-4 leading-normal">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {restaurant.name}
+          </h5>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            Cuisine: {restaurant.cuisine}
+          </p>
+          <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
+            Rating: ⭐ {restaurant.rating} / 5
+          </p>
+          <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
+            Status:{" "}
+            <span
+              className={restaurant.is_open ? "text-green-600" : "text-red-600"}
+            >
+              {restaurant.is_open ? "Open" : "Closed"}
+            </span>
+          </p>
+          <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
+            Address: {restaurant.address.street}, {restaurant.address.city},{" "}
+            {restaurant.address.zipcode}
+          </p>
         </div>
       </div>
-      <RestaurantReviews />
+
+      {/* Reviews Section */}
+      <RestaurantReviews restaurantId={id} />
       <AddReviews restaurantId={id} />
     </div>
   );
