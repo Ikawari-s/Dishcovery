@@ -6,6 +6,8 @@ import reviewsRoutes from "./routes/reviewsRoutes.js";
 import restaurantsRoutes from "./routes/restaurantsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listRoutes from "./routes/listRoutes.js";
+import { errorHandler } from "./middleware/errorMiddleware.js";
+
 dotenv.config();
 connectDB();
 
@@ -20,6 +22,7 @@ app.use("/api/restaurants", restaurantsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/lists", listRoutes);
 app.use("/profilepictures", express.static("public/profilepictures"));
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
