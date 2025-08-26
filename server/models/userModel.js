@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "", // Optional: set a default profile picture path
     },
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true,

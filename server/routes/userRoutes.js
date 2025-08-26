@@ -1,8 +1,10 @@
 import express from "express";
 import {
   authUser,
+  followUser,
   getUsers,
   registerUser,
+  unfollowUser,
   uploadProfilePicture,
 } from "../controllers/userController.js";
 
@@ -27,9 +29,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 router.post("/upload", upload.single("profilePicture"), uploadProfilePicture);
-
 router.post("/", registerUser);
 router.post("/login", authUser);
 router.get("/get", getUsers);
+router.put("/follow/:id", protect, followUser);
+router.put("/unfollow/:id", protect, unfollowUser);
 
 export default router;

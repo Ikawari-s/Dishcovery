@@ -67,4 +67,67 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-export { registerUser, authUser, getUsers, uploadProfilePicture };
+const followUser = asyncHandler(async (req, res) => {
+  const userId = req.user._id; // logged-in user
+  const targetId = req.params.id; // user to follow
+
+  if (userId.toString() === targetId) {
+    res.status(400);
+    throw new Error("You cannot follow yourself");
+  }
+
+  const user = await User.findById(userId);
+  const targetUser = await User.findById(targetId);
+
+  if (!targetUser) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (!user.following.includes(targetId)) {
+    user.following.push(targetId);
+    targetUser.followers.push(userId);
+    await user.save();
+    await targetUser.save();
+    res.json({ message: `You are now following ${targetUser.name}` });
+  } else {
+    res.status(400);
+    throw new Error("Already following this user");
+  }
+});
+
+// Unfollow a user
+const unfollowUser = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const targetId = req.params.id;
+
+  const user = await User.findById(userId);
+  const targetUser = await User.findById(targetId);
+
+  if (!targetUser) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.following.includes(targetId)) {
+    user.following = user.following.filter((id) => id.toString() !== targetId);
+    targetUser.followers = targetUser.followers.filter(
+      (id) => id.toString() !== userId.toString()
+    );
+    await user.save();
+    await targetUser.save();
+    res.json({ message: `You have unfollowed ${targetUser.name}` });
+  } else {
+    res.status(400);
+    throw new Error("You are not following this user");
+  }
+});
+
+export {
+  registerUser,
+  authUser,
+  getUsers,
+  uploadProfilePicture,
+  followUser,
+  unfollowUser,
+};
