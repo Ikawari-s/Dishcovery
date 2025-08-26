@@ -5,6 +5,7 @@ import {
   addReview,
   getReviewsByRestaurantId,
   getReviewsByUserId,
+  deleteReview,
 } from "../controllers/reviewsController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -15,5 +16,6 @@ router.get("/user/:userId", getReviewsByUserId);
 router.get("/:id", getReviewById); // GET review by ID
 router.get("/restaurant/:restaurantId", getReviewsByRestaurantId);
 router.post("/add", protect, addReview);
+router.delete("/delete/:id", protect, deleteReview);
 
 export default router;

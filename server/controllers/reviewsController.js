@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import Review from "../models/reviewModel.js";
 
 // Get all reviews
 export const getAllReviews = async (req, res) => {
@@ -118,6 +119,31 @@ export const getReviewsByUserId = async (req, res) => {
     }));
 
     res.json(formattedReviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params; // reviewId
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // check if logged-in user owns the review
+    if (review.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this review" });
+    }
+
+    await review.deleteOne();
+
+    res.json({ message: "Review deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
