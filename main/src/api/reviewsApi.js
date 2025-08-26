@@ -43,3 +43,19 @@ export const getReviewsByUserId = async (userId) => {
     return [];
   }
 };
+
+export const addReviewApi = async ({ restaurantId, rating, comment }) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
+  const res = await axios.post(
+    `${API_URL}/add`,
+    { restaurantId, rating, comment },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};

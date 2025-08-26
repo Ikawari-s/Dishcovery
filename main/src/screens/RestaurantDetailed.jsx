@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getRestaurantsById } from "../api/restaurantsApi";
 import RestaurantReviews from "../components/reviews/RestaurantReviews";
+import AddReviews from "../components/reviews/AddReviews";
 
 function RestaurantDetailed() {
   const { id } = useParams(); // Get restaurant ID from route
@@ -81,6 +82,7 @@ function RestaurantDetailed() {
         </div>
       </div>
       <RestaurantReviews />
+      <AddReviews restaurantId={id} />
     </div>
   );
 }
