@@ -8,6 +8,7 @@ import RestaurantDetailed from "./screens/RestaurantDetailed";
 import ReviewDetailed from "./screens/ReviewDetailed";
 import Profile from "./screens/Profile";
 import User from "./screens/User";
+import Lists from "./screens/Lists";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
           <Route element={<User />} path="/user/:id" />
           <Route element={<Profile />} path="/profile" />
+          <Route element={<Lists />} path="/lists" />
         </Routes>
       </Router>
     </div>

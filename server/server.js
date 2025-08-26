@@ -5,6 +5,7 @@ import cors from "cors";
 import reviewsRoutes from "./routes/reviewsRoutes.js";
 import restaurantsRoutes from "./routes/restaurantsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import listRoutes from "./routes/listRoutes.js";
 dotenv.config();
 connectDB();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/restaurants", restaurantsRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/lists", listRoutes);
 app.use("/profilepictures", express.static("public/profilepictures"));
 
 const PORT = process.env.PORT || 5000;
