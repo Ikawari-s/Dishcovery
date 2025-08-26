@@ -148,3 +148,36 @@ export const deleteReview = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const updateReview = async (req, res) => {
+  try {
+    const { id } = req.params; // reviewId
+    const { rating, comment } = req.body;
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // check if logged-in user owns the review
+    if (review.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this review" });
+    }
+
+    // update fields if provided
+    if (rating !== undefined) review.rating = rating;
+    if (comment !== undefined) review.comment = comment;
+
+    const updatedReview = await review.save();
+
+    res.json({
+      message: "Review updated successfully",
+      review: updatedReview,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
