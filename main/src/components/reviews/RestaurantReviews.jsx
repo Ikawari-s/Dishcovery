@@ -4,21 +4,29 @@ import {
   deleteReviewApi,
   getReviewsByRestaurantId,
 } from "../../api/reviewsApi";
+import DeleteReviewModal from "../models/DeleteReviewModal";
 
 function RestaurantReviews() {
   const { id } = useParams(); // restaurantId from route
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState(null);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-  const handleDelete = async (reviewId) => {
-    if (!window.confirm("Are you sure you want to delete this review?")) return;
+  const handleOpenModal = (reviewId) => {
+    setSelectedReviewId(reviewId);
+    setShowModal(true);
+  };
 
+  const handleDelete = async () => {
     try {
-      await deleteReviewApi(reviewId);
-      setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+      await deleteReviewApi(selectedReviewId);
+      setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
+      setShowModal(false);
+      setSelectedReviewId(null);
     } catch (err) {
       alert("Failed to delete review");
       console.error(err);
@@ -73,7 +81,7 @@ function RestaurantReviews() {
             </p>
             {userInfo && userInfo._id === review.userId && (
               <button
-                onClick={() => handleDelete(review._id)}
+                onClick={() => handleOpenModal(review._id)} // 👈 open modal instead
                 className="text-red-600 hover:text-red-800 text-sm font-medium"
               >
                 Delete
@@ -82,6 +90,11 @@ function RestaurantReviews() {
           </div>
         ))}
       </div>
+      <DeleteReviewModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
