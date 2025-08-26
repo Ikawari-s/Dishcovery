@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import Review from "../models/reviewModel.js";
+import User from "../models/userModel.js";
 
 // Get all reviews
 export const getAllReviews = async (req, res) => {
@@ -45,15 +46,26 @@ export const addReview = async (req, res) => {
 
     const db = mongoose.connection.db;
 
+    // Get user info
+    const user = await User.findById(req.user._id).select(
+      "name profilePicture"
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const newReview = {
       userId: new ObjectId(req.user._id),
       restaurantId: new ObjectId(restaurantId),
       rating: Number(rating),
       comment,
+      username: user.name, // ✅ add name
+      userImage: user.profilePicture || "", // ✅ add profile picture (optional)
       createdAt: new Date(),
     };
 
     const result = await db.collection("reviews").insertOne(newReview);
+
     res.status(201).json({
       message: "Review added successfully",
       review: {
