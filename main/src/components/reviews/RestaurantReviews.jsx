@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getReviewsByRestaurantId } from "../../api/reviewsApi";
+import {
+  deleteReviewApi,
+  getReviewsByRestaurantId,
+} from "../../api/reviewsApi";
 
 function RestaurantReviews() {
   const { id } = useParams(); // restaurantId from route
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const handleDelete = async (reviewId) => {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+
+    try {
+      await deleteReviewApi(reviewId);
+      setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+    } catch (err) {
+      alert("Failed to delete review");
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -54,6 +71,14 @@ function RestaurantReviews() {
             <p className="text-sm text-gray-500 mt-2">
               {new Date(review.createdAt).toLocaleDateString()}
             </p>
+            {userInfo && userInfo._id === review.userId && (
+              <button
+                onClick={() => handleDelete(review._id)}
+                className="text-red-600 hover:text-red-800 text-sm font-medium"
+              >
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </div>

@@ -59,3 +59,16 @@ export const addReviewApi = async ({ restaurantId, rating, comment }) => {
   );
   return res.data;
 };
+
+export const deleteReviewApi = async (reviewId) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
+  const res = await axios.delete(`${API_URL}/delete/${reviewId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+};
