@@ -8,66 +8,34 @@ const Restaurants = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getRestaurants();
-      console.log("Fetched restaurants:", data);
       setRestaurants(data);
     };
     fetchData();
   }, []);
 
   return (
-    <div className="review-list p-4">
-      <h2 className="text-2xl font-bold mb-4">Restaurants</h2>
-
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {restaurants.length > 0 ? (
         restaurants.map((restaurant) => (
           <div
             key={restaurant._id}
-            className="border p-4 mb-4 rounded shadow bg-white"
+            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
           >
-            <Link
-              to={`/restaurant/${restaurant._id}`}
-              className="text-xl font-semibold text-blue-600 hover:underline"
-            >
-              {restaurant.name}
+            <Link to={`/restaurant/${restaurant._id}`}>
+              <img
+                className="rounded-t-lg w-full h-48 object-cover"
+                src={restaurant.image}
+                alt={restaurant.name}
+              />
+              <div className="p-5">
+                <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                  {restaurant.name}
+                </h5>
+                <p className="font-normal text-gray-700">
+                  Cuisine: {restaurant.cuisine}
+                </p>
+              </div>
             </Link>
-
-            <p className="text-sm text-gray-600">
-              Cuisine: <span className="font-medium">{restaurant.cuisine}</span>
-            </p>
-
-            <p className="text-sm">
-              Address:{" "}
-              {`${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.zipcode}`}
-            </p>
-
-            <p>Rating: ⭐ {restaurant.rating} / 5</p>
-
-            <p className="text-sm">
-              Status:{" "}
-              <span
-                className={`font-semibold ${
-                  restaurant.is_open ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {restaurant.is_open ? "Open" : "Closed"}
-              </span>
-            </p>
-
-            <div className="mt-2">
-              {restaurant.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-block bg-gray-200 text-sm text-gray-700 px-2 py-1 rounded mr-2"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-            <img
-              class="h-auto max-w-lg"
-              src={restaurant.image}
-              alt="image description"
-            />
           </div>
         ))
       ) : (
