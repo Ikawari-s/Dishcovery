@@ -56,51 +56,45 @@ function RestaurantReviews() {
   if (error) return <p className="p-4 text-red-600">{error}</p>;
 
   return (
-    <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto mt-6">
-      <div className="flex items-center justify-between mb-4">
-        <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-          Reviews
-        </h5>
-      </div>
-      <div className="flow-root">
-        <ul
-          role="list"
-          className="divide-y divide-gray-200 dark:divide-gray-700"
+    <div className="w-full max-w-2xl p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto mt-6">
+      <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white mb-4">
+        Reviews
+      </h5>
+
+      {reviews.map((review) => (
+        <article
+          key={review._id}
+          className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4"
         >
-          {reviews.map((review) => (
-            <li key={review._id} className="py-3 sm:py-4">
-              <div className="flex items-center">
-                <div className="shrink-0">
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={review.userImage || "/placeholder-avatar.jpg"}
-                    alt={review.username}
-                  />
-                </div>
-                <div className="flex-1 min-w-0 ms-4">
-                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    {review.username}
-                  </p>
-                  <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                    {review.comment}
-                  </p>
-                </div>
-                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  <StarRating rating={review.rating} />
-                </div>
-              </div>
-              {userInfo && userInfo._id === review.userId && (
-                <button
-                  onClick={() => handleOpenModal(review._id)}
-                  className="text-red-600 hover:text-red-800 text-sm font-medium mt-1"
-                >
-                  Delete
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+          <div className="flex items-center mb-2">
+            <img
+              className="w-10 h-10 me-4 rounded-full"
+              src={review.userImage || "/placeholder-avatar.jpg"}
+              alt={review.username}
+            />
+            <div className="font-medium dark:text-white">
+              <p>{review.username}</p>
+            </div>
+          </div>
+
+          <div className="mb-1">
+            <StarRating rating={review.rating} />
+          </div>
+
+          <p className="mb-2 text-gray-500 dark:text-gray-400">
+            {review.comment}
+          </p>
+
+          {userInfo && userInfo._id === review.userId && (
+            <button
+              onClick={() => handleOpenModal(review._id)}
+              className="text-red-600 hover:text-red-800 text-sm font-medium"
+            >
+              Delete
+            </button>
+          )}
+        </article>
+      ))}
 
       <DeleteReviewModal
         show={showModal}
