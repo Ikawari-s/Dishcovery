@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import Review from "../models/reviewModel.js";
 import User from "../models/userModel.js";
+import asyncHandler from "express-async-handler";
 
 // Get all reviews
 export const getAllReviews = async (req, res) => {

@@ -39,3 +39,29 @@ export const loginUser = async ({ email, password }) => {
     throw new Error(err.response?.data?.message || "Login failed");
   }
 };
+
+export const fetchFollowers = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/followers/${userId}`);
+    return response.data; // array of users
+  } catch (err) {
+    console.error(
+      "Error fetching followers:",
+      err.response?.data?.message || err.message
+    );
+    throw new Error(err.response?.data?.message || "Failed to fetch followers");
+  }
+};
+
+export const fetchFollowing = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/following/${userId}`);
+    return response.data;
+  } catch (err) {
+    console.error(
+      "Error fetching following:",
+      err.response?.data?.message || err.message
+    );
+    throw new Error(err.response?.data?.message || "Failed to fetch following");
+  }
+};
