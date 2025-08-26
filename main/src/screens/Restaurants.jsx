@@ -6,6 +6,10 @@ import Spinner from "../components/others/Spinner";
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedCuisine, setSelectedCuisine] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const cuisines = ["All", ...new Set(restaurants.map((r) => r.cuisine))];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,14 +26,39 @@ const Restaurants = () => {
     fetchData();
   }, []);
 
+  const filteredRestaurants =
+    selectedCuisine === "All"
+      ? restaurants
+      : restaurants.filter((r) => r.cuisine === selectedCuisine);
+
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="mb-6">
+        <label
+          htmlFor="cuisine"
+          className="block mb-2 text-lg font-medium text-gray-700"
+        >
+          Filter by Cuisine:
+        </label>
+        <select
+          id="cuisine"
+          value={selectedCuisine}
+          onChange={(e) => setSelectedCuisine(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md shadow-sm text-black"
+        >
+          {cuisines.map((cuisine) => (
+            <option key={cuisine} value={cuisine}>
+              {cuisine}
+            </option>
+          ))}
+        </select>
+      </div>
       {loading ? (
         <Spinner />
       ) : (
         <>
-          {restaurants.length > 0 ? (
-            restaurants.map((restaurant) => (
+          {filteredRestaurants.length > 0 ? (
+            filteredRestaurants.map((restaurant) => (
               <div
                 key={restaurant._id}
                 className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"

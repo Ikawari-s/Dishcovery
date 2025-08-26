@@ -20,7 +20,6 @@ export const getAllReviews = async (req, res) => {
   }
 };
 
-// Get a single review by ID
 export const getReviewById = async (req, res) => {
   try {
     const { id } = req.params;

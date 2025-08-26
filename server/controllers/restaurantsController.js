@@ -4,9 +4,9 @@ import { ObjectId } from "mongodb";
 export const getAllRestaurants = async (req, res) => {
   try {
     const db = mongoose.connection.db;
-    const reviews = await db.collection("restaurants").find({}).toArray();
+    const restaurants = await db.collection("restaurants").find({}).toArray();
 
-    const formattedRestaurants = reviews.map((r) => ({
+    const formattedRestaurants = restaurants.map((r) => ({
       ...r,
       _id: r._id.toString(),
     }));
