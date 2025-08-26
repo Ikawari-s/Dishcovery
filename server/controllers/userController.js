@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 
-const uploadProfilePicture = asyncHandler(async (req, res) => {
+export const uploadProfilePicture = asyncHandler(async (req, res) => {
   if (!req.file) {
     res.status(400);
     throw new Error("No file uploaded");
@@ -17,7 +17,7 @@ const uploadProfilePicture = asyncHandler(async (req, res) => {
   });
 });
 
-const authUser = asyncHandler(async (req, res) => {
+export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // Find user by email
@@ -37,7 +37,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   // Check if user already exists
@@ -62,12 +62,12 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUsers = asyncHandler(async (req, res) => {
+export const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}); // You can use `.select("-password")` to exclude password
   res.json(users);
 });
 
-const followUser = asyncHandler(async (req, res) => {
+export const followUser = asyncHandler(async (req, res) => {
   const userId = req.user._id; // logged-in user
   const targetId = req.params.id; // user to follow
 
@@ -97,7 +97,7 @@ const followUser = asyncHandler(async (req, res) => {
 });
 
 // Unfollow a user
-const unfollowUser = asyncHandler(async (req, res) => {
+export const unfollowUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const targetId = req.params.id;
 
@@ -123,11 +123,18 @@ const unfollowUser = asyncHandler(async (req, res) => {
   }
 });
 
-export {
-  registerUser,
-  authUser,
-  getUsers,
-  uploadProfilePicture,
-  followUser,
-  unfollowUser,
-};
+export const getFollowers = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).populate(
+    "followers",
+    "name email profilePicture"
+  );
+  res.json(user.followers);
+});
+
+export const getFollowing = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).populate(
+    "following",
+    "name email profilePicture"
+  );
+  res.json(user.following);
+});

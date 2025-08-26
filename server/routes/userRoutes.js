@@ -2,6 +2,8 @@ import express from "express";
 import {
   authUser,
   followUser,
+  getFollowers,
+  getFollowing,
   getUsers,
   registerUser,
   unfollowUser,
@@ -28,10 +30,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+//Post
 router.post("/upload", upload.single("profilePicture"), uploadProfilePicture);
 router.post("/", registerUser);
 router.post("/login", authUser);
+
+//Get
 router.get("/get", getUsers);
+router.get("/followers/:id", getFollowers);
+router.get("/following/:id", getFollowing);
+
+//Put
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);
 
