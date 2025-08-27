@@ -13,32 +13,39 @@ function RegisterUser() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (password !== password2) {
-      setIsSuccess(false);
-      setMessage("Password do not match");
-      return;
-    }
+  if (password !== password2) {
+    setIsSuccess(false);
+    setMessage("Password do not match");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      const data = await registerUser({
-        name: username,
-        email,
-        password,
-      });
+  try {
+    setLoading(true);
+    const data = await registerUser({
+      name: username,
+      email,
+      password,
+    });
 
-      setMessage("Registration successful!");
-      console.log("Registered user:", data);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setIsSuccess(true);
-    } catch (err) {
-      setMessage(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setMessage("Registration successful!");
+    console.log("Registered user:", data);
+    localStorage.setItem("userInfo", JSON.stringify(data));
+    setIsSuccess(true);
+
+    // Refresh the page after successful registration with a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  } catch (err) {
+    setMessage(err.message);
+    setIsSuccess(false);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div>

@@ -103,11 +103,6 @@ const getNavLinkClass = (path, isDynamic = false) => {
                   Restaurants
                 </Link>
               </li>
-              <li>
-                <Link to="/authentication" className={getNavLinkClass("/authentication")}>
-                  Login
-                </Link>
-              </li>
               {user && (
                 <li>
                   <Link to={`/profile/${user._id}`} className={getNavLinkClass("/profile", true)}>
