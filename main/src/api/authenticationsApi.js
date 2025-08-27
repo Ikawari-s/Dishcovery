@@ -80,3 +80,34 @@ export const searchUsers = async (query) => {
     throw new Error(err.response?.data?.message || "Failed to search users");
   }
 };
+
+export const followUserApi = async (targetId, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/follow/${targetId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to follow user");
+  }
+};
+
+// Unfollow a user
+export const unfollowUserApi = async (targetId, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/unfollow/${targetId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to unfollow user");
+  }
+};
