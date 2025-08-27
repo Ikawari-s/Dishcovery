@@ -50,7 +50,7 @@ const getNavLinkClass = (path, isDynamic = false) => {
       <nav className="bg-yellow-50 border-gray-200 dark:bg-gray-900 ">
         <div className="w-[95%] mx-auto flex flex-wrap items-center justify-between p-4">
           <Link
-            className="self-center text-4xl font-logo whitespace-nowrap dark:text-white"
+            className="self-center text-5xl font-logo whitespace-nowrap dark:text-white"
             to="/"
           >
             Dishcovery

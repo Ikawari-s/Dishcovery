@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getRestaurants } from "../api/restaurantsApi"; // ✅ Make sure the path is correct
+import { getRestaurants } from "../api/restaurantsApi";
 import Spinner from "../components/others/Spinner";
 
 const Restaurants = () => {
@@ -31,12 +31,12 @@ const Restaurants = () => {
       : restaurants.filter((r) => r.cuisine === selectedCuisine);
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       {/* Filter Dropdown */}
       <div className="mb-6">
         <label
           htmlFor="cuisine"
-          className="block mb-2 text-lg font-medium text-gray-700"
+          className="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300"
         >
           Filter by Cuisine:
         </label>
@@ -44,7 +44,7 @@ const Restaurants = () => {
           id="cuisine"
           value={selectedCuisine}
           onChange={(e) => setSelectedCuisine(e.target.value)}
-          className="p-2 border border-gray-300 rounded-md shadow-sm text-black"
+          className="p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-black dark:text-white bg-white dark:bg-gray-800"
         >
           {cuisines.map((cuisine) => (
             <option key={cuisine} value={cuisine}>
@@ -63,7 +63,7 @@ const Restaurants = () => {
             filteredRestaurants.map((restaurant) => (
               <div
                 key={restaurant._id}
-                className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
               >
                 <Link to={`/restaurant/${restaurant._id}`}>
                   <img
@@ -72,10 +72,10 @@ const Restaurants = () => {
                     alt={restaurant.name}
                   />
                   <div className="p-5">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {restaurant.name}
                     </h5>
-                    <p className="font-normal text-gray-700">
+                    <p className="font-normal text-gray-700 dark:text-gray-300">
                       Cuisine: {restaurant.cuisine}
                     </p>
                   </div>
@@ -83,7 +83,7 @@ const Restaurants = () => {
               </div>
             ))
           ) : (
-            <p className="text-gray-600">No restaurants found.</p>
+            <p className="text-gray-600 dark:text-gray-400">No restaurants found.</p>
           )}
         </div>
       )}
