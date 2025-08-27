@@ -138,3 +138,19 @@ export const getFollowing = asyncHandler(async (req, res) => {
   );
   res.json(user.following);
 });
+
+export const searchUsers = asyncHandler(async (req, res) => {
+  const { query } = req.query; // ?query=someName
+
+  if (!query) {
+    res.status(400);
+    throw new Error("Search query is required");
+  }
+
+  // Use regex for partial & case-insensitive match
+  const users = await User.find({
+    name: { $regex: query, $options: "i" },
+  }).select("-password"); // exclude password
+
+  res.json(users);
+});

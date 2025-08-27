@@ -6,6 +6,7 @@ import {
   getFollowing,
   getUsers,
   registerUser,
+  searchUsers,
   unfollowUser,
   uploadProfilePicture,
 } from "../controllers/userController.js";
@@ -40,6 +41,7 @@ router.post("/login", authUser);
 router.get("/get", getUsers);
 router.get("/followers/:id", getFollowers);
 router.get("/following/:id", getFollowing);
+router.get("/search", searchUsers);
 
 //Put
 router.put("/follow/:id", protect, followUser);
