@@ -65,3 +65,18 @@ export const fetchFollowing = async (userId) => {
     throw new Error(err.response?.data?.message || "Failed to fetch following");
   }
 };
+
+export const searchUsers = async (query) => {
+  try {
+    const response = await axios.get(`${API_URL}/search`, {
+      params: { query }, // sends ?query=searchTerm
+    });
+    return response.data; // array of matched users (max 5)
+  } catch (err) {
+    console.error(
+      "Error searching users:",
+      err.response?.data?.message || err.message
+    );
+    throw new Error(err.response?.data?.message || "Failed to search users");
+  }
+};
