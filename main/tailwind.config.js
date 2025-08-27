@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        logo: ['"Dancing Script"', 'cursive'],
+        body: ['Quicksand', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
   darkMode: "class",
