@@ -1,0 +1,55 @@
+/* App.css */
+
+/* Base background image */
+.pattern-img-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url('../public/images/background.jpg'); /* You can customize this path */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  z-index: -10;
+}
+
+/* Tint overlay (dark by default) */
+.pattern-img-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.7); /* gray-900 in dark mode */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Top fade-in gradient (dark default) */
+.pattern-img-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(17, 24, 39, 1) 15%,
+    rgba(17, 24, 39, 0.7) 20%,
+    rgba(17, 24, 39, 0.4) 40%,
+    rgba(17, 24, 39, 0) 60%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+:root:not(.dark) .pattern-img-bg::before {
+  background-color: rgba(255, 251, 235, 0.65);
+}
+
+
+:root:not(.dark) .pattern-img-bg::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 251, 235, 1) 15%,
+    rgba(255, 251, 235, 0.7) 20%,
+    rgba(255, 251, 235, 0.4) 40%,
+    rgba(255, 251, 235, 0) 60%
+  );
+}

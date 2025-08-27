@@ -16,8 +16,12 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="text-center p-6 bg-red-100 dark:bg-gray-900 text-black dark:text-white min-h-screen">
-      <div className="relative text-center p-6 dark:bg-gray-900 text-black dark:text-white min-h-screen overflow-hidden">
+    <>
+      {/* Background pattern with tint and gradient */}
+      <div className="pattern-img-bg"></div>
+
+      {/* App content on top of background */}
+      <div className="relative text-center p-6 text-black dark:text-white min-h-screen overflow-hidden">
         {/* 👇 Loading screen covers the whole app, swipes up on finish */}
         {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
 
@@ -41,8 +45,9 @@ function App() {
           </Router>
         </div>
       </div>
-    </div>
+    </>
   );
 }
+
 
 export default App;

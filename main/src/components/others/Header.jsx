@@ -37,16 +37,17 @@ const getNavLinkClass = (path, isDynamic = false) => {
     ? location.pathname.startsWith(path)
     : location.pathname === path;
 
-  return `block py-2 px-3 md:p-0 mb-1 border-b-4 ${
+  return `block pt-2 pb-4 px-3 md:p-0 mb-1 border-b-4 ${
     isActive
       ? "border-red-500"
       : "border-transparent hover:border-red-400"
   } text-xl font-body text-gray-900 dark:text-white md:hover:border-red-400 transition-all duration-300`;
 };
 
+
   return (
     <div>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow-md dark:shadow-sm">
+      <nav className="bg-yellow-50 border-gray-200 dark:bg-gray-900 ">
         <div className="w-[95%] mx-auto flex flex-wrap items-center justify-between p-4">
           <Link
             className="self-center text-4xl font-logo whitespace-nowrap dark:text-white"
@@ -91,7 +92,7 @@ const getNavLinkClass = (path, isDynamic = false) => {
             className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
             id="navbar-user"
           >
-            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-yellow-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <Link to="/" className={getNavLinkClass("/")}>
                   Home
