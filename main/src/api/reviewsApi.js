@@ -73,6 +73,19 @@ export const deleteReviewApi = async (reviewId) => {
   return res.data;
 };
 
+export const updateReviewApi = async (reviewId, updatedData) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
+  const res = await axios.put(`${API_URL}/update/${reviewId}`, updatedData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+};
+
 export const getRatingStatsByRestaurantId = async (restaurantId) => {
   try {
     const response = await axios.get(
