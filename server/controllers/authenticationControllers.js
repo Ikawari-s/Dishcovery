@@ -46,3 +46,28 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
+
+export const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  // Find user by ID from token (set in protect middleware)
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Verify current password
+  const isMatch = await user.matchPassword(currentPassword);
+  if (!isMatch) {
+    res.status(400);
+    throw new Error("Current password is incorrect");
+  }
+
+  // Set new password (pre-save hook will hash it)
+  user.password = newPassword;
+  await user.save();
+
+  res.json({ message: "Password updated successfully" });
+});
