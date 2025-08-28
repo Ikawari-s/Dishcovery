@@ -6,6 +6,7 @@ import reviewsRoutes from "./routes/reviewsRoutes.js";
 import restaurantsRoutes from "./routes/restaurantsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import listRoutes from "./routes/listRoutes.js";
+import authenticationRouters from "./routes/authenticationRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("API is running..."));
+app.use("/api/authentication", authenticationRouters);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/restaurants", restaurantsRoutes);
 app.use("/api/users", userRoutes);

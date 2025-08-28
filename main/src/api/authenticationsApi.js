@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.REACT_APP_USERS_API_URL || "http://localhost:5000/api/users";
+const API_URL = "http://localhost:5000/api/authentication";
 
 // Register a new user
 export const registerUser = async ({ name, email, password }) => {
   try {
-    const response = await axios.post(API_URL, {
+    const response = await axios.post(`${API_URL}/register`, {
       name,
       email,
       password,
