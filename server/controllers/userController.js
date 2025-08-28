@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
-import generateToken from "../utils/generateToken.js";
+import Review from "../models/reviewModel.js";
 
 export const uploadProfilePicture = asyncHandler(async (req, res) => {
   if (!req.file) {
@@ -108,4 +108,32 @@ export const searchUsers = asyncHandler(async (req, res) => {
   }).select("-password"); // exclude password
 
   res.json(users);
+});
+
+export const getFeedReviews = asyncHandler(async (req, res) => {
+  try {
+    // Logged-in user
+    const userId = req.user._id;
+
+    // Find the user's following list
+    const user = await User.findById(userId).select("following");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.following || user.following.length === 0) {
+      return res.json([]); // No following → no feed
+    }
+
+    // Fetch reviews from followed users
+    const reviews = await Review.find({
+      userId: { $in: user.following },
+    })
+      .populate("userId", "name profilePicture") // attach name & profilePicture
+      .sort({ createdAt: -1 }); // newest first
+
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
