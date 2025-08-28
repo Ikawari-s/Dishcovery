@@ -10,30 +10,31 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setMessage("");
-  setIsSuccess(false);
-
-  try {
-    setLoading(true);
-    const data = await loginUser({ email, password });
-
-    localStorage.setItem("userInfo", JSON.stringify(data));
-    setMessage("Login successful!");
-    setIsSuccess(true);
-
-    console.log("Logged in:", data);
-
-    setTimeout(() => {
-    window.location.reload();
-  }, 1000);
-  } catch (error) {
-    setMessage(error.message);
+    e.preventDefault();
+    setMessage("");
     setIsSuccess(false);
-  } finally {
-    setLoading(false);
-  }
-};
+
+    try {
+      setLoading(true);
+      const data = await loginUser({ email, password });
+
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setMessage("Login successful!");
+      setIsSuccess(true);
+      window.location.reload();
+
+      console.log("Logged in:", data);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      setMessage(error.message);
+      setIsSuccess(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
