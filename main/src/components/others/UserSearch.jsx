@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { searchUsers } from "../../api/authenticationsApi";
+
 import { Link } from "react-router-dom";
+import { searchUsers } from "../../api/usersApi";
 function UserSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);

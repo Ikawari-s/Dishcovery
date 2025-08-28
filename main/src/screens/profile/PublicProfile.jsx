@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import UserReviews from "../../components/reviews/UserReviews";
+
 import {
+  fetchFollowing,
   followUserApi,
   unfollowUserApi,
-  fetchFollowing,
-} from "../../api/authenticationsApi";
+} from "../../api/usersApi";
 
 function PublicProfile({ userId }) {
   const [message, setMessage] = useState("");

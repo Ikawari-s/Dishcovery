@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchFollowers } from "../../api/authenticationsApi";
 import { Link } from "react-router-dom";
+import { fetchFollowers } from "../../api/usersApi";
 
 function Followers({ userId }) {
   const [followers, setFollowers] = useState([]);
