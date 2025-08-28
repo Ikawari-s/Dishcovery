@@ -39,7 +39,7 @@ export const searchRestaurants = async (query) => {
   }
 };
 
-export const ListRestaurantSearch = async (query) => {
+export const listRestaurantSearch = async (query) => {
   try {
     const response = await axios.get(`${API_URL}/search`, {
       params: { query },

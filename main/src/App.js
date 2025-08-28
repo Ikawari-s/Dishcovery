@@ -13,10 +13,12 @@ import Authentication from "./screens/Authentication";
 import Header from "./components/others/Header";
 import RestaurantDetailed from "./screens/RestaurantDetailed";
 import ReviewDetailed from "./screens/ReviewDetailed";
-import Lists from "./screens/Lists";
+import Lists from "./screens/list/Lists";
 import ProfileRouter from "./screens/profile/ProfileRouter";
 import LoadingScreen from "./components/others/LoadingScreen";
 import ProtectedRoute from "./components/others/ProtectedRoute";
+import Settings from "./screens/Settings";
+import NewList from "./screens/list/NewList";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,10 @@ function App() {
               <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
-              <Route element={<ProtectedRoute />}></Route>
+              <Route element={<ProtectedRoute />}>
+                <Route element={<Settings />} path="/settings" />
+                <Route element={<NewList />} path="/list/new" />
+              </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>

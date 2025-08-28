@@ -32,18 +32,15 @@ function Header() {
     navigate("/authentication");
   };
 
-const getNavLinkClass = (path, isDynamic = false) => {
-  const isActive = isDynamic
-    ? location.pathname.startsWith(path)
-    : location.pathname === path;
+  const getNavLinkClass = (path, isDynamic = false) => {
+    const isActive = isDynamic
+      ? location.pathname.startsWith(path)
+      : location.pathname === path;
 
-  return `block pt-2 pb-4 px-3 md:p-0 mb-1 border-b-4 ${
-    isActive
-      ? "border-red-500"
-      : "border-transparent hover:border-red-400"
-  } text-xl font-body text-gray-900 dark:text-white md:hover:border-red-400 transition-all duration-300`;
-};
-
+    return `block pt-2 pb-4 px-3 md:p-0 mb-1 border-b-4 ${
+      isActive ? "border-red-500" : "border-transparent hover:border-red-400"
+    } text-xl font-body text-gray-900 dark:text-white md:hover:border-red-400 transition-all duration-300`;
+  };
 
   return (
     <div>
@@ -99,13 +96,19 @@ const getNavLinkClass = (path, isDynamic = false) => {
                 </Link>
               </li>
               <li>
-                <Link to="/restaurants" className={getNavLinkClass("/restaurants")}>
+                <Link
+                  to="/restaurants"
+                  className={getNavLinkClass("/restaurants")}
+                >
                   Restaurants
                 </Link>
               </li>
               {user && (
                 <li>
-                  <Link to={`/profile/${user._id}`} className={getNavLinkClass("/profile", true)}>
+                  <Link
+                    to={`/profile/${user._id}`}
+                    className={getNavLinkClass("/profile", true)}
+                  >
                     Profile
                   </Link>
                 </li>

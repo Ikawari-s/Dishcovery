@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { searchRestaurants } from "../../api/restaurantsApi";
+import { listRestaurantSearch } from "../../api/restaurantsApi";
 
 function ListRestaurantSearch() {
   const [query, setQuery] = useState("");
@@ -15,7 +15,7 @@ function ListRestaurantSearch() {
     try {
       setLoading(true);
       setError("");
-      const restaurants = await searchRestaurants(query);
+      const restaurants = await listRestaurantSearch(query);
       setResults(restaurants);
     } catch (err) {
       setError(err.message);
@@ -35,11 +35,7 @@ function ListRestaurantSearch() {
         prev.filter((r) => r._id !== restaurant._id)
       );
     } else {
-      // limit to 5 max
-      if (selectedRestaurants.length >= 5) {
-        alert("You can only select up to 5 restaurants.");
-        return;
-      }
+      // add without limit
       setSelectedRestaurants((prev) => [...prev, restaurant]);
     }
   };
