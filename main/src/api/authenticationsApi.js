@@ -38,3 +38,28 @@ export const loginUser = async ({ email, password }) => {
     throw new Error(err.response?.data?.message || "Login failed");
   }
 };
+
+export const changePasswordApi = async ({
+  currentPassword,
+  newPassword,
+  token,
+}) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/change-password`,
+      { currentPassword, newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(
+      "Error changing password:",
+      err.response?.data?.message || err.message
+    );
+    throw new Error(err.response?.data?.message || "Change password failed");
+  }
+};

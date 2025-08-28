@@ -31,7 +31,7 @@ function RestaurantSearch() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search restaurants, cuisine, tags..."
+          placeholder="Search restaurants, cuisine..."
           className="border p-2 rounded w-full text-black"
         />
         <button
