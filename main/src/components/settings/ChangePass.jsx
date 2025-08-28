@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { changePasswordApi } from "../api/authenticationsApi";
+import { changePasswordApi } from "../../api/authenticationsApi";
 
 function ChangePass() {
   const [currentPass, setCurrentPass] = useState("");

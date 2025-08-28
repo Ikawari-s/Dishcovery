@@ -96,6 +96,11 @@ function Header() {
                 </Link>
               </li>
               <li>
+                <Link to="/settings" className={getNavLinkClass("/settings")}>
+                  Settings
+                </Link>
+              </li>
+              <li>
                 <Link
                   to="/restaurants"
                   className={getNavLinkClass("/restaurants")}
