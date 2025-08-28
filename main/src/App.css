@@ -1,10 +1,11 @@
-/* App.css */
+html {
+  overflow-y: scroll;
+}
 
-/* Base background image */
 .pattern-img-bg {
   position: fixed;
   inset: 0;
-  background-image: url('../public/images/background.jpg'); /* You can customize this path */
+  background-image: url('../public/images/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -37,7 +38,6 @@
   z-index: 2;
   pointer-events: none;
 }
-
 
 :root:not(.dark) .pattern-img-bg::before {
   background-color: rgba(255, 251, 235, 0.65);

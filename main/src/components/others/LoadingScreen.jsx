@@ -26,7 +26,7 @@ const LoadingScreen = ({ onFinish }) => {
 
   return (
     <div className={`loading-screen ${animateOut ? "swipe-up" : ""}`}>
-      <div className="animate-spin text-8xl">{emoji}</div>
+      <div className="animate-spin text-4xl sm:text-6xl md:text-8xl">{emoji}</div>
     </div>
   );
 };

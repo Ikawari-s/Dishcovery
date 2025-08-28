@@ -25,11 +25,9 @@ function App() {
 
   return (
     <>
-      {/* Background pattern with tint and gradient */}
       <div className="pattern-img-bg"></div>
-
       {/* App content on top of background */}
-      <div className="relative text-center p-6 text-black dark:text-white min-h-screen overflow-hidden">
+      <div className="relative text-center text-black dark:text-white min-h-screen overflow-hidden">
         {/* 👇 Loading screen covers the whole app, swipes up on finish */}
         {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
 

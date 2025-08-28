@@ -56,7 +56,7 @@ function Header() {
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user ? (
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-900 dark:text-white font-body">
+                <span className="text-gray-900 dark:text-white font-body">
                   {user.email}
                 </span>
                 <img
@@ -64,14 +64,14 @@ function Header() {
                   className="w-8 h-8 rounded-full object-cover"
                   alt="User"
                 />
-                <button onClick={handleLogout} className="font-body text-sm">
+                <button onClick={handleLogout} className="font-body">
                   Log Out
                 </button>
               </div>
             ) : (
               <Link
                 to="/authentication"
-                className="text-sm font-medium text-red-600 dark:text-red-400 font-body"
+                className="font-medium text-red-600 dark:text-red-400 font-body"
               >
                 Login
               </Link>
