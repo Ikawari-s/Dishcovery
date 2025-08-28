@@ -6,6 +6,8 @@ function AddReviews({ restaurantId }) {
   const [rating, setRating] = useState("");
   const [message, setMessage] = useState("");
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -18,6 +20,15 @@ function AddReviews({ restaurantId }) {
       setMessage(err.message, "failed to add review");
     }
   };
+
+  if (!userInfo) {
+    return (
+      <div className="w-full">
+        <h1>Please log in to add a review</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <h1>ADD REVIEW</h1>

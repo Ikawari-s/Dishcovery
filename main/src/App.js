@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useState } from "react";
 
 import Home from "./screens/Home";
@@ -11,6 +16,7 @@ import ReviewDetailed from "./screens/ReviewDetailed";
 import Lists from "./screens/Lists";
 import ProfileRouter from "./screens/profile/ProfileRouter";
 import LoadingScreen from "./components/others/LoadingScreen";
+import ProtectedRoute from "./components/others/ProtectedRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +47,8 @@ function App() {
               <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
+              <Route element={<ProtectedRoute />}></Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
         </div>
@@ -48,6 +56,5 @@ function App() {
     </>
   );
 }
-
 
 export default App;
