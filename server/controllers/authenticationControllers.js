@@ -71,3 +71,37 @@ export const changePassword = asyncHandler(async (req, res) => {
 
   res.json({ message: "Password updated successfully" });
 });
+
+export const updateUserName = async (req, res) => {
+  try {
+    const { newName } = req.body;
+
+    if (!newName) {
+      return res.status(400).json({ message: "New name is required" });
+    }
+
+    // Check if name already exists
+    const nameExists = await User.findOne({ name: newName });
+    if (nameExists) {
+      return res.status(400).json({ message: "Name already taken" });
+    }
+
+    // Find logged-in user (from protect middleware)
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.name = newName;
+    await user.save();
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profilePicture: user.profilePicture,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
