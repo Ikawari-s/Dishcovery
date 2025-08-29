@@ -135,12 +135,13 @@ export const uploadProfilePicture = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  // Save the new profile picture path
-  user.profilePicture = `/public/images/${req.file.filename}`;
+  // Save profile picture as a full static URL
+  const imageUrl = `/public/images/${req.file.filename}`;
+  user.profilePicture = imageUrl;
   await user.save();
 
   res.json({
     message: "Profile picture updated successfully",
-    imageUrl: user.profilePicture,
+    imageUrl: imageUrl, // frontend can fetch directly
   });
 });

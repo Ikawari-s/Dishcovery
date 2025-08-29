@@ -10,6 +10,9 @@ function Avatar() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const token = userInfo?.token;
 
+  const storedUser = localStorage.getItem("userInfo");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -22,7 +25,20 @@ function Avatar() {
     if (!file || !token) return alert("You must be logged in to upload!");
     try {
       const data = await uploadProfilePictureApi(file, token);
-      setUploadedUrl(`http://localhost:5000${data.imageUrl}`);
+      const fullUrl = `http://localhost:5000${data.imageUrl}`;
+      setUploadedUrl(fullUrl);
+
+      // ✅ Update localStorage userInfo with new profilePicture
+      const updatedUserInfo = {
+        ...userInfo,
+        profilePicture: data.imageUrl, // keep relative in storage
+      };
+      localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo));
+
+      // ✅ Optionally update preview immediately
+
+      setPreview(fullUrl);
+      window.location.reload();
     } catch (err) {
       console.error(err.message);
       alert(err.message);
@@ -73,6 +89,11 @@ function Avatar() {
           />
         </div>
       )}
+      <img
+        src={`http://localhost:5000${user.profilePicture}`}
+        alt="profile"
+        className="w-32 h-32 rounded-full"
+      />
     </div>
   );
 }
