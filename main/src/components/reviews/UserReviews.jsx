@@ -111,14 +111,14 @@ function UserReviews() {
               alt={review.userId?.name}
             />
             <div class="font-medium dark:text-white">
-              <p>{review.username}</p>
+              <p>{review.userId?.name}</p>
             </div>
             <div className="font-medium dark:text-white">
               <Link
                 to={`/restaurant/${review.restaurantId}`}
                 className="hover:underline text-blue-600 dark:text-blue-400"
               >
-                {review.restaurantName || "Restaurant"}
+                {review.restaurant || "Restaurant"}
               </Link>
             </div>
           </div>
