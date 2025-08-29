@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
+import sendEmail from "../utils/sendEmail.js";
 
 export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -15,6 +16,7 @@ export const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       token: generateToken(user._id),
       profilePicture: user.profilePicture,
+      isVerified: user.isVerified, // return verification status
     });
   } else {
     res.status(401);
@@ -40,6 +42,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      message: "User registered",
     });
   } else {
     res.status(400);
@@ -105,3 +108,52 @@ export const updateUserName = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const request2FA = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Generate 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  user.otp = otp;
+  user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  await user.save();
+
+  // Send OTP via email
+  await sendEmail(
+    user.email,
+    "Your OTP Code",
+    `Your verification code is: ${otp}. It expires in 10 minutes.`
+  );
+
+  res.json({ message: "OTP sent to your email" });
+});
+
+export const verify2FA = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.otp !== otp || user.otpExpire < Date.now()) {
+    res.status(400);
+    throw new Error("Invalid or expired OTP");
+  }
+
+  // Clear OTP and mark user as verified
+  user.otp = null;
+  user.otpExpire = null;
+  user.isVerified = true;
+  await user.save();
+
+  res.json({ message: "Account verified successfully" });
+});

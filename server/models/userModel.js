@@ -3,30 +3,21 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, "Please add a name"],
-      unique: true,
-    },
+    name: { type: String, required: [true, "Please add a name"], unique: true },
     email: {
       type: String,
       required: [true, "Please add an email"],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, "Please add a password"],
-    },
-    profilePicture: {
-      type: String,
-      default: "", // Optional: set a default profile picture path
-    },
+    password: { type: String, required: [true, "Please add a password"] },
+    profilePicture: { type: String, default: "" },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    isVerified: { type: Boolean, default: false }, // user can verify later
+    otp: { type: String },
+    otpExpire: { type: Date },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 // Hash password before saving
