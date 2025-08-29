@@ -63,3 +63,22 @@ export const changePasswordApi = async ({
     throw new Error(err.response?.data?.message || "Change password failed");
   }
 };
+
+export const requestOtpApi = async (email) => {
+  try {
+    const response = await axios.post(`${API_URL}/2fa/request`, { email });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Request OTP failed");
+  }
+};
+
+// Verify OTP
+export const verifyOtpApi = async (email, otp) => {
+  try {
+    const response = await axios.post(`${API_URL}/2fa/verify`, { email, otp });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "OTP verification failed");
+  }
+};

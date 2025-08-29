@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { requestOtpApi, verifyOtpApi } from "../../api/authenticationsApi";
 
 export default function VerifyAccount() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
-
-  const requestOtp = (e) => {
-    e.preventDefault();
-    // Your OTP request logic here
-    console.log("Request OTP for:", email);
-  };
-
-  const submitOtp = (e) => {
-    e.preventDefault();
-    // Your OTP submission logic here
-    console.log("Submit OTP:", otp);
-  };
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [requestLoading, setRequestLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
 
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
@@ -25,11 +18,59 @@ export default function VerifyAccount() {
     }
   }, []);
 
+  const requestOtp = async (e) => {
+    e.preventDefault();
+    setRequestLoading(true);
+    setMessage("");
+    try {
+      const res = await requestOtpApi(email);
+      setIsSuccess(true);
+      setMessage(res.message);
+    } catch (err) {
+      setIsSuccess(false);
+      setMessage(err.message);
+    } finally {
+      setRequestLoading(false);
+    }
+  };
+
+  const submitOtp = async (e) => {
+    e.preventDefault();
+    setVerifyLoading(true);
+    setMessage("");
+    try {
+      const res = await verifyOtpApi(email, otp);
+      setIsSuccess(true);
+      setMessage(res.message);
+    } catch (err) {
+      setIsSuccess(false);
+      setMessage(err.message);
+    } finally {
+      setVerifyLoading(false);
+    }
+  };
+
   return (
     <div>
       <div>
         <h2 className="text-xl font-bold mb-4">Verify Account</h2>
-
+        {message && (
+          <div
+            className={`flex items-center p-4 mb-4 text-sm border rounded-lg ${
+              isSuccess
+                ? "text-green-800 border-green-300 bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+                : "text-red-800 border-red-300 bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+            }`}
+            role="alert"
+          >
+            <div>
+              <span className="font-medium">
+                {isSuccess ? "Success!" : "Error!"}
+              </span>{" "}
+              {message}
+            </div>
+          </div>
+        )}
         <form class="max-w-sm mx-auto" onSubmit={requestOtp}>
           <div class="mb-5">
             <label
@@ -52,7 +93,7 @@ export default function VerifyAccount() {
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            disabled={loading}
+            disabled={requestLoading}
           >
             {loading ? "Sending to Email" : "Submit"}
           </button>
@@ -78,7 +119,7 @@ export default function VerifyAccount() {
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            disabled={loading}
+            disabled={verifyLoading}
           >
             {loading ? "Verifying OTP" : "Submit"}
           </button>
