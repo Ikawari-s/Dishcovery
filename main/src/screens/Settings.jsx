@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import ChangePass from "../components/settings/ChangePass";
 import ProfileSettings from "../components/settings/ProfileSettings";
+import VerifyAccount from "../components/settings/VerifyAccount";
 
 function Settings() {
   return (
@@ -122,7 +123,11 @@ function TailwindTabs() {
             <ChangePass />
           </div>
         )}
-        {activeTab === "settings" && <div>Tab content for Settings</div>}
+        {activeTab === "settings" && (
+          <div>
+            <VerifyAccount />
+          </div>
+        )}
       </div>
     </div>
   );
