@@ -1,22 +1,6 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import Review from "../models/reviewModel.js";
-
-export const uploadProfilePicture = asyncHandler(async (req, res) => {
-  if (!req.file) {
-    res.status(400);
-    throw new Error("No file uploaded");
-  }
-
-  // Path where file is served
-  const filePath = `/profilepictures/${req.file.filename}`;
-
-  res.json({
-    message: "File uploaded successfully",
-    filePath,
-  });
-});
-
 export const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}); // You can use `.select("-password")` to exclude password
   res.json(users);

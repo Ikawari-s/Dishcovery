@@ -8,12 +8,17 @@ import userRoutes from "./routes/userRoutes.js";
 import listRoutes from "./routes/listRoutes.js";
 import authenticationRouters from "./routes/authenticationRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 connectDB();
 
 const app = express();
-
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(express.json());
 
@@ -23,7 +28,7 @@ app.use("/api/reviews", reviewsRoutes);
 app.use("/api/restaurants", restaurantsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/lists", listRoutes);
-app.use("/profilepictures", express.static("public/profilepictures"));
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
