@@ -49,7 +49,10 @@ function Following({ userId }) {
         {following.map((f) => (
           <li key={f._id} className="flex items-center gap-2 mb-2">
             <img
-              src={f.profilePicture || "/default-profile.png"}
+              src={
+                `http://localhost:5000${f.profilePicture}` ||
+                "/default-profile.png"
+              }
               alt={f.name}
               className="w-8 h-8 rounded-full"
             />

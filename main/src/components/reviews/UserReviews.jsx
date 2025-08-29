@@ -103,8 +103,12 @@ function UserReviews() {
           <div className="flex items-center mb-2">
             <img
               className="w-10 h-10 me-4 rounded-full"
-              src={review.userImage || "/placeholder-avatar.jpg"}
-              alt="User avatar"
+              src={
+                review.userId?.profilePicture
+                  ? `http://localhost:5000${review.userId.profilePicture}`
+                  : "/placeholder-avatar.jpg"
+              }
+              alt={review.userId?.name}
             />
             <div class="font-medium dark:text-white">
               <p>{review.username}</p>

@@ -102,11 +102,18 @@ function RestaurantReviews() {
           <div className="flex items-center mb-2">
             <img
               className="w-10 h-10 me-4 rounded-full"
-              src={review.userImage || "/placeholder-avatar.jpg"}
-              alt={review.username}
+              src={
+                review.userId?.profilePicture
+                  ? `http://localhost:5000${review.userId.profilePicture}`
+                  : "/placeholder-avatar.jpg"
+              }
+              alt={review.userId?.name}
             />
+
             <div className="font-medium dark:text-white">
-              <Link to={`/profile/${review.userId}`}>{review.username}</Link>
+              <Link to={`/profile/${review.userId?._id}`}>
+                {review.userId?.name}
+              </Link>
             </div>
           </div>
 

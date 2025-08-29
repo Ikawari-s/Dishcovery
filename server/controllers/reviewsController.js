@@ -44,36 +44,22 @@ export const addReview = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const db = mongoose.connection.db;
+    const review = new Review({
+      userId: req.user._id,
+      restaurantId,
+      rating,
+      comment,
+    });
 
-    // Get user info
-    const user = await User.findById(req.user._id).select(
+    const savedReview = await review.save();
+    const populatedReview = await savedReview.populate(
+      "userId",
       "name profilePicture"
     );
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const newReview = {
-      userId: new ObjectId(req.user._id),
-      restaurantId: new ObjectId(restaurantId),
-      rating: Number(rating),
-      comment,
-      username: user.name, // ✅ add name
-      userImage: user.profilePicture || "", // ✅ add profile picture (optional)
-      createdAt: new Date(),
-    };
-
-    const result = await db.collection("reviews").insertOne(newReview);
 
     res.status(201).json({
       message: "Review added successfully",
-      review: {
-        ...newReview,
-        _id: result.insertedId.toString(),
-        userId: newReview.userId.toString(),
-        restaurantId: newReview.restaurantId.toString(),
-      },
+      review: populatedReview,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -83,12 +69,11 @@ export const addReview = async (req, res) => {
 export const getReviewsByRestaurantId = async (req, res) => {
   try {
     const { restaurantId } = req.params;
-    const db = mongoose.connection.db;
 
-    const reviews = await db
-      .collection("reviews")
-      .find({ restaurantId: new ObjectId(restaurantId) })
-      .toArray();
+    const reviews = await Review.find({ restaurantId }).populate(
+      "userId",
+      "name profilePicture"
+    );
 
     if (!reviews || reviews.length === 0) {
       return res
@@ -96,13 +81,7 @@ export const getReviewsByRestaurantId = async (req, res) => {
         .json({ message: "No reviews found for this restaurant" });
     }
 
-    const formattedReviews = reviews.map((r) => ({
-      ...r,
-      _id: r._id.toString(),
-      restaurantId: r.restaurantId.toString(),
-    }));
-
-    res.json(formattedReviews);
+    res.json(reviews);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -111,12 +90,11 @@ export const getReviewsByRestaurantId = async (req, res) => {
 export const getReviewsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
-    const db = mongoose.connection.db;
 
-    const reviews = await db
-      .collection("reviews")
-      .find({ userId: new ObjectId(userId) })
-      .toArray();
+    const reviews = await Review.find({ userId }).populate(
+      "userId",
+      "name profilePicture"
+    );
 
     if (!reviews || reviews.length === 0) {
       return res
@@ -124,13 +102,7 @@ export const getReviewsByUserId = async (req, res) => {
         .json({ message: "No reviews found for this user" });
     }
 
-    const formattedReviews = reviews.map((r) => ({
-      ...r,
-      _id: r._id.toString(),
-      userId: r.userId.toString(),
-    }));
-
-    res.json(formattedReviews);
+    res.json(reviews);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
