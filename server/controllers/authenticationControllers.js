@@ -34,6 +34,12 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  const nameExists = await User.findOne({ name });
+  if (nameExists) {
+    res.status(400);
+    throw new Error("Username is already taken");
+  }
+
   // Create user
   const user = await User.create({ name, email, password });
 

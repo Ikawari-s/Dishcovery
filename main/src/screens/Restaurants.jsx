@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getRestaurants } from "../api/restaurantsApi";
 import Spinner from "../components/others/Spinner";
+import RestaurantCard from "../components/restaurants/RetaurantCard";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -61,29 +62,18 @@ const Restaurants = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredRestaurants.length > 0 ? (
             filteredRestaurants.map((restaurant) => (
-              <div
+              <RestaurantCard
                 key={restaurant._id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-              >
-                <Link to={`/restaurant/${restaurant._id}`}>
-                  <img
-                    className="rounded-t-lg w-full h-48 object-cover"
-                    src={restaurant.image}
-                    alt={restaurant.name}
-                  />
-                  <div className="p-5">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {restaurant.name}
-                    </h5>
-                    <p className="font-normal text-gray-700 dark:text-gray-300">
-                      Cuisine: {restaurant.cuisine}
-                    </p>
-                  </div>
-                </Link>
-              </div>
+                id={restaurant._id}
+                name={restaurant.name}
+                image={restaurant.image}
+                cuisine={restaurant.cuisine}
+              />
             ))
           ) : (
-            <p className="text-gray-600 dark:text-gray-400">No restaurants found.</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              No restaurants found.
+            </p>
           )}
         </div>
       )}
