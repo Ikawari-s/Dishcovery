@@ -7,9 +7,11 @@ import {
   getUsers,
   searchUsers,
   unfollowUser,
+  uploadProfilePicture,
 } from "../controllers/userController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
+import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
@@ -22,5 +24,12 @@ router.get("/feed", protect, getFeedReviews);
 //Put
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);
+
+router.post(
+  "/upload-profile-picture",
+  protect,
+  upload.single("image"),
+  uploadProfilePicture
+);
 
 export default router;

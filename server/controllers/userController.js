@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import Review from "../models/reviewModel.js";
+
 export const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}); // You can use `.select("-password")` to exclude password
   res.json(users);
@@ -120,4 +121,26 @@ export const getFeedReviews = asyncHandler(async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+export const uploadProfilePicture = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    res.status(400);
+    throw new Error("No image uploaded");
+  }
+
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Save the new profile picture path
+  user.profilePicture = `/public/images/${req.file.filename}`;
+  await user.save();
+
+  res.json({
+    message: "Profile picture updated successfully",
+    imageUrl: user.profilePicture,
+  });
 });

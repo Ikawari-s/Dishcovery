@@ -74,3 +74,25 @@ export const searchUsers = async (query) => {
     throw new Error(err.response?.data?.message || "Failed to search users");
   }
 };
+
+export const uploadProfilePictureApi = async (file, token) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await axios.post(
+      `${API_URL}/upload-profile-picture`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // ✅ send JWT here
+        },
+      }
+    );
+
+    return response.data; // { message, imageUrl }
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to upload image");
+  }
+};
