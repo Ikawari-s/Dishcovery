@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { addReviewApi } from "../../api/reviewsApi";
+import ReactStars from "react-stars"; // Import the react-stars package
 
 function AddReviews({ restaurantId }) {
   const [comment, setComment] = useState("");
@@ -15,9 +16,9 @@ function AddReviews({ restaurantId }) {
       const data = await addReviewApi({ restaurantId, rating, comment });
       setMessage("Review added successfully!");
       setComment("");
-      setRating("");
+      setRating(0);
     } catch (err) {
-      setMessage(err.message, "failed to add review");
+      setMessage("Failed to add review");
     }
   };
 
@@ -57,12 +58,14 @@ function AddReviews({ restaurantId }) {
           >
             Rating
           </label>
-          <input
-            type="number"
+          <ReactStars
+            count={5} // This limits the number of stars to 5
             value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            id="small-input"
-            class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            onChange={(newRating) => setRating(newRating)}
+            size={24}
+            half={true} // Enable half-star selection
+            color1="#f0f0f0"
+            color2="#ffc107"
           />
         </div>
         <button

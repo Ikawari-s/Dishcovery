@@ -19,6 +19,8 @@
     "react-rating": "^2.0.5",
     "react-router-dom": "^7.8.1",
     "react-scripts": "5.0.1",
+    "react-star-ratings": "^2.3.0",
+    "react-stars": "^2.2.5",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "web-vitals": "^2.1.4"
