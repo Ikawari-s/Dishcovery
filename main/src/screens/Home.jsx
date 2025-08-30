@@ -34,27 +34,34 @@ const features = [
 function Home() {
   const [emoji, setEmoji] = useState(foodEmojis[0]);
   const [positionX, setPositionX] = useState(50);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const [showInitial, setShowInitial] = useState(false);
 
   const getRandomEmoji = (exclude) => {
-    let filtered = foodEmojis.filter((e) => e !== exclude);
+    const filtered = foodEmojis.filter((e) => e !== exclude);
     return filtered[Math.floor(Math.random() * filtered.length)];
   };
 
   const getRandomPosition = () => Math.random() * 90 + 5;
 
   useEffect(() => {
-    setEmoji(getRandomEmoji(null));
-    setPositionX(getRandomPosition());
+    const timer = setTimeout(() => {
+      setShowInitial(true);
+      setEmoji(getRandomEmoji(null));
+      setPositionX(getRandomPosition());
+      setVisible(true);
+    }, 30000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleHover = () => {
     setVisible(false);
+
     setTimeout(() => {
       setEmoji((prev) => getRandomEmoji(prev));
       setPositionX(getRandomPosition());
       setVisible(true);
-    }, 10000);
+    }, 20000);
   };
 
   return (
