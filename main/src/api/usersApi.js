@@ -118,3 +118,16 @@ export const getUserProfileApi = async (userId) => {
     );
   }
 };
+
+export const updateProfileApi = async (profileData, token) => {
+  try {
+    const response = await axios.put(`${API_URL}/update-profile`, profileData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // <-- send token
+      },
+    });
+    return response.data; // returns updated user profile
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to update profile");
+  }
+};
