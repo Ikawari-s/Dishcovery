@@ -36,3 +36,22 @@ export const createList = asyncHandler(async (req, res) => {
 
   res.status(201).json(list);
 });
+
+export const deleteList = asyncHandler(async (req, res) => {
+  const list = await List.findById(req.params.id);
+
+  if (!list) {
+    res.status(404);
+    throw new Error("List not found");
+  }
+
+  // Only allow the creator to delete
+  if (list.createdBy.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("Not authorized to delete this list");
+  }
+
+  await list.deleteOne();
+
+  res.json({ message: "List removed successfully" });
+});
