@@ -61,8 +61,9 @@ function Header() {
                 </span>
                 <img
                   src={
-                    `http://localhost:5000${user.profilePicture}` ||
-                    "/images/default.jpg"
+                    user.profilePicture
+                      ? `http://localhost:5000${user.profilePicture}`
+                      : "/images/default.jpg"
                   }
                   className="w-8 h-8 rounded-full object-cover"
                   alt="User"

@@ -131,3 +131,18 @@ export const updateProfileApi = async (profileData, token) => {
     throw new Error(err.response?.data?.message || "Failed to update profile");
   }
 };
+
+export const getStatsApi = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/stats/${userId}`);
+    return response.data; // { reviews, followers, following }
+  } catch (err) {
+    console.error(
+      "Error fetching user stats:",
+      err.response?.data?.message || err.message
+    );
+    throw new Error(
+      err.response?.data?.message || "Failed to fetch user stats"
+    );
+  }
+};

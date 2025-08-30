@@ -296,9 +296,9 @@ export const getPopularReviews = async (req, res) => {
       .populate("restaurantId", "name")
       .lean();
 
-    const sortedReviews = popularReviews
-      .map((r) => ({ ...r, likes: r.likes || [] })) // ✅ ensure likes is at least []
-      .sort((a, b) => b.likes.length - a.likes.length);
+    const sortedReviews = popularReviews.sort(
+      (a, b) => (b.likes?.length || 0) - (a.likes?.length || 0)
+    );
 
     res.json(sortedReviews);
   } catch (error) {

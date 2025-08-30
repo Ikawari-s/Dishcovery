@@ -50,8 +50,9 @@ function Following({ userId }) {
           <li key={f._id} className="flex items-center gap-2 mb-2">
             <img
               src={
-                `http://localhost:5000${f.profilePicture}` ||
-                "/default-profile.png"
+                f.profilePicture
+                  ? `http://localhost:5000${f.profilePicture}`
+                  : "/images/default.jpg"
               }
               alt={f.name}
               className="w-8 h-8 rounded-full"

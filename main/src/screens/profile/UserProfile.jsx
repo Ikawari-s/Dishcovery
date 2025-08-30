@@ -4,6 +4,7 @@ import Followers from "../../components/profile/Followers";
 import Following from "../../components/profile/Following";
 import UserCard from "../../components/cards/UserCard";
 import { getUserProfileApi } from "../../api/usersApi";
+import UserStats from "../../components/profile/UserStats";
 
 function UserProfile({ userId }) {
   const [userProfile, setUserProfile] = useState(null);
@@ -23,6 +24,7 @@ function UserProfile({ userId }) {
     <div>
       UserProfile
       <UserCard user={userProfile} />
+      <UserStats userId={userId} />
       <Followers userId={userId} />
       <Following userId={userId} />
       <UserReviews userId={userId} />

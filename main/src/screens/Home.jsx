@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div>
-      <h1>Feature Branch Test</h1>
       <div className="relative w-full h-[650px] overflow-hidden shadow-[0_60px_50px_20px_rgba(0,0,0,0.748)]">
         <img
           src={HomeFood}
