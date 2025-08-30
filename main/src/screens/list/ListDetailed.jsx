@@ -1,12 +1,18 @@
 // src/components/ListDetailed.js
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getListById } from "../../api/listApi";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { deleteListApi, getListById } from "../../api/listApi";
+import DeleteListModal from "../../components/modals/DeleteListModal";
 
 function ListDetailed() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userId = userInfo?._id;
 
   useEffect(() => {
     const fetchList = async () => {
@@ -21,6 +27,17 @@ function ListDetailed() {
     };
     fetchList();
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteListApi(id, userInfo.token); // pass listId and token
+      setShowDeleteModal(false);
+      navigate("/lists"); // redirect after deleting
+    } catch (error) {
+      console.error("Error deleting list:", error);
+      alert("Failed to delete list. Please try again.");
+    }
+  };
 
   if (loading) return <p>Loading list...</p>;
   if (!list) return <p>List not found.</p>;
@@ -67,12 +84,26 @@ function ListDetailed() {
         ))}
       </div>
 
+      {userId === list.createdBy._id && (
+        <button
+          onClick={() => setShowDeleteModal(true)}
+          className="mt-5 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Delete List
+        </button>
+      )}
+
       <Link
         to="/lists"
         className="mt-5 inline-block text-blue-600 hover:underline"
       >
         ← Back to all lists
       </Link>
+      <DeleteListModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

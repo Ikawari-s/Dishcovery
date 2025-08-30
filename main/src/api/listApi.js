@@ -46,3 +46,19 @@ export const updateListApi = async (listId, listData, token) => {
   const { data } = await axios.put(`${API_URL}/${listId}`, listData, config);
   return data;
 };
+
+export const deleteListApi = async (listId, token) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`, // token from userInfo
+      },
+    };
+
+    const { data } = await axios.delete(`${API_URL}/${listId}`, config);
+    return data;
+  } catch (error) {
+    console.error("Error deleting list:", error);
+    throw error;
+  }
+};
