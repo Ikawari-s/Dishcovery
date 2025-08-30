@@ -275,3 +275,33 @@ export const unlikeReview = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getPopularReviews = async (req, res) => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59
+    );
+
+    const popularReviews = await Review.find({
+      createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+    })
+      .populate("userId", "name profilePicture")
+      .populate("restaurantId", "name")
+      .lean();
+
+    const sortedReviews = popularReviews.sort(
+      (a, b) => (b.likes?.length || 0) - (a.likes?.length || 0)
+    );
+
+    res.json(sortedReviews);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
