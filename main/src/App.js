@@ -21,6 +21,7 @@ import Settings from "./screens/Settings";
 import NewList from "./screens/list/NewList";
 import Feed from "./screens/Feed";
 import ForgotPassword from "./screens/ForgotPassword";
+import ListDetailed from "./screens/list/ListDetailed";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,6 +51,7 @@ function App() {
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
               <Route element={<ForgotPassword />} path="/forgot-password" />
+              <Route element={<ListDetailed />} path="/list/:id" />
               <Route element={<ProtectedRoute />}>
                 <Route element={<Feed />} path="/feed" />
                 <Route element={<Settings />} path="/settings" />

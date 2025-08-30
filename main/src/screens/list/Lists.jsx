@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllListsApi } from "../../api/listApi";
 
 function Lists() {
@@ -43,9 +43,10 @@ function Lists() {
             <div
               key={list._id}
               className="border rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer"
-              onClick={() => navigate(`/list/${list._id}`)}
             >
-              <h2 className="text-xl font-semibold">{list.name}</h2>
+              <Link to={`/list/${list._id}`} className="text-xl font-semibold">
+                {list.name}
+              </Link>
               <p className="text-gray-600">{list.description}</p>
               <p className="text-sm mt-1">By: {list.createdBy.name}</p>
               <div className="flex flex-wrap gap-2 mt-2">

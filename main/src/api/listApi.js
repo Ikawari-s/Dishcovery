@@ -11,3 +11,13 @@ export const getAllListsApi = async () => {
     throw error;
   }
 };
+
+export const getListById = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/${id}`);
+    return res.data;
+  } catch (err) {
+    console.error("Error fetching list:", err);
+    return null;
+  }
+};

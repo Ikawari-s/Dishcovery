@@ -8,9 +8,6 @@ export const getAllLists = asyncHandler(async (req, res) => {
   res.json(lists);
 });
 
-// @desc    Get list by ID
-// @route   GET /api/lists/:id
-// @access  Public
 export const getListById = asyncHandler(async (req, res) => {
   const list = await List.findById(req.params.id)
     .populate("createdBy", "name profilePicture")
