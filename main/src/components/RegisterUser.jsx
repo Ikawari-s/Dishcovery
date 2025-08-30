@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { registerUser } from "../api/authenticationsApi";
+import { Filter } from "bad-words";
 
 function RegisterUser() {
+  const filter = new Filter();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
@@ -14,6 +16,15 @@ function RegisterUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const filter = new Filter();
+
+    // 🔹 1. Profanity / offensive word filter
+    if (filter.isProfane(username)) {
+      setIsSuccess(false);
+      setMessage("Username contains offensive words");
+      return;
+    }
 
     if (password !== password2) {
       setIsSuccess(false);
