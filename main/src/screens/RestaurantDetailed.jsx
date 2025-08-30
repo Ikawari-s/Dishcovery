@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getRestaurantsById } from "../api/restaurantsApi";
 import RestaurantReviews from "../components/reviews/RestaurantReviews";
 import AddReviews from "../components/reviews/AddReviews";
@@ -68,6 +68,7 @@ function RestaurantDetailed() {
       </div>
 
       {/* Reviews Section */}
+
       <RestaurantReviews restaurantId={id} />
       <RatingStats restaurantId={id} />
       <AddReviews restaurantId={id} />

@@ -22,6 +22,7 @@ import NewList from "./screens/list/NewList";
 import Feed from "./screens/Feed";
 import ForgotPassword from "./screens/ForgotPassword";
 import ListDetailed from "./screens/list/ListDetailed";
+import RestaurantAllReviews from "./screens/RestaurantAllReviews";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,10 @@ function App() {
               <Route element={<Authentication />} path="/authentication" />
               <Route element={<ReviewDetailed />} path="/review/:id" />
               <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
+              <Route
+                element={<RestaurantAllReviews />}
+                path="/restaurant/:id/reviews"
+              />
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
               <Route element={<ForgotPassword />} path="/forgot-password" />

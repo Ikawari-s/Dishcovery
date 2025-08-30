@@ -124,11 +124,14 @@ function RestaurantReviews() {
 
   return (
     <div className="w-full max-w-2xl p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto mt-6">
+      <Link to={`/restaurant/${id}/reviews`} className="text-2xl">
+        See More
+      </Link>
       <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white mb-4">
         Reviews
       </h5>
 
-      {reviews.map((review) => (
+      {reviews.slice(0, 3).map((review) => (
         <ReviewCard
           key={review._id}
           review={review}
