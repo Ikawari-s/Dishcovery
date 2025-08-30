@@ -21,3 +21,28 @@ export const getListById = async (id) => {
     return null;
   }
 };
+
+export const createListApi = async (listData, token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // protect middleware
+    },
+  };
+
+  const { data } = await axios.post(`${API_URL}/create`, listData, config);
+  return data;
+};
+
+// (optional) Update list
+export const updateListApi = async (listId, listData, token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.put(`${API_URL}/${listId}`, listData, config);
+  return data;
+};

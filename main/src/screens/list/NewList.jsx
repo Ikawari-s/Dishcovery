@@ -1,19 +1,61 @@
 import React, { useState } from "react";
 import ListRestaurantSearch from "../../components/lists/ListRestaurantSearch";
+import { createListApi } from "../../api/listApi";
+import { useNavigate } from "react-router-dom";
 
 function NewList() {
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]); // array of tags
   const [tagInput, setTagInput] = useState(""); // current input
   const [description, setDesription] = useState("");
+  const [restaurants, setRestaurants] = useState([]); // 🔹 from child
+  const [isRanked, setIsRanked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(name, tags, description);
+    if (!name.trim() || restaurants.length === 0) {
+      alert("Name and at least one restaurant are required.");
+      return;
+    }
+
+    const listData = {
+      name,
+      description,
+      tags,
+      isRanked,
+      restaurants: restaurants.map((r, idx) => ({
+        restaurantId: r._id,
+        notes: "",
+        rank: isRanked ? idx + 1 : null, // simple auto-ranking
+      })),
+    };
+
+    try {
+      setLoading(true);
+      const created = await createListApi(listData, userInfo.token);
+      console.log("✅ List created:", created);
+      navigate(`/lists/${created._id}`);
+    } catch (err) {
+      console.error(
+        "❌ Error creating list:",
+        err.response?.data || err.message
+      );
+      alert("Failed to create list");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div>
-      <ListRestaurantSearch />
+      <ListRestaurantSearch
+        selectedRestaurants={restaurants}
+        setSelectedRestaurants={setRestaurants}
+      />
       <form class="max-w-sm mx-auto" onSubmit={submitHandler}>
         <div class="mb-5">
           <div class="mb-5">
@@ -92,11 +134,24 @@ function NewList() {
             placeholder="Type a description"
           ></textarea>
         </div>
+
+        <div className="mb-5">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isRanked}
+              onChange={(e) => setIsRanked(e.target.checked)}
+            />
+            <span className="text-sm">Rank this list</span>
+          </label>
+        </div>
+
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+          disabled={loading}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

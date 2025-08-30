@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { listRestaurantSearch } from "../../api/restaurantsApi";
 
-function ListRestaurantSearch() {
+function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
