@@ -97,3 +97,29 @@ export const getRatingStatsByRestaurantId = async (restaurantId) => {
     return { totalReviews: 0, avgRating: 0, distribution: [] };
   }
 };
+
+export const likeReviewApi = async (reviewId) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
+  const res = await axios.put(
+    `${API_URL}/like/${reviewId}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+  return res.data;
+};
+
+export const unlikeReviewApi = async (reviewId) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const token = userInfo?.token;
+
+  const res = await axios.put(
+    `${API_URL}/unlike/${reviewId}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+  return res.data;
+};
