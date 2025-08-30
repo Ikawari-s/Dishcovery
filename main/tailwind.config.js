@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         logo: ['"Dancing Script"', 'cursive'],
         body: ['Quicksand', 'sans-serif'],
+        bebas: ['Bebas Neue', 'cursive'],
       },
     },
   },
