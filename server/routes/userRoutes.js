@@ -10,6 +10,7 @@ import {
   searchUsers,
   unfollowUser,
   uploadProfilePicture,
+  updateProfile,
 } from "../controllers/userController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -29,7 +30,7 @@ router.get("/:id", getUserProfile);
 //Put
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);
-
+router.put("/update-profile", protect, updateProfile);
 router.post(
   "/upload-profile-picture",
   protect,

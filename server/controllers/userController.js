@@ -193,3 +193,37 @@ export const getUserStats = asyncHandler(async (req, res) => {
     following: followingCount,
   });
 });
+
+export const updateProfile = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const { givenName, familyName, location, website, bio } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Update only allowed fields
+  user.givenName = givenName ?? user.givenName;
+  user.familyName = familyName ?? user.familyName;
+  user.location = location ?? user.location;
+  user.website = website ?? user.website;
+  user.bio = bio ?? user.bio;
+
+  const updatedUser = await user.save();
+
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    givenName: updatedUser.givenName,
+    familyName: updatedUser.familyName,
+    location: updatedUser.location,
+    website: updatedUser.website,
+    bio: updatedUser.bio,
+    email: updatedUser.email,
+    profilePicture: updatedUser.profilePicture,
+    createdAt: updatedUser.createdAt,
+  });
+});
