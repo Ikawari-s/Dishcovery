@@ -171,3 +171,25 @@ export const uploadProfilePicture = asyncHandler(async (req, res) => {
     imageUrl: imageUrl, // frontend can fetch directly
   });
 });
+
+//get number of reviews, followers, following
+export const getUserStats = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const reviewCount = await Review.countDocuments({ userId: userId });
+
+  const followersCount = user.followers.length;
+  const followingCount = user.following.length;
+
+  res.json({
+    reviews: reviewCount,
+    followers: followersCount,
+    following: followingCount,
+  });
+});

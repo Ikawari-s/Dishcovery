@@ -6,6 +6,7 @@ import {
   getFollowing,
   getUserProfile,
   getUsers,
+  getUserStats,
   searchUsers,
   unfollowUser,
   uploadProfilePicture,
@@ -23,6 +24,7 @@ router.get("/followers/:id", getFollowers);
 router.get("/following/:id", getFollowing);
 router.get("/search", searchUsers);
 router.get("/feed", protect, getFeedReviews);
+router.get("/stats/:id", getUserStats);
 //Put
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);
