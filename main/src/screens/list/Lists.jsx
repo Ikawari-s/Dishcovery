@@ -6,6 +6,7 @@ import ListCard from "../../components/cards/ListCard";
 
 function Lists() {
   const [lists, setLists] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ function Lists() {
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">Lists</h1>
-
+      {user && (
       <button
         onClick={() => navigate("/list/new")}
         type="button"
@@ -36,7 +37,7 @@ function Lists() {
       >
         Create Your Own List
       </button>
-
+        )}
       {lists.length === 0 ? (
         <p>No lists found.</p>
       ) : (
