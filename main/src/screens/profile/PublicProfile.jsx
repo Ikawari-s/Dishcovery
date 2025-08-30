@@ -4,11 +4,13 @@ import UserReviews from "../../components/reviews/UserReviews";
 import {
   fetchFollowing,
   followUserApi,
+  getUserProfileApi,
   unfollowUserApi,
 } from "../../api/usersApi";
 import UserCard from "../../components/cards/UserCard";
 
 function PublicProfile({ userId }) {
+  const [userProfile, setUserProfile] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -17,6 +19,19 @@ function PublicProfile({ userId }) {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const token = userInfo?.token;
   const currentUserId = userInfo?._id;
+
+  // Fetch user profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getUserProfileApi(userId);
+        setUserProfile(data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
 
   // Check if logged-in user is following this profile
   useEffect(() => {
@@ -70,7 +85,7 @@ function PublicProfile({ userId }) {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-2">Public Profile</h2>
-      <UserCard />
+      <UserCard user={userProfile} />
       {/* Show only one button depending on follow state */}
       {isFollowing ? (
         <button

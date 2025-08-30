@@ -107,3 +107,14 @@ export const getFeedReviewsApi = async (token) => {
     throw new Error(err.response?.data?.message || "Failed to fetch feed");
   }
 };
+
+export const getUserProfileApi = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${userId}`);
+    return response.data; // returns user profile object
+  } catch (err) {
+    throw new Error(
+      err.response?.data?.message || "Failed to fetch user profile"
+    );
+  }
+};
