@@ -8,6 +8,8 @@ import {
   deleteReview,
   updateReview,
   getRatingStatsByRestaurantId,
+  likeReview,
+  unlikeReview,
 } from "../controllers/reviewsController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -21,5 +23,7 @@ router.post("/add", protect, addReview);
 router.delete("/delete/:id", protect, deleteReview);
 router.put("/update/:id", protect, updateReview);
 router.get("/restaurant/:restaurantId/stats", getRatingStatsByRestaurantId);
+router.put("/like/:id", protect, likeReview);
+router.put("/unlike/:id", protect, unlikeReview);
 
 export default router;

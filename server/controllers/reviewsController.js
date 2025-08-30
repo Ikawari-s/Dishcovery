@@ -220,3 +220,58 @@ export const getRatingStatsByRestaurantId = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const likeReview = async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // Check if already liked
+    if (review.likes.includes(req.user._id)) {
+      return res.status(400).json({ message: "Already liked" });
+    }
+
+    review.likes.push(req.user._id);
+    await review.save();
+
+    res.json({
+      message: "Review liked",
+      likesCount: review.likes.length,
+      likers: review.likes,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Unlike a review
+export const unlikeReview = async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    // Check if user has liked
+    if (!review.likes.includes(req.user._id)) {
+      return res.status(400).json({ message: "You haven't liked this review" });
+    }
+
+    review.likes = review.likes.filter(
+      (userId) => userId.toString() !== req.user._id.toString()
+    );
+    await review.save();
+
+    res.json({
+      message: "Review unliked",
+      likesCount: review.likes.length,
+      likers: review.likes,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
