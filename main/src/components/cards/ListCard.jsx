@@ -34,21 +34,30 @@ function ListCard({ list }) {
 
         {/* Display up to 3 restaurants */}
         <div className="flex items-center gap-2 mb-2">
-          {list.restaurants.slice(0, 3).map((r) => (
-            <img
-              key={r._id}
-              src={r.restaurantId.image}
-              alt={r.restaurantId.name}
-              className="w-16 h-16 object-cover rounded"
-            />
-          ))}
+          {list.restaurants.slice(0, 3).map((r) =>
+            r.restaurantId ? (
+              <img
+                key={r._id}
+                src={r.restaurantId.image}
+                alt={r.restaurantId.name}
+                className="w-16 h-16 object-cover rounded"
+              />
+            ) : (
+              <div
+                key={r._id}
+                className="w-16 h-16 bg-gray-200 flex items-center justify-center text-xs text-gray-500 rounded"
+              >
+                N/A
+              </div>
+            )
+          )}
         </div>
 
         {/* Restaurant names below images */}
         <div className="flex justify-between">
           {list.restaurants.slice(0, 3).map((r) => (
             <p key={r._id} className="text-sm text-gray-600">
-              {r.restaurantId.name}
+              {r.restaurantId ? r.restaurantId.name : "Unknown"}
             </p>
           ))}
         </div>

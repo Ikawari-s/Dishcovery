@@ -27,7 +27,7 @@ function ReviewCard({
           src={
             review.userId?.profilePicture
               ? `http://localhost:5000${review.userId.profilePicture}`
-              : "/images/default.jpg  "
+              : "/images/default.jpg"
           }
           alt={review.userId?.name}
         />

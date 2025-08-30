@@ -20,3 +20,19 @@ export const getListById = asyncHandler(async (req, res) => {
 
   res.json(list);
 });
+
+export const createList = asyncHandler(async (req, res) => {
+  const { name, description, tags, isRanked, restaurants } = req.body;
+  const userId = req.user._id; // assuming protect middleware sets req.user
+
+  const list = await List.create({
+    name,
+    description,
+    tags,
+    isRanked,
+    createdBy: userId,
+    restaurants,
+  });
+
+  res.status(201).json(list);
+});
