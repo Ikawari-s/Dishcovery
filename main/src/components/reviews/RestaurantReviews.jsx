@@ -56,9 +56,16 @@ function RestaurantReviews() {
       });
 
       setReviews((prev) =>
-        prev.map((r) => (r._id === reviewId ? updated.review : r))
+        prev.map((r) =>
+          r._id === reviewId
+            ? {
+                ...r,
+                ...updated.review,
+                userId: r.userId, // ✅ keep populated userId
+              }
+            : r
+        )
       );
-
       // reset edit mode
       setEditingId(null);
       setEditComment("");
@@ -185,9 +192,11 @@ function RestaurantReviews() {
               </p>
             </>
           )}
-
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {new Date(review.createdAt).toLocaleDateString()}
+          </p>
           {userInfo &&
-            userInfo._id === review.userId &&
+            userInfo._id === review.userId._id &&
             editingId !== review._id && (
               <div className="flex gap-2">
                 <button
