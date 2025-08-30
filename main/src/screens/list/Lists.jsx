@@ -1,6 +1,8 @@
+// src/components/Lists.js
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAllListsApi } from "../../api/listApi";
+import ListCard from "../../components/cards/ListCard";
 
 function Lists() {
   const [lists, setLists] = useState([]);
@@ -38,55 +40,9 @@ function Lists() {
       {lists.length === 0 ? (
         <p>No lists found.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {lists.map((list) => (
-            <div
-              key={list._id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer"
-            >
-              <Link to={`/list/${list._id}`} className="text-xl font-semibold">
-                {list.name}
-              </Link>
-              <p className="text-gray-600">{list.description}</p>
-              <p className="text-sm mt-1">By: {list.createdBy.name}</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {list.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              {list.isRanked && (
-                <p className="mt-2 text-sm text-gray-500">Ranked List</p>
-              )}
-
-              {/* Render restaurants */}
-              <div className="mt-4 space-y-2">
-                {list.restaurants.map((r) => (
-                  <div
-                    key={r._id}
-                    className="flex items-center gap-4 border-t pt-2"
-                  >
-                    <img
-                      src={r.restaurantId.image}
-                      alt={r.restaurantId.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <div>
-                      <p className="font-medium">{r.restaurantId.name}</p>
-                      <p className="text-sm text-gray-500">
-                        {r.restaurantId.cuisine} • {r.restaurantId.address.city}
-                      </p>
-                      {r.rank && <p className="text-sm">Rank: {r.rank}</p>}
-                      {r.notes && <p className="text-sm italic">{r.notes}</p>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ListCard key={list._id} list={list} />
           ))}
         </div>
       )}
