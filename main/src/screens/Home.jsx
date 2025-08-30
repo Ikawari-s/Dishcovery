@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HomeFood from "../components/images/homefood.jpg";
 import { Link } from "react-router-dom";
 
-
+const foodEmojis = ["🍕", "🍔", "🍣", "🍩", "🍉", "🌮", "🍦", "🥗", "🍜", "🍰"];
 const features = [
   {
     title: "Discover New Restaurants",
@@ -30,7 +30,33 @@ const features = [
   },
 ];
 
+
 function Home() {
+  const [emoji, setEmoji] = useState(foodEmojis[0]);
+  const [positionX, setPositionX] = useState(50);
+  const [visible, setVisible] = useState(true);
+
+  const getRandomEmoji = (exclude) => {
+    let filtered = foodEmojis.filter((e) => e !== exclude);
+    return filtered[Math.floor(Math.random() * filtered.length)];
+  };
+
+  const getRandomPosition = () => Math.random() * 90 + 5;
+
+  useEffect(() => {
+    setEmoji(getRandomEmoji(null));
+    setPositionX(getRandomPosition());
+  }, []);
+
+  const handleHover = () => {
+    setVisible(false);
+    setTimeout(() => {
+      setEmoji((prev) => getRandomEmoji(prev));
+      setPositionX(getRandomPosition());
+      setVisible(true);
+    }, 10000);
+  };
+
   return (
     <div>
       <div className="relative w-full h-[92vh] overflow-hidden shadow-[0_60px_50px_20px_rgba(0,0,0,0.748)]">
@@ -70,6 +96,24 @@ function Home() {
             </div>
           </div>
         ))}
+      </div>
+       <div className="relative w-full h-24">
+        <span
+          className={`text-2xl sm:text-4xl md:text-6xl ca_fx-vibration ${
+            visible ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            left: `${positionX}%`,
+            userSelect: "none",
+            transformOrigin: "center",
+            transform: "translateX(-50%)",
+          }}
+          onMouseEnter={handleHover}
+        >
+          {emoji}
+        </span>
       </div>
     </div>
   );
