@@ -96,3 +96,14 @@ export const uploadProfilePictureApi = async (file, token) => {
     throw new Error(err.response?.data?.message || "Failed to upload image");
   }
 };
+
+export const getFeedReviewsApi = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/feed`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data; // array of reviews
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to fetch feed");
+  }
+};
