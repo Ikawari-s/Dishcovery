@@ -16,7 +16,9 @@ const userSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false }, // user can verify later
     otp: { type: String },
     otpExpire: { type: Date },
+    canResetPassword: { type: Boolean, default: false },
   },
+
   { timestamps: true }
 );
 

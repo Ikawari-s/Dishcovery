@@ -19,6 +19,7 @@ import LoadingScreen from "./components/others/LoadingScreen";
 import ProtectedRoute from "./components/others/ProtectedRoute";
 import Settings from "./screens/Settings";
 import NewList from "./screens/list/NewList";
+import Feed from "./screens/Feed";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ function App() {
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
               <Route element={<ProtectedRoute />}>
+                <Route element={<Feed />} path="/feed" />
                 <Route element={<Settings />} path="/settings" />
                 <Route element={<NewList />} path="/list/new" />
               </Route>

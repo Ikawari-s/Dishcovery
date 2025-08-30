@@ -163,3 +163,73 @@ export const verify2FA = asyncHandler(async (req, res) => {
 
   res.json({ message: "Account verified successfully" });
 });
+
+export const forgotPasswordRequest = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Generate OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  user.otp = otp;
+  user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  await user.save();
+
+  // Send OTP to email
+  await sendEmail(
+    user.email,
+    "Password Reset OTP",
+    `Your password reset OTP is: ${otp}. It expires in 10 minutes.`
+  );
+
+  res.json({ message: "Password reset OTP sent to your email" });
+});
+
+export const forgotPasswordVerify = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.otp !== otp || user.otpExpire < Date.now()) {
+    res.status(400);
+    throw new Error("Invalid or expired OTP");
+  }
+
+  // OTP valid → allow reset
+  user.otp = null;
+  user.otpExpire = null;
+  user.canResetPassword = true; // ✅ mark user can reset
+  await user.save();
+
+  res.json({ message: "OTP verified, you may reset password now" });
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (!user.canResetPassword) {
+    res.status(400);
+    throw new Error("OTP verification required before resetting password");
+  }
+
+  // Set new password
+  user.password = newPassword;
+  user.canResetPassword = false; // reset flag
+  await user.save();
+
+  res.json({ message: "Password has been reset successfully" });
+});
