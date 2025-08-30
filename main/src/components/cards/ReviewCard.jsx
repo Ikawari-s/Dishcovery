@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import StarRating from "./StarRating";
+import StarRating from "../reviews/StarRating";
 
 function ReviewCard({
   review,

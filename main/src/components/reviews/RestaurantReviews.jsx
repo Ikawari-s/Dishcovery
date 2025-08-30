@@ -10,7 +10,7 @@ import {
 
 import StarRating from "./StarRating";
 import DeleteReviewModal from "../modals/DeleteReviewModal";
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "../cards/ReviewCard";
 
 function RestaurantReviews() {
   const { id } = useParams(); // restaurantId from route

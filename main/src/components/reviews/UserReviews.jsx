@@ -9,7 +9,7 @@ import {
 } from "../../api/reviewsApi";
 import StarRating from "./StarRating"; // assuming you're using the same StarRating component
 import DeleteReviewModal from "../modals/DeleteReviewModal";
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "../cards/ReviewCard";
 
 function UserReviews() {
   const { id } = useParams(); // Get userId from URL

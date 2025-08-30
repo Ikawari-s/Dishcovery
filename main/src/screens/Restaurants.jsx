@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getRestaurants } from "../api/restaurantsApi";
 import Spinner from "../components/others/Spinner";
-import RestaurantCard from "../components/restaurants/RetaurantCard";
+import RestaurantCard from "../components/cards/RetaurantCard";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);

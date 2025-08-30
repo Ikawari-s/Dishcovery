@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReviewCard from "../components/reviews/ReviewCard";
+import ReviewCard from "../components/cards/ReviewCard";
 import { getFeedReviewsApi } from "../api/usersApi";
 import {
   deleteReviewApi,

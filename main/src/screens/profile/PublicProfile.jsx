@@ -6,6 +6,7 @@ import {
   followUserApi,
   unfollowUserApi,
 } from "../../api/usersApi";
+import UserCard from "../../components/cards/UserCard";
 
 function PublicProfile({ userId }) {
   const [message, setMessage] = useState("");
@@ -69,7 +70,7 @@ function PublicProfile({ userId }) {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-2">Public Profile</h2>
-
+      <UserCard />
       {/* Show only one button depending on follow state */}
       {isFollowing ? (
         <button

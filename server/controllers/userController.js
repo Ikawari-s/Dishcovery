@@ -7,6 +7,32 @@ export const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const userId = req.params.id; // get user id from route params
+
+  const user = await User.findById(userId).select(
+    "-password -followers -following"
+  ); // exclude password, followers, and following
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    givenName: user.givenName,
+    familyName: user.familyName,
+    email: user.email,
+    profilePicture: user.profilePicture,
+    location: user.location,
+    website: user.website,
+    bio: user.bio,
+    createdAt: user.createdAt,
+  });
+});
+
 export const followUser = asyncHandler(async (req, res) => {
   const userId = req.user._id; // logged-in user
   const targetId = req.params.id; // user to follow

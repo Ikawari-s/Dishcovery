@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "../cards/ReviewCard";
 import {
   getPopularReviewsApi,
   likeReviewApi,

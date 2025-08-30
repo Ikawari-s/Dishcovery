@@ -4,6 +4,7 @@ import {
   getFeedReviews,
   getFollowers,
   getFollowing,
+  getUserProfile,
   getUsers,
   searchUsers,
   unfollowUser,
@@ -16,6 +17,7 @@ import upload from "../middleware/uploadMiddleware.js";
 const router = express.Router();
 
 //Get
+router.get("/:id", getUserProfile);
 router.get("/get", getUsers);
 router.get("/followers/:id", getFollowers);
 router.get("/following/:id", getFollowing);
