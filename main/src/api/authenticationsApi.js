@@ -82,3 +82,40 @@ export const verifyOtpApi = async (email, otp) => {
     throw new Error(err.response?.data?.message || "OTP verification failed");
   }
 };
+
+export const forgotPasswordRequestApi = async (email) => {
+  try {
+    const response = await axios.post(`${API_URL}/forgot-password/request`, {
+      email,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to send reset OTP");
+  }
+};
+
+// Verify OTP
+export const forgotPasswordVerifyApi = async (email, otp) => {
+  try {
+    const response = await axios.post(`${API_URL}/forgot-password/verify`, {
+      email,
+      otp,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Invalid OTP");
+  }
+};
+
+// Reset Password
+export const resetPasswordApi = async (email, newPassword) => {
+  try {
+    const response = await axios.post(`${API_URL}/forgot-password/reset`, {
+      email,
+      newPassword,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Reset password failed");
+  }
+};

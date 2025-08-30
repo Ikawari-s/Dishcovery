@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../api/authenticationsApi";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -142,6 +143,14 @@ function Login() {
         >
           {loading ? "Logging in..." : "Submit"}
         </button>
+        <div className="mt-4 text-center">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Forgot your password?
+          </Link>
+        </div>
       </form>
     </div>
   );

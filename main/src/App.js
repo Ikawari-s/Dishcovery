@@ -20,6 +20,7 @@ import ProtectedRoute from "./components/others/ProtectedRoute";
 import Settings from "./screens/Settings";
 import NewList from "./screens/list/NewList";
 import Feed from "./screens/Feed";
+import ForgotPassword from "./screens/ForgotPassword";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ function App() {
               <Route element={<RestaurantDetailed />} path="/restaurant/:id" />
               <Route element={<ProfileRouter />} path="/profile/:id" />
               <Route element={<Lists />} path="/lists" />
+              <Route element={<ForgotPassword />} path="/forgot-password" />
               <Route element={<ProtectedRoute />}>
                 <Route element={<Feed />} path="/feed" />
                 <Route element={<Settings />} path="/settings" />
