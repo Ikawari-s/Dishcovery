@@ -1,41 +1,38 @@
 import React, { useEffect, useState } from "react";
-import ReviewCard from "../components/reviews/ReviewCard";
-import { getFeedReviewsApi } from "../api/usersApi";
+import ReviewCard from "./ReviewCard";
 import {
-  deleteReviewApi,
+  getPopularReviewsApi,
   likeReviewApi,
   unlikeReviewApi,
+  deleteReviewApi,
   updateReviewApi,
-} from "../api/reviewsApi";
-import PopularReviews from "../components/reviews/PopularReviews";
+} from "../../api/reviewsApi";
 
-function Feed() {
+function PopularReviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editComment, setEditComment] = useState("");
   const [editRating, setEditRating] = useState(1);
 
-  // ✅ Get logged-in user + token from localStorage
-  const userInfo = JSON.parse(localStorage.getItem("userInfo")); // { _id, name, token, ... }
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")); // logged-in user
   const token = userInfo?.token;
 
-  // === Fetch Feed ===
   useEffect(() => {
-    const fetchFeed = async () => {
+    const fetchPopular = async () => {
       try {
-        const data = await getFeedReviewsApi(token);
+        const data = await getPopularReviewsApi();
         setReviews(data);
       } catch (err) {
-        console.error("Error fetching feed:", err.message);
+        console.error(err.message);
       } finally {
         setLoading(false);
       }
     };
-    if (token) fetchFeed();
-  }, [token]);
+    fetchPopular();
+  }, []);
 
-  // === Like / Unlike ===
+  // === Like/Unlike ===
   const handleLikeToggle = async (review) => {
     try {
       if (review.likes.includes(userInfo._id)) {
@@ -58,21 +55,21 @@ function Feed() {
         );
       }
     } catch (err) {
-      console.error("Error toggling like:", err.message);
+      console.error(err.message);
     }
   };
 
-  // === Delete Review ===
+  // === Delete ===
   const handleDelete = async (reviewId) => {
     try {
       await deleteReviewApi(reviewId, token);
       setReviews((prev) => prev.filter((r) => r._id !== reviewId));
     } catch (err) {
-      console.error("Error deleting review:", err.message);
+      console.error(err.message);
     }
   };
 
-  // === Edit Review ===
+  // === Edit ===
   const handleEdit = (review) => {
     setEditingId(review._id);
     setEditComment(review.comment);
@@ -101,21 +98,22 @@ function Feed() {
       );
       handleCancelEdit();
     } catch (err) {
-      console.error("Error updating review:", err.message);
+      console.error(err.message);
     }
   };
 
-  if (loading) return <p className="text-center mt-6">Loading feed...</p>;
+  if (loading)
+    return <p className="text-center mt-6">Loading popular reviews...</p>;
 
   return (
     <div className="max-w-2xl mx-auto mt-6 px-4">
-      <h1 className="text-2xl font-bold mb-4">Your Feed</h1>
+      <h1 className="text-2xl font-bold mb-4">🔥 Popular Reviews This Month</h1>
 
       {reviews.length === 0 ? (
-        <p className="text-gray-500">No reviews yet from people you follow.</p>
+        <p className="text-gray-500">No popular reviews yet.</p>
       ) : (
         reviews
-          .slice(0, 10)
+          .slice(0, 5)
           .map((review) => (
             <ReviewCard
               key={review._id}
@@ -134,9 +132,8 @@ function Feed() {
             />
           ))
       )}
-      <PopularReviews />
     </div>
   );
 }
 
-export default Feed;
+export default PopularReviews;

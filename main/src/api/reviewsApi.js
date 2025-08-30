@@ -123,3 +123,13 @@ export const unlikeReviewApi = async (reviewId) => {
 
   return res.data;
 };
+
+export const getPopularReviewsApi = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/popular`);
+    return res.data;
+  } catch (err) {
+    console.error("Error fetching popular reviews:", err);
+    return [];
+  }
+};

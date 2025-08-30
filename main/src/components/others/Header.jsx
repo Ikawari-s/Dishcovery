@@ -101,6 +101,11 @@ function Header() {
                 </Link>
               </li>
               <li>
+                <Link to="/feed" className={getNavLinkClass("/settings")}>
+                  Feed
+                </Link>
+              </li>
+              <li>
                 <Link
                   to="/restaurants"
                   className={getNavLinkClass("/restaurants")}
