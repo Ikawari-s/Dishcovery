@@ -18,13 +18,14 @@ import upload from "../middleware/uploadMiddleware.js";
 const router = express.Router();
 
 //Get
-router.get("/:id", getUserProfile);
+
 router.get("/get", getUsers);
 router.get("/followers/:id", getFollowers);
 router.get("/following/:id", getFollowing);
 router.get("/search", searchUsers);
 router.get("/feed", protect, getFeedReviews);
-router.get("/stats/:id", getUserStats);
+router.get("/stats", getUserStats);
+router.get("/:id", getUserProfile);
 //Put
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);

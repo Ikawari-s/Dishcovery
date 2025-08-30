@@ -60,7 +60,10 @@ function Header() {
                   {user.email}
                 </span>
                 <img
-                  src={`http://localhost:5000${user.profilePicture}`}
+                  src={
+                    `http://localhost:5000${user.profilePicture}` ||
+                    "/images/default.jpg"
+                  }
                   className="w-8 h-8 rounded-full object-cover"
                   alt="User"
                 />
