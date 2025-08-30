@@ -12,7 +12,7 @@ function Home() {
           className="w-[120%] h-full object-cover block"
         />
 
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#111827]/100 to-transparent" />
+  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#f3f1de] to-transparent dark:from-[#101725]/100" />
       </div>
 
       <div className="mt-32">
