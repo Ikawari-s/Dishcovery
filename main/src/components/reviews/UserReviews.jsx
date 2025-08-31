@@ -79,11 +79,10 @@ function UserReviews() {
         updated = await likeReviewApi(review._id);
       }
 
+      // ✅ Only replace likes with `updated.likers`
       setReviews((prev) =>
         prev.map((r) =>
-          r._id === review._id
-            ? { ...r, ...updated.review, userId: r.userId } // ✅ preserve userId
-            : r
+          r._id === review._id ? { ...r, likes: updated.likers } : r
         )
       );
     } catch (err) {
