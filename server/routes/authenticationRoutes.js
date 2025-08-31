@@ -10,6 +10,7 @@ import {
   forgotPasswordRequest,
   forgotPasswordVerify,
   resetPassword,
+  forgotPasswordResendOtp,
 } from "../controllers/AuthenticationControllers.js";
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.post("/2fa/verify", verify2FA);
 router.put("/change-password", protect, changePassword);
 router.post("/forgot-password/request", forgotPasswordRequest);
 router.post("/forgot-password/verify", forgotPasswordVerify);
+router.post("/forgot-password/resend", forgotPasswordResendOtp);
 router.post("/forgot-password/reset", resetPassword);
 
 export default router;

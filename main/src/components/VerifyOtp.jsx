@@ -1,7 +1,10 @@
 import React, { useState, useRef } from "react";
+import { forgotPasswordResendOtpApi } from "../api/authenticationsApi";
 
-function VerifyOtp({ onVerify, loading }) {
+function VerifyOtp({ onVerify, loading, email }) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [resendLoading, setResendLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const inputs = useRef([]);
 
   const handleChange = (e, index) => {
@@ -30,6 +33,19 @@ function VerifyOtp({ onVerify, loading }) {
     const otpValue = otp.join("");
     if (!otpValue) return;
     onVerify(otpValue);
+  };
+
+  const resendOtp = async () => {
+    try {
+      setResendLoading(true);
+      setMessage("");
+      const res = await forgotPasswordResendOtpApi(email);
+      setMessage(res.message || "OTP resent successfully");
+    } catch (err) {
+      setMessage(err.message);
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   return (
@@ -62,7 +78,7 @@ function VerifyOtp({ onVerify, loading }) {
           Verify OTP
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-          Enter the 6-digit code sent to +91 8888888888
+          Enter the 6-digit code sent to {email}
         </p>
 
         {/* OTP INPUTS */}
@@ -86,14 +102,22 @@ function VerifyOtp({ onVerify, loading }) {
           </div>
 
           <div className="text-sm text-gray-600 dark:text-gray-300 mb-6">
-            Didn't receive code?
-            <a
-              href="#"
+            Didn't receive code?{" "}
+            <button
+              type="button"
+              onClick={resendOtp}
+              disabled={resendLoading}
               className="text-blue-500 hover:underline dark:text-blue-400 transition-colors duration-300 hover:text-blue-600 dark:hover:text-blue-500"
             >
-              Resend OTP
-            </a>
+              {resendLoading ? "Resending..." : "Resend OTP"}
+            </button>
           </div>
+
+          {message && (
+            <p className="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
+              {message}
+            </p>
+          )}
 
           <button
             type="submit"

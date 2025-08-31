@@ -107,6 +107,17 @@ export const forgotPasswordVerifyApi = async (email, otp) => {
   }
 };
 
+export const forgotPasswordResendOtpApi = async (email) => {
+  try {
+    const response = await axios.post(`${API_URL}/forgot-password/resend`, {
+      email,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || "Failed to resend OTP");
+  }
+};
+
 // Reset Password
 export const resetPasswordApi = async (email, newPassword) => {
   try {

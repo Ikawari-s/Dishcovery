@@ -178,6 +178,31 @@ export const forgotPasswordVerify = asyncHandler(async (req, res) => {
   res.json({ message: "OTP verified, you may reset password now" });
 });
 
+export const forgotPasswordResendOtp = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Generate a new OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  user.otp = otp;
+  user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  await user.save();
+
+  // Send OTP to email
+  await sendEmail(
+    user.email,
+    "Password Reset OTP (Resent)",
+    `Your new password reset OTP is: ${otp}. It expires in 10 minutes.`
+  );
+
+  res.json({ message: "A new OTP has been sent to your email" });
+});
+
 export const resetPassword = asyncHandler(async (req, res) => {
   const { email, newPassword } = req.body;
 

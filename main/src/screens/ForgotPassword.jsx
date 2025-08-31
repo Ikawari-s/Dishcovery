@@ -108,7 +108,7 @@ function ForgotPassword() {
       )}
 
       {step === "verify" && (
-        <VerifyOtp onVerify={handleVerify} loading={loading} />
+        <VerifyOtp email={email} onVerify={handleVerify} loading={loading} />
       )}
 
       {step === "reset" && (
