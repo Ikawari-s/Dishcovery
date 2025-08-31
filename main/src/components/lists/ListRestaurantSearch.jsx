@@ -39,6 +39,22 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
     }
   };
 
+  const moveRestaurant = (index, direction) => {
+    setSelectedRestaurants((prev) => {
+      const newArr = [...prev];
+      const targetIndex = direction === "up" ? index - 1 : index + 1;
+      // Check boundaries
+      if (targetIndex < 0 || targetIndex >= newArr.length) return prev;
+
+      // Swap items
+      [newArr[index], newArr[targetIndex]] = [
+        newArr[targetIndex],
+        newArr[index],
+      ];
+      return newArr;
+    });
+  };
+
   return (
     <div className="max-w-md mx-auto p-4">
       <form onSubmit={handleSearch} className="flex gap-2">
@@ -98,34 +114,37 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
       </ul>
 
       {/* Show selected restaurants */}
-      {selectedRestaurants.length > 0 && (
-        <div className="mt-4">
-          <h3 className="font-semibold">
-            Selected Restaurants ({selectedRestaurants.length}/5)
-          </h3>
-          <ul className="pl-0 space-y-2">
-            {selectedRestaurants.map((r) => (
-              <li
-                key={r._id}
-                className="flex items-center gap-3 p-2 border rounded"
-              >
-                <img
-                  src={r.image ? r.image : "https://via.placeholder.com/40"}
-                  alt={r.name}
-                  className="w-10 h-10 rounded object-cover"
-                />
-                <span className="font-medium">{r.name}</span>
-                <button
-                  onClick={() => toggleSelect(r)}
-                  className="text-red-500 hover:text-red-700 text-sm"
-                >
-                  ✕
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {selectedRestaurants.map((r, index) => (
+        <li key={r._id} className="flex items-center gap-3 p-2 border rounded">
+          <img
+            src={r.image ? r.image : "https://via.placeholder.com/40"}
+            alt={r.name}
+            className="w-10 h-10 rounded object-cover"
+          />
+          <span className="font-medium">{r.name}</span>
+
+          <div className="flex gap-1 ml-auto">
+            <button
+              onClick={() => moveRestaurant(index, "up")}
+              className="text-blue-500 hover:text-blue-700 text-sm"
+            >
+              ↑
+            </button>
+            <button
+              onClick={() => moveRestaurant(index, "down")}
+              className="text-blue-500 hover:text-blue-700 text-sm"
+            >
+              ↓
+            </button>
+            <button
+              onClick={() => toggleSelect(r)}
+              className="text-red-500 hover:text-red-700 text-sm"
+            >
+              ✕
+            </button>
+          </div>
+        </li>
+      ))}
     </div>
   );
 }

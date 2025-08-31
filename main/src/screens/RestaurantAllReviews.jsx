@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import DeleteReviewModal from "../components/modals/DeleteReviewModal";
 import ReviewCard from "../components/cards/ReviewCard";
@@ -13,6 +13,7 @@ import {
 
 function RestaurantAllReviews() {
   const { id } = useParams(); // restaurantId from route
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

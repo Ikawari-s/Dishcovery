@@ -3,7 +3,6 @@ import { registerUser } from "../api/authenticationsApi";
 import { Filter } from "bad-words";
 
 function RegisterUser() {
-  const filter = new Filter();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
