@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+{
+  /* 
+  
+  import React, { useEffect, useState } from "react";
 
 function SelectProfilePic() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [currentProfilePicture, setCurrentProfilePicture] = useState("");
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const generateUniqueName = (file) => {
     const timestamp = Date.now();
@@ -75,3 +81,7 @@ function SelectProfilePic() {
 }
 
 export default SelectProfilePic;
+
+  
+  */
+}
