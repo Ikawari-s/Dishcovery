@@ -227,3 +227,28 @@ export const updateProfile = asyncHandler(async (req, res) => {
     createdAt: updatedUser.createdAt,
   });
 });
+
+export const getUserFavorites = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findById(id).populate({
+    path: "favorites",
+    model: "Restaurant",
+    select: "name cuisine image",
+  });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // map _id -> restaurantId
+  const favorites = user.favorites.map((rest) => ({
+    restaurantId: rest._id, // rename field
+    name: rest.name,
+    cuisine: rest.cuisine,
+    image: rest.image,
+  }));
+
+  res.status(200).json({ favorites });
+});

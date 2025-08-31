@@ -11,6 +11,7 @@ import {
   unfollowUser,
   uploadProfilePicture,
   updateProfile,
+  getUserFavorites,
 } from "../controllers/userController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -26,6 +27,7 @@ router.get("/following/:id", getFollowing);
 router.get("/search", searchUsers);
 router.get("/feed", protect, getFeedReviews);
 router.get("/stats/:id", getUserStats);
+router.get("/favorites/:id", getUserFavorites);
 router.get("/:id", getUserProfile);
 //Put
 router.put("/follow/:id", protect, followUser);

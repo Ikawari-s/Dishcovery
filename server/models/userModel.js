@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
     otp: { type: String },
     otpExpire: { type: Date },
     canResetPassword: { type: Boolean, default: false },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" }],
   },
 
   { timestamps: true }
