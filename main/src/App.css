@@ -53,3 +53,16 @@ html {
     rgba(255, 251, 235, 0) 60%
   );
 }
+
+@keyframes vibration {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px) rotate(-1deg); }
+    40% { transform: translate(-2px, -2px) rotate(1deg); }
+    60% { transform: translate(2px, 2px) rotate(0deg); }
+    80% { transform: translate(2px, -2px) rotate(1deg); }
+    100% { transform: translate(0); }
+  }
+  .ca_fx-vibration {
+    display: inline-block;
+    animation: vibration 0.5s infinite;
+  }
