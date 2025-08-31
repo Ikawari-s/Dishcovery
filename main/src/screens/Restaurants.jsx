@@ -45,7 +45,7 @@ const Restaurants = () => {
           id="cuisine"
           value={selectedCuisine}
           onChange={(e) => setSelectedCuisine(e.target.value)}
-          className="p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-black dark:text-white bg-white dark:bg-gray-800"
+          className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-900"
         >
           {cuisines.map((cuisine) => (
             <option key={cuisine} value={cuisine}>

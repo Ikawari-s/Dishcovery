@@ -19,11 +19,11 @@ function ReviewCard({
   return (
     <article
       key={review._id}
-      className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4"
+      className="mb-6 bg-yellow-50 rounded-lg shadow-lg sm:p-8 dark:bg-gray-900 pb-4 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 text-gray-900 dark:text-white"
     >
       <div className="flex items-center mb-2">
         <img
-          className="w-10 h-10 me-4 rounded-full"
+           className="w-[60px] h-[60px] me-4 rounded-full object-cover"
           src={
             review.userId?.profilePicture
               ? `http://localhost:5000${review.userId.profilePicture}`
@@ -34,7 +34,7 @@ function ReviewCard({
 
         {/* For RestaurantReviews → link to profile, for UserReviews just text */}
         {review.userId?._id ? (
-          <div className="font-medium dark:text-white">
+          <div className="font-medium text-2xl dark:text-white">
             <Link to={`/profile/${review.userId._id}`}>
               {review.userId?.name}
             </Link>
@@ -95,13 +95,13 @@ function ReviewCard({
           <div className="mb-1">
             <StarRating rating={review.rating} />
           </div>
-          <p className="mb-2 text-gray-500 dark:text-gray-400">
+          <p className="mb-2 text-lg text-left">
             {review.comment}
           </p>
         </>
       )}
 
-      <p className="text-sm text-gray-500 dark:text-gray-400">
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-left">
         {new Date(review.createdAt).toLocaleDateString()}
       </p>
 
