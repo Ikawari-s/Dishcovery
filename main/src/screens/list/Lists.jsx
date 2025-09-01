@@ -29,6 +29,13 @@ function Lists() {
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">Lists</h1>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+        onClick={() => navigate("/list/new")}
+      >
+        Start a list
+      </button>
       {user && (
         <button
           onClick={() => navigate("/list/new")}
@@ -41,19 +48,14 @@ function Lists() {
       {lists.length === 0 ? (
         <p>No lists found.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex justify-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {lists.map((list) => (
             <ListCard key={list._id} list={list} />
           ))}
         </div>
+        </div>
       )}
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
-        onClick={() => navigate("/list/new")}
-      >
-        Start a list
-      </button>
     </div>
   );
 }

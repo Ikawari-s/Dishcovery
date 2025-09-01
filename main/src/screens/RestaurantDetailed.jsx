@@ -36,7 +36,7 @@ function RestaurantDetailed() {
   return (
     <div className="p-4 flex flex-col items-center space-y-6 ">
       {/* Restaurant Card */}
-      <div className="flex flex-col items-center p-10 bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-4xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <div className="flex flex-col items-center p-10 bg-white rounded-lg shadow-sm md:flex-row md:max-w-4xl hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-400">
         <img
           className="object-cover w-full rounded-t-lg h-[400px] md:h-auto md:w-72 md:rounded-none md:rounded-l-lg"
           src={restaurant.image || "/placeholder-image.jpg"}
@@ -46,13 +46,13 @@ function RestaurantDetailed() {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {restaurant.name}
           </h5>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-3 font-normal">
             Cuisine: {restaurant.cuisine}
           </p>
-          <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-1 font-normal">
             Rating: ⭐ {restaurant.rating} / 5
           </p>
-          <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-1 font-normal">
             Status:{" "}
             <span
               className={restaurant.is_open ? "text-green-600" : "text-red-600"}

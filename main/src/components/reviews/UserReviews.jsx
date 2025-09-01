@@ -115,7 +115,7 @@ function UserReviews() {
     return <p className="p-4 text-gray-500">No reviews found for this user.</p>;
 
   return (
-    <div className="w-full max-w-2xl p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto mt-6">
+    <div className="w-full max-w-2xl p-4 mx-auto mt-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
         User Reviews
       </h2>

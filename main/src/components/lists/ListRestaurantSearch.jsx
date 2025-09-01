@@ -1,5 +1,54 @@
 import React, { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { listRestaurantSearch } from "../../api/restaurantsApi";
+
+// Sortable item component
+function SortableItem({ restaurant, toggleSelect }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: restaurant._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <li
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="flex items-center gap-3 p-2 border rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+    >
+      <img
+        src={restaurant.image || "https://via.placeholder.com/40"}
+        alt={restaurant.name}
+        className="w-10 h-10 rounded object-cover"
+      />
+      <span className="font-medium">{restaurant.name}</span>
+      <button
+        onClick={() => toggleSelect(restaurant)}
+        className="ml-auto text-red-500 hover:text-red-700 text-sm"
+      >
+        ✕
+      </button>
+    </li>
+  );
+}
 
 function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
   const [query, setQuery] = useState("");
@@ -29,122 +78,115 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
     );
 
     if (alreadySelected) {
-      // remove from selected
       setSelectedRestaurants((prev) =>
         prev.filter((r) => r._id !== restaurant._id)
       );
     } else {
-      // add without limit
       setSelectedRestaurants((prev) => [...prev, restaurant]);
     }
   };
 
-  const moveRestaurant = (index, direction) => {
-    setSelectedRestaurants((prev) => {
-      const newArr = [...prev];
-      const targetIndex = direction === "up" ? index - 1 : index + 1;
-      // Check boundaries
-      if (targetIndex < 0 || targetIndex >= newArr.length) return prev;
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
 
-      // Swap items
-      [newArr[index], newArr[targetIndex]] = [
-        newArr[targetIndex],
-        newArr[index],
-      ];
-      return newArr;
-    });
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = selectedRestaurants.findIndex((r) => r._id === active.id);
+      const newIndex = selectedRestaurants.findIndex((r) => r._id === over?.id);
+
+      setSelectedRestaurants((items) => arrayMove(items, oldIndex, newIndex));
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <form onSubmit={handleSearch} className="flex gap-2">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search Restaurant"
-          className="border p-2 rounded w-full text-black"
-        />
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 rounded hover:bg-green-600"
-        >
-          Search
-        </button>
-      </form>
-
-      {loading && <p className="mt-2">Searching...</p>}
-      {error && <p className="mt-2 text-red-500">{error}</p>}
-
-      <ul className="mt-4 space-y-2">
-        {results.map((restaurant) => {
-          const isSelected = selectedRestaurants.some(
-            (r) => r._id === restaurant._id
-          );
-
-          return (
-            <li
-              key={restaurant._id}
-              onClick={() => toggleSelect(restaurant)}
-              className={`p-2 border rounded flex items-center gap-3 cursor-pointer transition ${
-                isSelected
-                  ? "bg-green-100 border-green-500"
-                  : "hover:bg-gray-100"
-              }`}
-            >
-              <img
-                src={
-                  restaurant.image
-                    ? restaurant.image
-                    : "https://via.placeholder.com/60"
-                }
-                alt={restaurant.name}
-                className="w-16 h-16 rounded object-cover"
-              />
-              <div>
-                <p className="font-semibold">{restaurant.name}</p>
-                <p className="text-sm text-gray-500">{restaurant.cuisine}</p>
-                <p className="text-xs text-gray-400">
-                  {restaurant.address.city}, {restaurant.address.zipcode}
-                </p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-      {/* Show selected restaurants */}
-      {selectedRestaurants.map((r, index) => (
-        <li key={r._id} className="flex items-center gap-3 p-2 border rounded">
-          <img
-            src={r.image ? r.image : "https://via.placeholder.com/40"}
-            alt={r.name}
-            className="w-10 h-10 rounded object-cover"
+    <div className="flex flex-col items-center p-10 shadow-sm md:flex-row md:max-w-4xl mx-auto mt-10 text-gray-700 dark:text-gray-400">
+      <div className="w-full">
+        <form onSubmit={handleSearch} className="flex gap-2 mb-4 ">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search Restaurant"
+            className="border p-2 rounded w-full text-black"
           />
-          <span className="font-medium">{r.name}</span>
+          <button
+            type="submit"
+            className="bg-green-500 text-white px-4 rounded hover:bg-green-600"
+          >
+            Search
+          </button>
+        </form>
 
-          <div className="flex gap-1 ml-auto">
-            <button
-              onClick={() => moveRestaurant(index, "up")}
-              className="text-blue-500 hover:text-blue-700 text-sm"
-            >
-              ↑
-            </button>
-            <button
-              onClick={() => moveRestaurant(index, "down")}
-              className="text-blue-500 hover:text-blue-700 text-sm"
-            >
-              ↓
-            </button>
-            <button
-              onClick={() => toggleSelect(r)}
-              className="text-red-500 hover:text-red-700 text-sm"
-            >
-              ✕
-            </button>
-          </div>
-        </li>
-      ))}
+        {loading && <p className="mt-2">Searching...</p>}
+        {error && <p className="mt-2 text-red-500">{error}</p>}
+
+        {/* Search Results */}
+        <ul className="space-y-2 mb-6">
+          {results.map((restaurant) => {
+            const isSelected = selectedRestaurants.some(
+              (r) => r._id === restaurant._id
+            );
+
+            return (
+              <li
+                key={restaurant._id}
+                onClick={() => toggleSelect(restaurant)}
+                className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 border rounded flex items-center gap-3 cursor-pointer transition dark:text-white ${
+                  isSelected
+                    ? "bg-yellow-200 dark:bg-gray-600"
+                    : "hover:bg-yellow-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                <img
+                  src={
+                    restaurant.image
+                      ? restaurant.image
+                      : "https://via.placeholder.com/60"
+                  }
+                  alt={restaurant.name}
+                  className="w-16 h-16 rounded object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-lg">{restaurant.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-300">
+                    {restaurant.cuisine}
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-400">
+                    {restaurant.address.city}, {restaurant.address.zipcode}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Selected Restaurants */}
+        <h3 className="mb-2 font-semibold">Selected Restaurants</h3>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={selectedRestaurants.map((r) => r._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <ul className="space-y-2">
+              {selectedRestaurants.map((r) => (
+                <SortableItem
+                  key={r._id}
+                  restaurant={r}
+                  toggleSelect={toggleSelect}
+                />
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>
+      </div>
     </div>
   );
 }
