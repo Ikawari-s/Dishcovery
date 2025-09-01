@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { addReviewApi } from "../../api/reviewsApi";
-import ReactStars from "react-stars"; // Import the react-stars package
+import Rating from "@mui/material/Rating";
 
 function AddReviews({ restaurantId }) {
   const [comment, setComment] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -58,14 +58,12 @@ function AddReviews({ restaurantId }) {
           >
             Rating
           </label>
-          <ReactStars
-            count={5} // This limits the number of stars to 5
-            value={rating}
-            onChange={(newRating) => setRating(newRating)}
-            size={24}
-            half={true} // Enable half-star selection
-            color1="#f0f0f0"
-            color2="#ffc107"
+          <Rating
+            name="rating-input"
+            value={rating} // already a number
+            precision={0.5}
+            onChange={(event, newValue) => setRating(newValue)} // don't cast to string
+            size="large"
           />
         </div>
         <button

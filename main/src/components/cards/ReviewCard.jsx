@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import StarRating from "../reviews/StarRating";
+import Rating from "@mui/material/Rating";
 
 function ReviewCard({
   review,
@@ -61,13 +61,12 @@ function ReviewCard({
       {editingId === review._id ? (
         <div>
           {/* Rating input */}
-          <input
-            type="number"
-            min="1"
-            max="5"
+          <Rating
+            name="edit-rating"
             value={editRating}
-            onChange={(e) => setEditRating(Number(e.target.value))}
-            className="w-16 border rounded p-1 mb-2 text-black"
+            precision={0.5}
+            onChange={(event, newValue) => setEditRating(newValue ?? 0)}
+            size="large"
           />
           {/* Comment input */}
           <textarea
@@ -93,7 +92,13 @@ function ReviewCard({
       ) : (
         <>
           <div className="mb-1">
-            <StarRating rating={review.rating} />
+            <Rating
+              name="read-only-rating"
+              value={review.rating}
+              precision={0.5}
+              readOnly
+              size="small"
+            />
           </div>
           <p className="mb-2 text-gray-500 dark:text-gray-400">
             {review.comment}
