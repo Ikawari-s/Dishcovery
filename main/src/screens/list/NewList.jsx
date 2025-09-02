@@ -29,8 +29,8 @@ function NewList() {
       isRanked,
       restaurants: restaurants.map((r, idx) => ({
         restaurantId: r._id,
-        notes: "",
-        rank: isRanked ? idx + 1 : null, // simple auto-ranking
+        notes: r.notes || "",
+        rank: isRanked ? idx + 1 : null,
       })),
     };
 
@@ -72,6 +72,27 @@ function NewList() {
               id="base-input"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
+            {restaurants.length > 0 && (
+  <div className="mb-5">
+    <h3 className="text-sm font-medium mb-2">Restaurant Notes</h3>
+    {restaurants.map((r, idx) => (
+      <div key={r._id} className="mb-2">
+        <span className="block font-semibold">{r.name}</span>
+        <input
+          type="text"
+          placeholder="Add notes..."
+          value={r.notes || ""}
+          onChange={(e) => {
+            const newRestaurants = [...restaurants];
+            newRestaurants[idx].notes = e.target.value;
+            setRestaurants(newRestaurants);
+          }}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2 w-full focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        />
+      </div>
+    ))}
+  </div>
+)}
           </div>
         </div>
         {/* Tags */}

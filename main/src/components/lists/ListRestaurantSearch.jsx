@@ -136,10 +136,10 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
                 key={restaurant._id}
                 onClick={() => toggleSelect(restaurant)}
                 className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 border rounded flex items-center gap-3 cursor-pointer transition dark:text-white ${
-                  isSelected
-                    ? "bg-yellow-200 dark:bg-gray-600"
-                    : "hover:bg-yellow-100 dark:hover:bg-gray-700"
-                }`}
+                isSelected
+                  ? "bg-yellow-100 dark:bg-gray-500"
+                  : "hover:bg-yellow-100 dark:hover:bg-gray-700"
+              }`}
               >
                 <img
                   src={
