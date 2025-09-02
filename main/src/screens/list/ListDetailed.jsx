@@ -43,18 +43,37 @@ function ListDetailed() {
   if (!list) return <p>List not found.</p>;
 
   return (
-    <div className="p-5 flex flex-col lg:flex-row bg-red-100">
-      {/* Left Section */}
-      <div className="flex-1 bg-blue-100 p-4">
-        <h1 className="text-8xl font-bold mb-2">{list.name}</h1>
-        <p className="text-gray-600 mb-2">{list.description}</p>
-        <p className="text-sm mb-4">By: {list.createdBy.name}</p>
+    <div className="px-80 bg-gray-900">
+      <div className="px-6 text-start">
+        <h1 className="text-8xl font-bold text-gray-900 dark:text-white mb-4">{list.name}</h1>
+        <p className="text-lg text-gray-900 dark:text-white mb-2 mx-1">{list.description}</p>
+        <p className="text-md text-gray-900 dark:text-white mx-1">By: {list.createdBy.name}</p>
 
-        {list.isRanked && (
-          <p className="mb-4 text-sm text-gray-500">Ranked List</p>
+        {userId === list.createdBy._id && (
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="mt-5 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Delete List
+          </button>
         )}
 
-        <h2 className="text-2xl font-semibold mb-3">Restaurants</h2>
+        {/* Back Link */}
+        <Link
+          to="/lists"
+          className="mt-5 inline-block text-gray-900 dark:text-white hover:underline"
+        >
+          ← Back to all lists
+        </Link> 
+      </div>
+      <div className="flex flex-col lg:flex-row">
+        
+        <div className="flex-1 p-2">
+        {/* {list.isRanked && (
+          <h4 className="mb-4 upper case font-bold text-xl text-gray-900 dark:text-white">Ranked List</h4>
+        )} */}
+
+        <h2 className="text-4xl font-semibold mb-3">Restaurants</h2>
 
         {/* ✅ Restaurants Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
@@ -68,41 +87,23 @@ function ListDetailed() {
               />
 
               {/* ✅ Optional Info Below Card */}
-              <div className="mt-2 text-sm">
+              <div className="mt-2 text-sm shadow-lg bg-yellow-50 dark:bg-gray-800 rounded-lg p-2 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1">
                 {r.rank && <p className="text-gray-700">Rank: {r.rank}</p>}
                 {r.notes && <p className="italic text-gray-600">"{r.notes}"</p>}
               </div>
             </div>
           ))}
         </div>
-
-        {/* Delete Button */}
-        {userId === list.createdBy._id && (
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            className="mt-5 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-          >
-            Delete List
-          </button>
-        )}
-
-        {/* Back Link */}
-        <Link
-          to="/lists"
-          className="mt-5 inline-block text-blue-600 hover:underline"
-        >
-          ← Back to all lists
-        </Link>
       </div>
 
       {/* Right Section (Tags) */}
-      <div className="w-full lg:w-1/4 bg-green-100 p-4">
-        <h3 className="text-lg font-semibold mb-2">Tags</h3>
+      <div className="w-full lg:w-1/4 p-2">
+        <h2 className="text-4xl font-semibold mb-3">Tags</h2>
         <div className="flex flex-wrap gap-2">
           {list.tags.map((tag, idx) => (
             <span
               key={idx}
-              className="bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"
+              className="text-sm font-semibold px-4 py-1 rounded-md bg-yellow-50 text-gray-800 dark:bg-gray-800 dark:text-gray-100 shadow-lg transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700"
             >
               {tag}
             </span>
@@ -116,6 +117,7 @@ function ListDetailed() {
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
       />
+    </div>
     </div>
   );
 }
