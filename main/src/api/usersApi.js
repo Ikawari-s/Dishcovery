@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  process.env.REACT_APP_USERS_API_URL || "http://localhost:5000/api/users";
+const API_URL = process.env.REACT_APP_USERS_API_URL;
 
 export const followUserApi = async (targetId, token) => {
   try {
