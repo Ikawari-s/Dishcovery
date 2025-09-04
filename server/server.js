@@ -10,6 +10,7 @@ import authenticationRouters from "./routes/authenticationRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +27,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 app.use("/api/authentication", authenticationRouters);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/restaurants", restaurantsRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/lists", listRoutes);
 
