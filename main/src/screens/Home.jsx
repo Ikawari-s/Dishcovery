@@ -95,7 +95,7 @@ function Home() {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="shadow-lg bg-yellow-50 dark:bg-gray-900 dark:border-gray-700 rounded-md p-6 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1"
+            className="shadow-lg bg-yellow-50 dark:bg-gray-800 rounded-md p-6 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700 hover:-translate-y-1"
           >
             <div>
               <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{feature.title}</h3>

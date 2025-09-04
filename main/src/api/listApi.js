@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/lists";
+const API_URL = process.env.REACT_APP_LISTS_API_URL;
 
 export const getAllListsApi = async () => {
   try {

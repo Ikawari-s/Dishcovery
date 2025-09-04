@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getRestaurants } from "../api/restaurantsApi";
 import Spinner from "../components/others/Spinner";
-import RestaurantCard from "../components/cards/RetaurantCard";
+import RestaurantCard from "../components/cards/RestaurantCard";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -45,7 +45,7 @@ const Restaurants = () => {
           id="cuisine"
           value={selectedCuisine}
           onChange={(e) => setSelectedCuisine(e.target.value)}
-          className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-900"
+          className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-800"
         >
           {cuisines.map((cuisine) => (
             <option key={cuisine} value={cuisine}>
