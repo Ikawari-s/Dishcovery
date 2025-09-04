@@ -13,7 +13,7 @@ function UserCard({ user }) {
           className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
           src={
             user.profilePicture
-              ? `http://localhost:5000${user.profilePicture}`
+              ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
               : "/images/default.jpg"
           }
           alt={user.name}

@@ -62,7 +62,7 @@ function Header() {
                 <img
                   src={
                     user.profilePicture
-                      ? `http://localhost:5000${user.profilePicture}`
+                      ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
                       : "/images/default.jpg"
                   }
                   className="w-8 h-8 rounded-full object-cover"
@@ -102,7 +102,10 @@ function Header() {
               {user && (
                 <>
                   <li>
-                    <Link to="/settings" className={getNavLinkClass("/settings")}>
+                    <Link
+                      to="/settings"
+                      className={getNavLinkClass("/settings")}
+                    >
                       Settings
                     </Link>
                   </li>

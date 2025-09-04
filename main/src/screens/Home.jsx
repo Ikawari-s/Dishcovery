@@ -6,30 +6,34 @@ const foodEmojis = ["🍕", "🍔", "🍣", "🍩", "🍉", "🌮", "🍦", "�
 const features = [
   {
     title: "Discover New Restaurants",
-    description: "Explore trending spots, hidden gems, and recommendations from the community",
+    description:
+      "Explore trending spots, hidden gems, and recommendations from the community",
   },
   {
     title: "Like Dishes",
-    description: "Show love for your favorite dishes, cuisines, or chef specials",
+    description:
+      "Show love for your favorite dishes, cuisines, or chef specials",
   },
   {
     title: "Write Reviews",
-    description: "Share your experience, taste notes, and follow fellow foodies",
+    description:
+      "Share your experience, taste notes, and follow fellow foodies",
   },
   {
     title: "Rate Everything",
-    description: "Give meals a star rating (yes, halves allowed!) to document your taste",
+    description:
+      "Give meals a star rating (yes, halves allowed!) to document your taste",
   },
   {
     title: "Follow your Favorite Reviewers",
-    description: "Stay in the loop with people who match your tastes and discover new favorites",
+    description:
+      "Stay in the loop with people who match your tastes and discover new favorites",
   },
   {
     title: "Create Food Lists",
     description: "Make your personal list or keep a 'Must-Try' queue",
   },
 ];
-
 
 function Home() {
   const [emoji, setEmoji] = useState(foodEmojis[0]);
@@ -75,7 +79,6 @@ function Home() {
 
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#f3f1de] to-transparent dark:from-[#101725]/100" />
 
-
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center px-6">
           <h1 className="text-gray-900 dark:text-white text-5xl md:text-8xl font-bebas drop-shadow-lg">
             "Food is our common ground, a universal experience."
@@ -98,13 +101,17 @@ function Home() {
             className="shadow-lg bg-yellow-50 dark:bg-gray-800 rounded-md p-6 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700 hover:-translate-y-1"
           >
             <div>
-              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{feature.title}</h3>
-              <p className="text-sm text-gray-900 dark:text-white">{feature.description}</p>
+              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+                {feature.title}
+              </h3>
+              <p className="text-sm text-gray-900 dark:text-white">
+                {feature.description}
+              </p>
             </div>
           </div>
         ))}
       </div>
-       <div className="relative w-full h-24">
+      <div className="relative w-full h-24">
         <span
           className={`text-2xl sm:text-4xl md:text-6xl ca_fx-vibration ${
             visible ? "opacity-100" : "opacity-0"

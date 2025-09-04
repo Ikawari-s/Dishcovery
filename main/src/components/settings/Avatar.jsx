@@ -71,7 +71,7 @@ function Avatar() {
       <img
         src={
           userInfo?.profilePicture
-            ? `http://localhost:5000${userInfo.profilePicture}`
+            ? `${process.env.REACT_APP_API_BASE_URL}${userInfo.profilePicture}`
             : "/images/default.jpg"
         }
         alt={userInfo?.name}
