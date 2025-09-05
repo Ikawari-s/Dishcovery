@@ -30,7 +30,7 @@ export const loginUser = async ({ email, password }) => {
   } catch (adminError) {
     // If admin login fails, try user login
     try {
-      let response = await axios.post(API_URL, { email, password });
+      let response = await axios.post(`${API_URL}/login`, { email, password });
       return { ...response.data, role: "user" };
     } catch (userError) {
       throw new Error(
