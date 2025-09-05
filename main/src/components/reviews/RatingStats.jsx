@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getRatingStatsByRestaurantId } from "../../api/reviewsApi";
+import Rating from "@mui/material/Rating";
 
 function RatingStats({ restaurantId }) {
   const [stats, setStats] = useState({
@@ -17,36 +18,29 @@ function RatingStats({ restaurantId }) {
   }, [restaurantId]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
-      {/* Average Rating */}
-      <div className="flex items-center mb-2">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className={`w-4 h-4 me-1 ${
-              i < Math.round(stats.avgRating)
-                ? "text-yellow-300"
-                : "text-gray-300"
-            }`}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523...Z" />
-          </svg>
-        ))}
-        <p className="ms-1 text-sm font-medium text-gray-500">
-          {stats.avgRating}
+    <div>
+      <div className="flex flex-col mb-2">
+        <div className="flex justify-center mb-1">
+  <Rating
+    name="average-rating"
+    value={Number(stats.avgRating) || 0}
+    precision={0.1}
+    readOnly
+    size="small"
+  />
+</div>
+        <p className="ml-2 text-sm font-medium text-gray-500">
+            {(Number(stats.avgRating) || 0).toFixed(2)} out of 5
+          </p>
+        <p className="text-sm font-medium text-gray-500">
+          All Reviews: {stats.totalReviews || 0}
         </p>
-        <p className="ms-1 text-sm font-medium text-gray-500">out of</p>
-        <p className="ms-1 text-sm font-medium text-gray-500">5</p>
       </div>
 
-      <p className="text-sm font-medium text-gray-500">
+      {/* <p className="text-sm font-medium text-gray-500">
         {stats.totalReviews} global ratings
       </p>
 
-      {/* Distribution */}
       {stats.distribution.map((d) => (
         <div className="flex items-center mt-4" key={d.star}>
           <span className="text-sm font-medium text-blue-600">
@@ -62,7 +56,7 @@ function RatingStats({ restaurantId }) {
             {d.percentage}%
           </span>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
