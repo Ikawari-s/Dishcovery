@@ -27,7 +27,7 @@ function Lists() {
   if (loading) return <p>Loading lists...</p>;
 
   return (
-    <div className="p-5 w-[65vw] mx-auto">
+    <div className="p-5 w-[65vw] mx-auto mt-10">
     <div className="flex items-center justify-between px-4 mb-4 w-2xl">
       <h1 className="text-4xl font-bold">Lists</h1>
       <button

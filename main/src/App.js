@@ -23,6 +23,7 @@ import Feed from "./screens/Feed";
 import ForgotPassword from "./screens/ForgotPassword";
 import ListDetailed from "./screens/list/ListDetailed";
 import RestaurantAllReviews from "./screens/RestaurantAllReviews";
+import ScrollToTop from "./components/others/ScrollToTop";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -30,18 +31,15 @@ function App() {
   return (
     <>
       <div className="pattern-img-bg"></div>
-      {/* App content on top of background */}
       <div className="relative text-center text-black dark:text-white min-h-screen overflow-hidden ">
-        {/* 👇 Loading screen covers the whole app, swipes up on finish */}
         {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
-
-        {/* 👇 Always render the app, but fade in when loading finishes */}
         <div
           className={`transition-opacity duration-500 ease-in-out ${
             loading ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
           <Router>
+            <ScrollToTop /> {/* Add this here */}
             <Header />
             <Routes>
               <Route element={<Home />} path="/" />

@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 function Header() {
   const [theme, setTheme] = useState("light");
   const [user, setUser] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -53,34 +54,39 @@ function Header() {
             Dishcovery
           </Link>
 
-          <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            {user ? (
-              <div className="flex items-center space-x-2">
-                <span className="text-gray-900 dark:text-white font-body">
-                  {user.email}
-                </span>
-                <img
-                  src={
-                    user.profilePicture
-                      ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
-                      : "/images/default.jpg"
-                  }
-                  className="w-8 h-8 rounded-full object-cover"
-                  alt="User"
+          {/* Mobile menu toggle button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700"
+            aria-controls="navbar-user"
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            {/* Hamburger icon */}
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {mobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
                 />
-                <button onClick={handleLogout} className="font-body">
-                  Log Out
-                </button>
-              </div>
-            ) : (
-              <Link
-                to="/authentication"
-                className="font-medium text-red-600 dark:text-red-400 font-body"
-              >
-                Login
-              </Link>
-            )}
-          </div>
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
 
           <button
             onClick={toggleTheme}
@@ -89,8 +95,11 @@ function Header() {
             {theme === "light" ? "🌙" : "☀️"}
           </button>
 
+          {/* Navigation menu */}
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
+              mobileMenuOpen ? "block" : "hidden"
+            }`}
             id="navbar-user"
           >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-yellow-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
@@ -102,10 +111,7 @@ function Header() {
               {user && (
                 <>
                   <li>
-                    <Link
-                      to="/settings"
-                      className={getNavLinkClass("/settings")}
-                    >
+                    <Link to="/settings" className={getNavLinkClass("/settings")}>
                       Settings
                     </Link>
                   </li>
@@ -117,10 +123,7 @@ function Header() {
                 </>
               )}
               <li>
-                <Link
-                  to="/restaurants"
-                  className={getNavLinkClass("/restaurants")}
-                >
+                <Link to="/restaurants" className={getNavLinkClass("/restaurants")}>
                   Restaurants
                 </Link>
               </li>
@@ -139,7 +142,39 @@ function Header() {
                   Lists
                 </Link>
               </li>
+              <div className="flex items-center justify-center md:justify-start mt-4 md:mt-0 md:ml-6 space-x-3 md:space-x-4 rtl:space-x-reverse w-full md:w-auto">
+  {user ? (
+    <div className="flex items-center space-x-2">
+      <span className="text-gray-900 dark:text-white font-body">
+        {user.email}
+      </span>
+      <img
+        src={
+          user.profilePicture
+            ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
+            : "/images/default.jpg"
+        }
+        className="w-8 h-8 rounded-full object-cover"
+        alt="User"
+      />
+      <button
+        onClick={handleLogout}
+        className="font-body text-red-600 dark:text-red-400 hover:underline"
+      >
+        Log Out
+      </button>
+    </div>
+  ) : (
+    <Link
+      to="/authentication"
+      className="font-body text-red-600 dark:text-red-400 hover:underline mb-2"
+    >
+      Login
+    </Link>
+  )}
+</div>
             </ul>
+
           </div>
         </div>
       </nav>
