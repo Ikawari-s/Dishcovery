@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_AUTH_API_URL;
-
+const ADMIN_API_URL = process.env.REACT_APP_ADMIN_LOGIN_URL;
 // Register a new user
 export const registerUser = async ({ name, email, password }) => {
   try {
@@ -24,18 +24,21 @@ export const registerUser = async ({ name, email, password }) => {
 // Log in an existing user
 export const loginUser = async ({ email, password }) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, {
-      email,
-      password,
-    });
-
-    return response.data;
-  } catch (err) {
-    console.error(
-      "Error logging in:",
-      err.response?.data?.message || err.message
-    );
-    throw new Error(err.response?.data?.message || "Login failed");
+    // Try admin login first
+    let response = await axios.post(ADMIN_API_URL, { email, password });
+    return { ...response.data, role: "admin" };
+  } catch (adminError) {
+    // If admin login fails, try user login
+    try {
+      let response = await axios.post(API_URL, { email, password });
+      return { ...response.data, role: "user" };
+    } catch (userError) {
+      throw new Error(
+        userError.response?.data?.message ||
+          adminError.response?.data?.message ||
+          "Login failed"
+      );
+    }
   }
 };
 
