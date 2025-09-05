@@ -8,7 +8,6 @@ import Avatar from "../components/settings/Avatar";
 function Settings() {
   return (
     <div>
-      Account Settings
       <TailwindTabs />
     </div>
   );

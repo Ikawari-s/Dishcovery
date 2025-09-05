@@ -43,7 +43,23 @@ function ListDetailed() {
   if (!list) return <p>List not found.</p>;
 
   return (
-    <div className="px-80 bg-gray-900">
+    <div
+        className="mx-80"
+        style={{
+          background: `
+            linear-gradient(
+              to right,
+              rgba(17, 24, 39, 0) 0%,
+              rgba(17, 24, 39, 0.7) 20%,
+              rgba(17, 24, 39, 1) 40%,
+              rgba(17, 24, 39, 1) 60%,
+              rgba(17, 24, 39, 0.7) 80%,
+              rgba(17, 24, 39, 0) 100%
+            )
+          `,
+        }}
+      >
+
       <div className="px-6 text-start">
         <h1 className="text-8xl font-bold text-gray-900 dark:text-white mb-4">{list.name}</h1>
         <p className="text-lg text-gray-900 dark:text-white mb-2 mx-1">{list.description}</p>
