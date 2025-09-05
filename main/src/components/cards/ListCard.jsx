@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function ListCard({ list }) {
   return (
-    <div className="w-full max-w-sm bg-yellow-50 rounded-lg shadow-lg dark:bg-gray-900 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 p-5 px-2">
+    <div className="w-full max-w-sm bg-yellow-50 rounded-lg shadow-lg dark:bg-gray-800 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 p-5 px-2">
       <div className="px-5">
         <Link to={`/list/${list._id}`}>
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">

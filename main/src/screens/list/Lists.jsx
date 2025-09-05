@@ -27,15 +27,17 @@ function Lists() {
   if (loading) return <p>Loading lists...</p>;
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Lists</h1>
+    <div className="p-5 w-[65vw] mx-auto">
+    <div className="flex items-center justify-between px-4 mb-4 w-2xl">
+      <h1 className="text-4xl font-bold">Lists</h1>
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+        className="px-8 py-3 bg-yellow-500 text-white text-lg font-semibold rounded-full shadow-md hover:bg-yellow-600 transition duration-300"
         onClick={() => navigate("/list/new")}
       >
         Start a list
       </button>
+    </div>
       {user && (
         <button
           onClick={() => navigate("/list/new")}

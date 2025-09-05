@@ -108,7 +108,8 @@ function Feed() {
   if (loading) return <p className="text-center mt-6">Loading feed...</p>;
 
   return (
-    <div className="max-w-2xl mx-auto mt-6 px-4">
+    <div className="mx-auto mt-6 px-4 bg-red-200 flex flex-row">
+    <div>
       <h1 className="text-2xl font-bold mb-4">Your Feed</h1>
 
       {reviews.length === 0 ? (
@@ -134,6 +135,7 @@ function Feed() {
             />
           ))
       )}
+    </div>
       <PopularReviews />
     </div>
   );
