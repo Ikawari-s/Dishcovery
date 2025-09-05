@@ -20,6 +20,11 @@ function Header() {
     }
   }, []);
 
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -97,11 +102,14 @@ function Header() {
 
           {/* Navigation menu */}
           <div
-            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
-              mobileMenuOpen ? "block" : "hidden"
+            className={`${
+              mobileMenuOpen
+                ? "fixed top-16 left-0 right-0 bottom-0 bg-yellow-50 dark:bg-gray-900 z-50 flex flex-col p-6 overflow-y-auto"
+                : "hidden md:flex md:w-auto md:order-1 items-center justify-between"
             }`}
             id="navbar-user"
           >
+
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-yellow-50 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <Link to="/" className={getNavLinkClass("/")}>
@@ -143,36 +151,36 @@ function Header() {
                 </Link>
               </li>
               <div className="flex items-center justify-center md:justify-start mt-4 md:mt-0 md:ml-6 space-x-3 md:space-x-4 rtl:space-x-reverse w-full md:w-auto">
-  {user ? (
-    <div className="flex items-center space-x-2">
-      <span className="text-gray-900 dark:text-white font-body">
-        {user.email}
-      </span>
-      <img
-        src={
-          user.profilePicture
-            ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
-            : "/images/default.jpg"
-        }
-        className="w-8 h-8 rounded-full object-cover"
-        alt="User"
-      />
-      <button
-        onClick={handleLogout}
-        className="font-body text-red-600 dark:text-red-400 hover:underline"
-      >
-        Log Out
-      </button>
-    </div>
-  ) : (
-    <Link
-      to="/authentication"
-      className="font-body text-red-600 dark:text-red-400 hover:underline mb-2"
-    >
-      Login
-    </Link>
-  )}
-</div>
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-gray-900 dark:text-white font-body">
+                    {user.email}
+                  </span>
+                  <img
+                    src={
+                      user.profilePicture
+                        ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
+                        : "/images/default.jpg"
+                    }
+                    className="w-8 h-8 rounded-full object-cover"
+                    alt="User"
+                  />
+                  <button
+                    onClick={handleLogout}
+                    className="font-body text-red-600 dark:text-red-400 hover:underline"
+                  >
+                    Log Out
+                  </button>
+                </div>
+                ) : (
+                  <Link
+                    to="/authentication"
+                    className="font-body text-red-600 dark:text-red-400 hover:underline mb-2"
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
             </ul>
 
           </div>
