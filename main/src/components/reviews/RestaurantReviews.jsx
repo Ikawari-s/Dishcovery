@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import {
   deleteReviewApi,
   getReviewsByRestaurantId,
@@ -8,12 +8,13 @@ import {
   updateReviewApi,
 } from "../../api/reviewsApi";
 
-import StarRating from "./StarRating";
 import DeleteReviewModal from "../modals/DeleteReviewModal";
 import ReviewCard from "../cards/ReviewCard";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
 
 function RestaurantReviews() {
-  const { id } = useParams(); // restaurantId from route
+  const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,6 +27,11 @@ function RestaurantReviews() {
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+  const [startIndex, setStartIndex] = useState(0);
+  const VISIBLE_COUNT = 3;
+
+  const sliderRef = useRef(null);
+
   const handleOpenModal = (reviewId) => {
     setSelectedReviewId(reviewId);
     setShowModal(true);
@@ -37,6 +43,9 @@ function RestaurantReviews() {
       setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
       setShowModal(false);
       setSelectedReviewId(null);
+      if (startIndex > 0 && startIndex > reviews.length - VISIBLE_COUNT) {
+        setStartIndex(startIndex - 1);
+      }
     } catch (err) {
       alert("Failed to delete review");
       console.error(err);
@@ -62,12 +71,11 @@ function RestaurantReviews() {
             ? {
                 ...r,
                 ...updated.review,
-                userId: r.userId, // ✅ keep populated userId
+                userId: r.userId,
               }
             : r
         )
       );
-      // reset edit mode
       setEditingId(null);
       setEditComment("");
       setEditRating(0);
@@ -81,24 +89,29 @@ function RestaurantReviews() {
     try {
       let updated;
       if (review.likes.includes(userInfo._id)) {
-        // already liked → unlike
         updated = await unlikeReviewApi(review._id);
       } else {
-        // not liked yet → like
         updated = await likeReviewApi(review._id);
       }
 
-      // Update state with new likes
       setReviews((prev) =>
         prev.map((r) =>
-          r._id === review._id
-            ? { ...r, likes: updated.likers } // update likers array
-            : r
+          r._id === review._id ? { ...r, likes: updated.likers } : r
         )
       );
     } catch (err) {
       console.error("Error toggling like:", err);
     }
+  };
+
+  const handlePrev = () => {
+    setStartIndex((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNext = () => {
+    setStartIndex((prev) =>
+      Math.min(prev + 1, reviews.length - VISIBLE_COUNT)
+    );
   };
 
   useEffect(() => {
@@ -109,6 +122,8 @@ function RestaurantReviews() {
           setError("No reviews yet for this restaurant.");
         } else {
           setReviews(data);
+          setStartIndex(0);
+          setError("");
         }
       } catch (err) {
         setError("Error fetching reviews.");
@@ -123,32 +138,70 @@ function RestaurantReviews() {
   if (error) return <p className="p-4 text-red-600">{error}</p>;
 
   return (
-    <div className="w-full max-w-2xl p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto mt-6">
-      <Link to={`/restaurant/${id}/reviews`} className="text-2xl">
-        See More
-      </Link>
-      <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white mb-4">
-        Reviews
-      </h5>
+    <div className="w-full max-w-6xl p-4 mx-auto mt-6">
+      <h2 className="text-center text-2xl font-semibold mb-4">Reviews</h2>
 
-      {reviews.slice(0, 3).map((review) => (
-        <ReviewCard
-          key={review._id}
-          review={review}
-          userInfo={userInfo}
-          editingId={editingId}
-          editComment={editComment}
-          editRating={editRating}
-          setEditComment={setEditComment}
-          setEditRating={setEditRating}
-          onEdit={handleEdit}
-          onUpdate={handleUpdate}
-          onCancelEdit={() => setEditingId(null)}
-          onDelete={handleOpenModal}
-          onLikeToggle={handleLikeToggle}
-        />
-      ))}
-      <DeleteReviewModal
+      <div className="relative overflow-hidden">
+        {/* Review slider container */}
+        <div
+          ref={sliderRef}
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${(startIndex *60) / VISIBLE_COUNT}%)`,
+            width: `${(reviews.length * 100) / VISIBLE_COUNT}%`,
+          }}
+        >
+          {reviews.map((review) => (
+            <div
+              key={review._id}
+              className="flex-shrink-0 px-2"
+              style={{
+                width: `${100 / reviews.length}%`,
+              }}
+            >
+              <ReviewCard
+                review={review}
+                userInfo={userInfo}
+                editingId={editingId}
+                editComment={editComment}
+                editRating={editRating}
+                setEditComment={setEditComment}
+                setEditRating={setEditRating}
+                onEdit={handleEdit}
+                onUpdate={handleUpdate}
+                onCancelEdit={() => setEditingId(null)}
+                onDelete={handleOpenModal}
+                onLikeToggle={handleLikeToggle}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation buttons */}
+          <button
+          onClick={handlePrev}
+          disabled={startIndex === 0}
+          className={`absolute top-1/2 left-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
+            startIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-gray-800"
+          }`}
+        >
+          <FaArrowLeft className="text-white" />
+        </button>
+
+        <button
+          onClick={handleNext}
+          disabled={startIndex >= reviews.length - VISIBLE_COUNT}
+          className={`absolute top-1/2 right-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
+            startIndex >= reviews.length - VISIBLE_COUNT
+              ? "opacity-30 cursor-not-allowed"
+              : "hover:bg-gray-800"
+          }`}
+        >
+          <FaArrowRight className="text-white" />
+        </button>
+      </div>
+
+        <DeleteReviewModal
         show={showModal}
         handleClose={() => setShowModal(false)}
         handleDelete={handleDelete}
