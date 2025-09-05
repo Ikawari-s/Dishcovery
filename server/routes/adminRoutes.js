@@ -1,6 +1,10 @@
 import express from "express";
 import Admin from "../models/adminModel.js";
-import { adminLogin } from "../controllers/adminControllers.js";
+import {
+  adminDeleteReview,
+  adminLogin,
+} from "../controllers/adminControllers.js";
+import { adminProtect } from "../middleware/adminProtect.js";
 
 const router = express.Router();
 
@@ -23,5 +27,6 @@ router.post("/create-admin", async (req, res) => {
 });
 
 router.post("/login", adminLogin);
+router.delete("/delete/review/:id", adminProtect, adminDeleteReview);
 
 export default router;
