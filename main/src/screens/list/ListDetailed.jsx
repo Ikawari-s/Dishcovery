@@ -4,6 +4,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { deleteListApi, getListById } from "../../api/listApi";
 import DeleteListModal from "../../components/modals/DeleteListModal";
 import RestaurantCard from "../../components/cards/RestaurantCard";
+import { FaTrash, FaArrowLeft } from "react-icons/fa";
+
 function ListDetailed() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,101 +41,94 @@ function ListDetailed() {
     }
   };
 
-  if (loading) return <p>Loading list...</p>;
-  if (!list) return <p>List not found.</p>;
+  if (loading) return <p className="text-center mt-10">Loading list...</p>;
+  if (!list) return <p className="text-center mt-10">List not found.</p>;
 
   return (
-    <div
-        className="mx-80"
-        style={{
-          background: `
-            linear-gradient(
-              to right,
-              rgba(17, 24, 39, 0) 0%,
-              rgba(17, 24, 39, 0.7) 20%,
-              rgba(17, 24, 39, 1) 40%,
-              rgba(17, 24, 39, 1) 60%,
-              rgba(17, 24, 39, 0.7) 80%,
-              rgba(17, 24, 39, 0) 100%
-            )
-          `,
-        }}
-      >
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 py-12 px-4 sm:px-6 lg:px-12 text-gray-900 dark:text-white">
+      <div className="max-w-7xl mx-auto">
 
-      <div className="px-6 text-start">
-        <h1 className="text-8xl font-bold text-gray-900 dark:text-white mb-4">{list.name}</h1>
-        <p className="text-lg text-gray-900 dark:text-white mb-2 mx-1">{list.description}</p>
-        <p className="text-md text-gray-900 dark:text-white mx-1">By: {list.createdBy.name}</p>
+        {/* Header Section */}
+        <div className="mb-10 border-b border-gray-700 pb-6">
+          <h1 className="text-5xl font-bold mb-4">{list.name}</h1>
+          <p className="text-lg mb-2">{list.description}</p>
+          <p className="text-sm">Created by: <span className="font-medium">{list.createdBy.name}</span></p>
 
-        {userId === list.createdBy._id && (
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            className="mt-5 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-          >
-            Delete List
-          </button>
-        )}
-
-        {/* Back Link */}
-        <Link
-          to="/lists"
-          className="mt-5 inline-block text-gray-900 dark:text-white hover:underline"
-        >
-          ← Back to all lists
-        </Link> 
-      </div>
-      <div className="flex flex-col lg:flex-row">
-        
-        <div className="flex-1 p-2">
-        {/* {list.isRanked && (
-          <h4 className="mb-4 upper case font-bold text-xl text-gray-900 dark:text-white">Ranked List</h4>
-        )} */}
-
-        <h2 className="text-4xl font-semibold mb-3">Restaurants</h2>
-
-        {/* ✅ Restaurants Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {list.restaurants.map((r) => (
-            <div key={r._id} className="relative">
-              <RestaurantCard
-                id={r.restaurantId._id}
-                name={r.restaurantId.name}
-                image={r.restaurantId.image}
-                cuisine={r.restaurantId.cuisine}
-              />
-
-              {/* ✅ Optional Info Below Card */}
-              <div className="mt-2 text-sm shadow-lg bg-yellow-50 dark:bg-gray-800 rounded-lg p-2 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1">
-                {r.rank && <p className="text-gray-700">Rank: {r.rank}</p>}
-                {r.notes && <p className="italic text-gray-600">"{r.notes}"</p>}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Right Section (Tags) */}
-      <div className="w-full lg:w-1/4 p-2">
-        <h2 className="text-4xl font-semibold mb-3">Tags</h2>
-        <div className="flex flex-wrap gap-2">
-          {list.tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className="text-sm font-semibold px-4 py-1 rounded-md bg-yellow-50 text-gray-800 dark:bg-gray-800 dark:text-gray-100 shadow-lg transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700"
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link
+              to="/lists"
+              className="inline-flex items-center text-sm text-yellow-400 hover:underline"
             >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
+              <FaArrowLeft className="mr-1" />
+              Back to all lists
+            </Link>
 
-      {/* Modal */}
-      <DeleteListModal
-        show={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
-        handleDelete={handleDelete}
-      />
-    </div>
+            {userId === list.createdBy._id && (
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+              >
+                <FaTrash className="mr-2" />
+                Delete List
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+          {/* Left - Restaurants */}
+          <div className="lg:col-span-3">
+            <h2 className="text-3xl font-semibold mb-4">Restaurants</h2>
+            {list.restaurants.length === 0 ? (
+              <p className="text-gray-400 italic">No restaurants added yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {list.restaurants.map((r) => (
+                  <div key={r._id} className="relative">
+                    <RestaurantCard
+                      id={r.restaurantId._id}
+                      name={r.restaurantId.name}
+                      image={r.restaurantId.image}
+                      cuisine={r.restaurantId.cuisine}
+                    />
+                    <div className="mt-2 text-sm bg-yellow-50 dark:bg-gray-800 rounded-lg p-3 shadow hover:shadow-lg transition duration-300 min-h-28 flex flex-col justify-center">
+                    {r.rank && (<p className="text-yellow-600 dark:text-yellow-400 font-semibold">Rank: {r.rank}</p>)}
+                      {r.notes && (<p className="italic text-gray-800 dark:text-gray-300">"{r.notes}"</p>)}
+                  </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right - Tags */}
+          <div>
+            <h2 className="text-3xl font-semibold mb-4">Tags</h2>
+            {list.tags.length === 0 ? (
+              <p className="text-gray-400 italic">No tags added.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {list.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="text-sm font-medium px-3 py-1 rounded-full bg-yellow-100 text-gray-800 dark:bg-gray-700 dark:text-white shadow"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Delete Modal */}
+        <DeleteListModal
+          show={showDeleteModal}
+          handleClose={() => setShowDeleteModal(false)}
+          handleDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 }
