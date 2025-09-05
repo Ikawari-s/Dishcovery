@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Admin from "../models/adminModel.js";
 import generateToken from "../utils/generateToken.js"; // reuse your token generator
+import Review from "../models/reviewModel.js";
 
 // @desc    Admin login
 // @route   POST /api/admin/login
@@ -23,3 +24,18 @@ export const adminLogin = asyncHandler(async (req, res) => {
     throw new Error("Invalid email or password");
   }
 });
+
+export const adminDeleteReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const review = await Review.findById(id);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    await review.deleteOne();
+
+    res.json({ message: "Review deleted successfully by admin" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
