@@ -139,7 +139,6 @@ function RestaurantReviews() {
 
   return (
     <div className="w-full max-w-6xl p-4 mx-auto mt-6">
-      <h2 className="text-center text-2xl font-semibold mb-4">Reviews</h2>
 
       <div className="relative overflow-hidden">
         {/* Review slider container */}
