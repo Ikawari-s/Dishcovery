@@ -19,11 +19,11 @@ function ReviewCard({
   return (
     <article
       key={review._id}
-      className="mb-6 bg-yellow-50 rounded-lg shadow-lg sm:p-8 dark:bg-gray-900 pb-4 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 text-gray-900 dark:text-white"
+      className="mb-6 bg-yellow-50 rounded-lg shadow-lg sm:p-6 dark:bg-gray-900 pb-4 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 text-gray-900 dark:text-white max-w-xs min-h-[300px] mx-auto"
     >
       <div className="flex items-center mb-2">
         <img
-           className="w-[60px] h-[60px] me-4 rounded-full object-cover"
+          className="w-[60px] h-[60px] me-4 rounded-full object-cover"
           src={
             review.userId?.profilePicture
               ? `http://localhost:5000${review.userId.profilePicture}`
@@ -32,7 +32,6 @@ function ReviewCard({
           alt={review.userId?.name}
         />
 
-        {/* For RestaurantReviews → link to profile, for UserReviews just text */}
         {review.userId?._id ? (
           <div className="font-medium text-2xl dark:text-white">
             <Link to={`/profile/${review.userId._id}`}>
@@ -45,7 +44,6 @@ function ReviewCard({
           </div>
         )}
 
-        {/* For UserReviews → show restaurant name */}
         {review.restaurant && (
           <div className="ml-3 font-medium dark:text-white">
             <Link
@@ -60,7 +58,6 @@ function ReviewCard({
 
       {editingId === review._id ? (
         <div>
-          {/* Rating input */}
           <Rating
             name="edit-rating"
             value={editRating}
@@ -68,7 +65,6 @@ function ReviewCard({
             onChange={(event, newValue) => setEditRating(newValue ?? 0)}
             size="large"
           />
-          {/* Comment input */}
           <textarea
             value={editComment}
             onChange={(e) => setEditComment(e.target.value)}
@@ -100,9 +96,7 @@ function ReviewCard({
               size="small"
             />
           </div>
-          <p className="mb-2 text-lg text-left">
-            {review.comment}
-          </p>
+          <p className="mb-2 text-lg text-left">{review.comment}</p>
         </>
       )}
 
@@ -134,7 +128,6 @@ function ReviewCard({
         {userInfo && (
           <>
             {review.likes.includes(userInfo._id) ? (
-              // Show UNLIKE button
               <button onClick={() => onLikeToggle(review)}>
                 <svg
                   className="w-6 h-6 text-red-600"
@@ -146,7 +139,6 @@ function ReviewCard({
                 </svg>
               </button>
             ) : (
-              // Show LIKE button
               <button onClick={() => onLikeToggle(review)}>
                 <svg
                   className="w-6 h-6 text-gray-800 dark:text-white"
@@ -164,7 +156,6 @@ function ReviewCard({
                 </svg>
               </button>
             )}
-            {/* Show total likes */}
             <span className="text-sm text-gray-600 dark:text-gray-300">
               {review.likes.length}{" "}
               {review.likes.length === 1 ? "like" : "likes"}
