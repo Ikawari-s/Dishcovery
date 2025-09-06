@@ -10,6 +10,7 @@ import {
 import StarRating from "./StarRating"; // assuming you're using the same StarRating component
 import DeleteReviewModal from "../modals/DeleteReviewModal";
 import ReviewCard from "../cards/ReviewCard";
+import Spinner from "../others/Spinner";
 
 function UserReviews() {
   const { id } = useParams(); // Get userId from URL
@@ -110,7 +111,12 @@ function UserReviews() {
     fetchUserReviews();
   }, [id]);
 
-  if (loading) return <p className="p-4">Loading reviews...</p>;
+  if (loading)
+    return (
+      <p className="p-4">
+        <Spinner />
+      </p>
+    );
   if (!reviews.length)
     return <p className="p-4 text-gray-500">No reviews found for this user.</p>;
 

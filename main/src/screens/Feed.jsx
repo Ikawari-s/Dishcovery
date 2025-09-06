@@ -8,6 +8,7 @@ import {
   updateReviewApi,
 } from "../api/reviewsApi";
 import PopularReviews from "../components/reviews/PopularReviews";
+import Spinner from "../components/others/Spinner";
 
 function Feed() {
   const [reviews, setReviews] = useState([]);
@@ -105,7 +106,12 @@ function Feed() {
     }
   };
 
-  if (loading) return <p className="text-center mt-6">Loading feed...</p>;
+  if (loading)
+    return (
+      <p className="text-center mt-6">
+        <Spinner />
+      </p>
+    );
 
   return (
     <div className="max-w-2xl mx-auto mt-6 px-4">
