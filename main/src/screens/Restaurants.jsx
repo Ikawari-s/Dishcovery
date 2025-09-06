@@ -8,6 +8,7 @@ const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedCuisine, setSelectedCuisine] = useState("All");
+  const [showColdStartAlert, setShowColdStartAlert] = useState(false);
 
   const cuisines = ["All", ...new Set(restaurants.map((r) => r.cuisine))];
 
@@ -15,8 +16,16 @@ const Restaurants = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+
+        const timer = setTimeout(() => {
+          setShowColdStartAlert(true);
+        }, 3000);
+
         const data = await getRestaurants();
         setRestaurants(data);
+
+        clearTimeout(timer); // clear timer if request finishes quickly
+        setShowColdStartAlert(false); // hide alert if done
       } catch (error) {
         console.error("Failed to fetch restaurants:", error);
       } finally {
@@ -34,6 +43,16 @@ const Restaurants = () => {
   return (
     <div className="p-4 min-h-screen">
       {/* Filter Dropdown */}
+
+      {loading && showColdStartAlert && (
+        <div
+          className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+          role="alert"
+        >
+          <span className="font-medium">Please wait...</span> The server is
+          starting due to long inactivity. This may take a few moments.
+        </div>
+      )}
       <div className="mb-6">
         <label
           htmlFor="cuisine"
