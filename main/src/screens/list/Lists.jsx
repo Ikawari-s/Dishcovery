@@ -8,13 +8,22 @@ function Lists() {
   const [lists, setLists] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showColdStartAlert, setShowColdStartAlert] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLists = async () => {
       try {
+        setLoading(true);
+
+        const timer = setTimeout(() => {
+          setShowColdStartAlert(true);
+        }, 3000);
         const data = await getAllListsApi();
         setLists(data);
+
+        clearTimeout(timer); // clear timer if request finishes fast
+        setShowColdStartAlert(false);
       } catch (error) {
         console.error(error);
       } finally {
@@ -24,7 +33,23 @@ function Lists() {
     fetchLists();
   }, []);
 
-  if (loading) return <p className="text-center mt-10">Loading lists...</p>;
+  if (loading) {
+    return (
+      <div className="p-4">
+        {/* Cold Start Alert */}
+        {showColdStartAlert && (
+          <div
+            className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+            role="alert"
+          >
+            <span className="font-medium">Please wait...</span> The server is
+            starting due to long inactivity. This may take a few moments.
+          </div>
+        )}
+        <p className="text-center mt-10">Loading lists...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 md:p-10 max-w-[1200px] mx-auto mt-8">
