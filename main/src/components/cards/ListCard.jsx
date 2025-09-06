@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ListCard({ list }) {
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
   return (
     <div className="w-full max-w-sm bg-yellow-50 rounded-lg shadow-lg dark:bg-gray-800 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-800 hover:-translate-y-1 p-5 px-2">
       <div className="px-5">
@@ -20,7 +21,7 @@ function ListCard({ list }) {
             <img
               src={
                 list.createdBy.profilePicture
-                  ? `http://localhost:5000${list.createdBy.profilePicture}`
+                  ? `${API_URL}${list.createdBy.profilePicture}`
                   : "/images/default.jpg"
               }
               alt="Profile"

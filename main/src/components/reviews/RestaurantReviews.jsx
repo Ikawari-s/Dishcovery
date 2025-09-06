@@ -12,7 +12,6 @@ import DeleteReviewModal from "../modals/DeleteReviewModal";
 import ReviewCard from "../cards/ReviewCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-
 function RestaurantReviews() {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
@@ -109,9 +108,7 @@ function RestaurantReviews() {
   };
 
   const handleNext = () => {
-    setStartIndex((prev) =>
-      Math.min(prev + 1, reviews.length - VISIBLE_COUNT)
-    );
+    setStartIndex((prev) => Math.min(prev + 1, reviews.length - VISIBLE_COUNT));
   };
 
   useEffect(() => {
@@ -139,14 +136,13 @@ function RestaurantReviews() {
 
   return (
     <div className="w-full max-w-6xl p-4 mx-auto mt-6">
-
       <div className="relative overflow-hidden">
         {/* Review slider container */}
         <div
           ref={sliderRef}
           className="flex transition-transform duration-500 ease-in-out"
           style={{
-            transform: `translateX(-${(startIndex *60) / VISIBLE_COUNT}%)`,
+            transform: `translateX(-${(startIndex * 60) / VISIBLE_COUNT}%)`,
             width: `${(reviews.length * 100) / VISIBLE_COUNT}%`,
           }}
         >
@@ -177,11 +173,13 @@ function RestaurantReviews() {
         </div>
 
         {/* Navigation buttons */}
-          <button
+        <button
           onClick={handlePrev}
           disabled={startIndex === 0}
           className={`absolute top-1/2 left-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
-            startIndex === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-gray-800"
+            startIndex === 0
+              ? "opacity-30 cursor-not-allowed"
+              : "hover:bg-gray-800"
           }`}
         >
           <FaArrowLeft className="text-white" />
@@ -200,7 +198,7 @@ function RestaurantReviews() {
         </button>
       </div>
 
-        <DeleteReviewModal
+      <DeleteReviewModal
         show={showModal}
         handleClose={() => setShowModal(false)}
         handleDelete={handleDelete}
