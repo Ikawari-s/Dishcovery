@@ -24,6 +24,8 @@ import ForgotPassword from "./screens/ForgotPassword";
 import ListDetailed from "./screens/list/ListDetailed";
 import RestaurantAllReviews from "./screens/RestaurantAllReviews";
 import ScrollToTop from "./components/others/ScrollToTop";
+import AdminDashboard from "./screens/admin/AdminDashboard";
+import AdminRoute from "./screens/admin/AdminRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -55,6 +57,9 @@ function App() {
               <Route element={<Lists />} path="/lists" />
               <Route element={<ForgotPassword />} path="/forgot-password" />
               <Route element={<ListDetailed />} path="/list/:id" />
+              <Route element={<AdminRoute />}>
+                <Route element={<AdminDashboard />} path="/admin" />
+              </Route>
               <Route element={<ProtectedRoute />}>
                 <Route element={<Feed />} path="/feed" />
                 <Route element={<Settings />} path="/settings" />
