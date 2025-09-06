@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { registerUser } from "../api/authenticationsApi";
 import { Filter } from "bad-words";
+import PasswordChecklist from "react-password-checklist";
 
 function RegisterUser() {
   const [email, setEmail] = useState("");
@@ -12,22 +13,22 @@ function RegisterUser() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const filter = new Filter();
 
-    // 🔹 1. Profanity / offensive word filter
     if (filter.isProfane(username)) {
       setIsSuccess(false);
       setMessage("Username contains offensive words");
       return;
     }
 
-    if (password !== password2) {
+    if (!isValidPassword) {
       setIsSuccess(false);
-      setMessage("Password do not match");
+      setMessage("Password does not meet requirements");
       return;
     }
 
@@ -168,10 +169,25 @@ function RegisterUser() {
             onChange={(e) => setPassword2(e.target.value)}
           />
         </div>
+
+        <PasswordChecklist
+          rules={["minLength", "number", "capital", "match"]}
+          minLength={8}
+          value={password}
+          valueAgain={password2}
+          onChange={(isValid) => setIsValidPassword(isValid)}
+          messages={{
+            minLength: "Password has at least 8 characters.",
+            number: "Password has a number.",
+            capital: "Password has a capital letter.",
+            match: "Passwords match.",
+          }}
+        />
+
         <div class="flex items-start mb-5">
           <div class="flex items-center h-5">
             <input
-              id="showpass"
+              id="registerShowPass"
               type="checkbox"
               value=""
               class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
