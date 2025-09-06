@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginUser } from "../api/authenticationsApi";
 import { Link } from "react-router-dom";
 
@@ -6,9 +6,19 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const savedCredentials = JSON.parse(localStorage.getItem("rememberMeData"));
+    if (savedCredentials) {
+      setEmail(savedCredentials.email || "");
+      setPassword(savedCredentials.password || "");
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +30,16 @@ function Login() {
       const data = await loginUser({ email, password });
 
       localStorage.setItem("userInfo", JSON.stringify(data));
+
+      if (rememberMe) {
+        localStorage.setItem(
+          "rememberMeData",
+          JSON.stringify({ email, password })
+        );
+      } else {
+        localStorage.removeItem("rememberMeData");
+      }
+
       setMessage("Login successful!");
       setIsSuccess(true);
       window.location.reload();
@@ -133,6 +153,22 @@ function Login() {
             class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             Show Password
+          </label>
+        </div>
+
+        <div className="flex items-center mb-5">
+          <input
+            id="rememberMe"
+            type="checkbox"
+            className="w-4 h-4"
+            checked={rememberMe}
+            onChange={() => setRememberMe(!rememberMe)}
+          />
+          <label
+            htmlFor="rememberMe"
+            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Remember Me
           </label>
         </div>
 
