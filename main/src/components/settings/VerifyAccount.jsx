@@ -51,9 +51,9 @@ export default function VerifyAccount() {
   };
 
   return (
-    <div>
+    <div className="max-w-xl mx-auto p-6">
       <div>
-        <h2 className="text-xl font-bold mb-4">Verify Account</h2>
+        <h2 className="text-4xl font-bold mb-4">Verify Account</h2>
         {message && (
           <div
             className={`flex items-center p-4 mb-4 text-sm border rounded-lg ${
@@ -75,7 +75,7 @@ export default function VerifyAccount() {
           <div class="mb-5">
             <label
               for="email"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 text-md font-medium text-gray-900 dark:text-white"
             >
               Email
             </label>
@@ -92,7 +92,7 @@ export default function VerifyAccount() {
 
           <button
             type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
             disabled={requestLoading}
           >
             {loading ? "Sending to Email" : "Submit"}
@@ -103,7 +103,7 @@ export default function VerifyAccount() {
           <div class="mb-5">
             <label
               for="otp"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mt-2 mb-2 text-md font-medium text-gray-900 dark:text-white"
             >
               OTP
             </label>
@@ -118,7 +118,7 @@ export default function VerifyAccount() {
           </div>
           <button
             type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
             disabled={verifyLoading}
           >
             {loading ? "Verifying OTP" : "Submit"}
