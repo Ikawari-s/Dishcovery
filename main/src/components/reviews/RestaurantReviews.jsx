@@ -12,7 +12,7 @@ import DeleteReviewModal from "../modals/DeleteReviewModal";
 import ReviewCard from "../cards/ReviewCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-function RestaurantReviews() {
+function RestaurantReviews({ restaurantId, reviewsUpdated }) {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -114,7 +114,7 @@ function RestaurantReviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const data = await getReviewsByRestaurantId(id);
+        const data = await getReviewsByRestaurantId(restaurantId);
         if (data.length === 0) {
           setError("No reviews yet for this restaurant.");
         } else {
@@ -129,7 +129,7 @@ function RestaurantReviews() {
       }
     };
     fetchReviews();
-  }, [id]);
+  }, [restaurantId, reviewsUpdated]);
 
   if (loading) return <p className="p-4">Loading reviews...</p>;
   if (error) return <p className="p-4 text-red-600">{error}</p>;

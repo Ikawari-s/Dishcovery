@@ -14,6 +14,7 @@ function RegisterUser() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const [showColdStartAlert, setShowColdStartAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,11 +35,19 @@ function RegisterUser() {
 
     try {
       setLoading(true);
+
+      const timer = setTimeout(() => {
+        setShowColdStartAlert(true);
+      }, 3000);
+
       const data = await registerUser({
         name: username,
         email,
         password,
       });
+
+      clearTimeout(timer);
+      setShowColdStartAlert(false);
 
       setMessage("Registration successful!");
       console.log("Registered user:", data);
@@ -59,7 +68,16 @@ function RegisterUser() {
 
   return (
     <div>
-      Create Account
+      <h2 className="text-xl font-bold mb-4">Create Account</h2>
+      {loading && showColdStartAlert && (
+        <div
+          className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+          role="alert"
+        >
+          <span className="font-medium">Please wait...</span> The server is
+          starting due to long inactivity. This may take a few moments.
+        </div>
+      )}
       {message && isSuccess && (
         <div
           className="w-lg flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"

@@ -10,6 +10,7 @@ function Login() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showColdStartAlert, setShowColdStartAlert] = useState(false);
 
   useEffect(() => {
     const savedCredentials = JSON.parse(localStorage.getItem("rememberMeData"));
@@ -27,7 +28,14 @@ function Login() {
 
     try {
       setLoading(true);
+
+      const timer = setTimeout(() => {
+        setShowColdStartAlert(true);
+      }, 3000);
+
       const data = await loginUser({ email, password });
+      clearTimeout(timer);
+      setShowColdStartAlert(false);
 
       localStorage.setItem("userInfo", JSON.stringify(data));
 
@@ -60,6 +68,15 @@ function Login() {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Login</h2>
+      {loading && showColdStartAlert && (
+        <div
+          className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+          role="alert"
+        >
+          <span className="font-medium">Please wait...</span> The server is
+          starting due to long inactivity. This may take a few moments.
+        </div>
+      )}
       {message && isSuccess && (
         <div
           className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
