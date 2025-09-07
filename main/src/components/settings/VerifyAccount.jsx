@@ -71,11 +71,11 @@ export default function VerifyAccount() {
             </div>
           </div>
         )}
-        <form class="max-w-sm mx-auto" onSubmit={requestOtp}>
-          <div class="mb-5">
+        <form className="max-w-sm mx-auto" onSubmit={requestOtp}>
+          <div className="mb-5">
             <label
-              for="email"
-              class="block mb-2 text-md font-medium text-gray-900 dark:text-white"
+              htmlFor="email"
+              className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
             >
               Email
             </label>
@@ -83,7 +83,7 @@ export default function VerifyAccount() {
               disabled
               type="email"
               id="email"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -99,18 +99,18 @@ export default function VerifyAccount() {
           </button>
         </form>
 
-        <form class="max-w-sm mx-auto" onSubmit={submitOtp}>
-          <div class="mb-5">
+        <form className="max-w-sm mx-auto" onSubmit={submitOtp}>
+          <div className="mb-5">
             <label
-              for="otp"
-              class="block mt-2 mb-2 text-md font-medium text-gray-900 dark:text-white"
+              htmlFor="otp"
+              className="block mt-2 mb-2 text-md font-medium text-gray-900 dark:text-white"
             >
               OTP
             </label>
             <input
               type="text"
               id="otp"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
