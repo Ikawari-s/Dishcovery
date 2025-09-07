@@ -75,7 +75,7 @@ function ProfileSettings() {
             id="username"
             value={username}
             disabled
-            className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+            className="bg-yellow-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
           />
         </div>
 
@@ -126,7 +126,7 @@ function ProfileSettings() {
             id="email"
             value={email}
             disabled
-            className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+            className="bg-yellow-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
           />
         </div>
 
