@@ -122,7 +122,7 @@ function RegisterUser() {
       <form class="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div class="mb-5">
           <label
-            for="email"
+            for="registerEmail"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Your email
@@ -131,7 +131,7 @@ function RegisterUser() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            id="email"
+            id="registerEmail"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="name@flowbite.com"
             required
@@ -139,14 +139,14 @@ function RegisterUser() {
         </div>
         <div class="mb-5">
           <label
-            for="username"
+            for="registerUsername"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Username
           </label>
           <input
             type="text"
-            id="username"
+            id="registerUsername"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="martinroque"
             required
@@ -157,14 +157,14 @@ function RegisterUser() {
 
         <div class="mb-5">
           <label
-            for="password"
+            for="registerPassword"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Password
           </label>
           <input
             type={showPass ? "text" : "password"}
-            id="password"
+            id="registerPassword"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
             value={password}
@@ -173,14 +173,14 @@ function RegisterUser() {
         </div>
         <div class="mb-5">
           <label
-            for="password2"
+            for="registerPassword2"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Confirm Password
           </label>
           <input
             type={showPass ? "text" : "password"}
-            id="password2"
+            id="registerPassword2"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
             value={password2}

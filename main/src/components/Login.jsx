@@ -121,7 +121,7 @@ function Login() {
       <form class="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div class="mb-5">
           <label
-            for="email"
+            for="loginEmail"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Email
@@ -130,7 +130,7 @@ function Login() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            id="email"
+            id="loginEmail"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="name@flowbite.com"
             required
@@ -139,14 +139,14 @@ function Login() {
 
         <div class="mb-5">
           <label
-            for="password"
+            for="loginPassword"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Password
           </label>
           <input
             type={showPass ? "text" : "password"}
-            id="password"
+            id="loginPassword"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
             value={password}
