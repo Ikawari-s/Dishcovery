@@ -10,6 +10,7 @@ function RestaurantDetailed() {
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reviewsUpdated, setReviewsUpdated] = useState(false);
 
   const heroRef = useRef(null); // Ref for hero section
   const contentRef = useRef(null); // Ref for the section to scroll to
@@ -34,6 +35,11 @@ function RestaurantDetailed() {
 
   const handleScrollDown = () => {
     contentRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleReviewAdded = () => {
+    // toggle the state to tell RestaurantReviews to fetch again
+    setReviewsUpdated((prev) => !prev);
   };
 
   if (loading) return <p className="p-4">Loading...</p>;
@@ -92,8 +98,8 @@ function RestaurantDetailed() {
       {/* Content below Hero */}
       <div ref={contentRef}>
         <RatingStats restaurantId={id} />
-        <RestaurantReviews restaurantId={id} />
-        <AddReviews restaurantId={id} />
+        <RestaurantReviews restaurantId={id} reviewsUpdated={reviewsUpdated} />
+        <AddReviews restaurantId={id} onReviewAdded={handleReviewAdded} />
       </div>
     </div>
   );

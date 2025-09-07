@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { addReviewApi } from "../../api/reviewsApi";
 import Rating from "@mui/material/Rating";
 
-function AddReviews({ restaurantId }) {
+function AddReviews({ restaurantId, onReviewAdded }) {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
@@ -17,6 +17,8 @@ function AddReviews({ restaurantId }) {
       setMessage("Review added successfully!");
       setComment("");
       setRating(0);
+
+      if (onReviewAdded) onReviewAdded();
     } catch (err) {
       setMessage("Failed to add review");
     }
