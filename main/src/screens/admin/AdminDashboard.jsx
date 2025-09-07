@@ -1,4 +1,5 @@
 import React from "react";
+import AddRestaurantForm from "../../components/admin/AddRestaurantForm";
 
 function AdminDashboard() {
   return (
@@ -8,6 +9,7 @@ function AdminDashboard() {
         <div>Col 1</div>
         <div>Col 2</div>
       </div>
+      <AddRestaurantForm />
     </div>
   );
 }

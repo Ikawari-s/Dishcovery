@@ -62,7 +62,6 @@ export const adminAddRestaurant = asyncHandler(async (req, res) => {
     name,
     cuisine,
     address,
-    rating: rating || 0,
     is_open: is_open !== undefined ? is_open : true,
     tags: tags || [],
     image: image || "",
