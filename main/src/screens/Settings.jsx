@@ -25,7 +25,9 @@ function TailwindTabs() {
   const [userProfile, setUserProfile] = useState(null);
 
   // Replace this with actual userId (from auth context or props)
-  const userId = "some-user-id";
+  const storedUser = localStorage.getItem("userInfo");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userId = user ? user._id : null;
 
   // Fetch user profile when component mounts or userId changes
   useEffect(() => {
@@ -50,7 +52,6 @@ function TailwindTabs() {
   return (
     <div className="">
       <ul className="flex flex-wrap justify-center -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-
         {/* Profile Tab */}
         <li className="me-2">
           <a
@@ -189,7 +190,7 @@ function TailwindTabs() {
         )}
         {activeTab === "avatar" && (
           <div>
-            <UserCard />
+            <UserCard user={user} />
           </div>
         )}
       </div>
