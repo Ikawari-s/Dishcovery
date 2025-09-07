@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import Admin from "../models/adminModel.js";
 import generateToken from "../utils/generateToken.js"; // reuse your token generator
 import Review from "../models/reviewModel.js";
+import Restaurant from "../models/restaurantModel.js";
 
 // @desc    Admin login
 // @route   POST /api/admin/login
@@ -39,3 +40,36 @@ export const adminDeleteReview = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const adminAddRestaurant = asyncHandler(async (req, res) => {
+  const { name, cuisine, address, rating, is_open, tags, image } = req.body;
+
+  if (
+    !name ||
+    !cuisine ||
+    !address ||
+    !address.street ||
+    !address.city ||
+    !address.zipcode
+  ) {
+    res.status(400);
+    throw new Error(
+      "Please provide all required fields (name, cuisine, address)"
+    );
+  }
+
+  const restaurant = new Restaurant({
+    name,
+    cuisine,
+    address,
+    rating: rating || 0,
+    is_open: is_open !== undefined ? is_open : true,
+    tags: tags || [],
+    image: image || "",
+  });
+
+  await restaurant.save();
+  res
+    .status(201)
+    .json({ message: "Restaurant added successfully", restaurant });
+});

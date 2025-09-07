@@ -1,6 +1,7 @@
 import express from "express";
 import Admin from "../models/adminModel.js";
 import {
+  adminAddRestaurant,
   adminDeleteReview,
   adminLogin,
 } from "../controllers/adminControllers.js";
@@ -25,6 +26,8 @@ router.post("/create-admin", async (req, res) => {
     res.status(500).json({ message: "Error creating admin", error });
   }
 });
+
+router.post("/add-restaurant", adminProtect, adminAddRestaurant);
 
 router.post("/login", adminLogin);
 router.delete("/delete/review/:id", adminProtect, adminDeleteReview);
