@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ChangePass from "../components/settings/ChangePass";
 import ProfileSettings from "../components/settings/ProfileSettings";
 import VerifyAccount from "../components/settings/VerifyAccount";
 import Avatar from "../components/settings/Avatar";
+import UserCard from "../components/cards/UserCard";
+import { getUserProfileApi } from "../api/usersApi"; // Adjust path if needed
 
 function Settings() {
   return (
@@ -19,10 +21,28 @@ function TailwindTabs() {
   // State to keep track of the active tab
   const [activeTab, setActiveTab] = useState("profile");
 
+  // State for userProfile
+  const [userProfile, setUserProfile] = useState(null);
+
+  // Replace this with actual userId (from auth context or props)
+  const userId = "some-user-id";
+
+  // Fetch user profile when component mounts or userId changes
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getUserProfileApi(userId);
+        setUserProfile(data);
+      } catch (err) {
+        console.error("Failed to fetch user profile:", err.message);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
+
   // Function to handle tab click
   const handleTabClick = (tab) => {
     if (tab !== "disabled") {
-      // Prevent changing active tab for the disabled one
       setActiveTab(tab);
     }
   };
@@ -79,7 +99,7 @@ function TailwindTabs() {
           </a>
         </li>
 
-        {/* Settings Tab */}
+        {/* Verify Tab */}
         <li className="me-2">
           <a
             href="#"
@@ -90,20 +110,27 @@ function TailwindTabs() {
                 : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
             }`}
           >
+            {/* New Shield Checkmark SVG */}
             <svg
               className="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
-              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
             >
-              <path d="M5 11.424V1a1 1 0 1 0-2 0v10.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.228 3.228 0 0 0 0-6.152ZM19.25 14.5A3.243 3.243 0 0 0 17 11.424V1a1 1 0 0 0-2 0v10.424a3.227 3.227 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.243 3.243 0 0 0 2.25-3.076Zm-6-9A3.243 3.243 0 0 0 11 2.424V1a1 1 0 0 0-2 0v1.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0V8.576A3.243 3.243 0 0 0 13.25 5.5Z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m1-3v6a9 9 0 11-8 0V6a9 9 0 018 0z"
+              />
             </svg>
-            Settings
+            Verify
           </a>
         </li>
 
-        {/* Disabled Tab */}
+        {/* Preview Tab */}
         <li className="me-2">
           <a
             href="#"
@@ -114,16 +141,29 @@ function TailwindTabs() {
                 : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
             }`}
           >
+            {/* New Eye (Preview) SVG */}
             <svg
               className="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
-              aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
             >
-              <path d="M5 11.424V1a1 1 0 1 0-2 0v10.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.228 3.228 0 0 0 0-6.152ZM19.25 14.5A3.243 3.243 0 0 0 17 11.424V1a1 1 0 0 0-2 0v10.424a3.227 3.227 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.243 3.243 0 0 0 2.25-3.076Zm-6-9A3.243 3.243 0 0 0 11 2.424V1a1 1 0 0 0-2 0v1.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0V8.576A3.243 3.243 0 0 0 13.25 5.5Z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
             </svg>
-            Avatar
+            Preview
           </a>
         </li>
       </ul>
@@ -132,6 +172,7 @@ function TailwindTabs() {
       <div className="p-4">
         {activeTab === "profile" && (
           <div>
+            <Avatar />
             <ProfileSettings />
           </div>
         )}
@@ -148,7 +189,7 @@ function TailwindTabs() {
         )}
         {activeTab === "avatar" && (
           <div>
-            <Avatar />
+            <UserCard />
           </div>
         )}
       </div>

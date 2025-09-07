@@ -5,7 +5,6 @@ import ChangeProfilePicModal from "../modals/ChangeProfilePicModal";
 function Avatar() {
   const [showModal, setShowModal] = useState(false);
   const [preview, setPreview] = useState("");
-
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -24,18 +23,17 @@ function Avatar() {
       const data = await uploadProfilePictureApi(file, token);
       const fullUrl = `http://localhost:5000${data.imageUrl}`;
 
-      // ✅ Update localStorage userInfo with new profilePicture
       const updatedUserInfo = {
         ...userInfo,
-        profilePicture: data.imageUrl, // keep relative in storage
+        profilePicture: data.imageUrl,
       };
       localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo));
 
       setPreview(fullUrl);
       setMessage("Profile picture uploaded successfully!");
       setIsSuccess(true);
-
       setShowModal(false);
+
       window.location.reload(); // optional
     } catch (err) {
       console.error(err.message);
@@ -44,49 +42,45 @@ function Avatar() {
     }
   };
 
+  const profileSrc =
+    preview ||
+    (userInfo?.profilePicture
+      ? `${process.env.REACT_APP_API_BASE_URL}${userInfo.profilePicture}`
+      : "/images/default.jpg");
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 text-center">
       {/* ✅ Success/Error messages */}
-      {message && isSuccess && (
+      {message && (
         <div
-          className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 
-                     rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+          className={`flex items-center p-4 mb-4 text-sm border rounded-lg ${
+            isSuccess
+              ? "text-green-800 bg-green-50 border-green-300 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+              : "text-red-800 bg-red-50 border-red-300 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+          }`}
           role="alert"
         >
-          <span className="font-medium">Success!</span> {message}
+          <span className="font-medium">
+            {isSuccess ? "Success!" : "Error!"}
+          </span>{" "}
+          &nbsp;{message}
         </div>
       )}
 
-      {message && !isSuccess && (
-        <div
-          className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 
-                     rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-          role="alert"
-        >
-          <span className="font-medium">Error!</span> {message}
-        </div>
-      )}
-
-      {/* Current Avatar */}
-      <img
-        src={
-          userInfo?.profilePicture
-            ? `${process.env.REACT_APP_API_BASE_URL}${userInfo.profilePicture}`
-            : "/images/default.jpg"
-        }
-        alt={userInfo?.name}
-        className="w-20 h-20 rounded-full border object-cover"
-      />
-
-      {/* Change Profile Button */}
+      {/* ✅ Clickable Avatar Image */}
       <button
         onClick={() => setShowModal(true)}
-        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        aria-label="Change profile picture"
+        className="group"
       >
-        Change Profile
+        <img
+          src={profileSrc}
+          alt={userInfo?.name || "User avatar"}
+          className="w-40 h-40 rounded-full border object-cover cursor-pointer transition transform duration-200 group-hover:scale-105 group-hover:brightness-90"
+        />
       </button>
 
-      {/* Modal */}
+      {/* ✅ Modal for Upload */}
       <ChangeProfilePicModal
         show={showModal}
         handleClose={() => setShowModal(false)}
