@@ -40,7 +40,7 @@ function ProfileSettings() {
     const profileData = { givenName, familyName, location, website, bio };
 
     try {
-      const token = user?.token; // <-- get token from localStorage user
+      const token = user?.token;
       if (!token) throw new Error("User not authenticated");
 
       const updatedUser = await updateProfileApi(profileData, token);
@@ -58,132 +58,139 @@ function ProfileSettings() {
   };
 
   return (
-    <div>
-      <div>
-        <h2 className="text-xl font-bold mb-4">Profile</h2>
+    <div className="max-w-xl mx-auto p-6">
+      <h2 className="text-4xl font-bold mb-6">Profile Settings</h2>
 
-        <form class="max-w-sm mx-auto" onSubmit={handleSubmit}>
-          <div class="mb-5">
-            <label
-              for="base-input"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="base-input"
-              class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-              disabled
-            />
-          </div>
-          <div className="mb-5 grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="givenName"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Given name
-              </label>
-              <input
-                type="text"
-                id="givenName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={givenName}
-                onChange={(e) => setGivenName(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="familyName"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Family name
-              </label>
-              <input
-                type="text"
-                id="familyName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={familyName}
-                onChange={(e) => setFamilyName(e.target.value)}
-              />
-            </div>
-          </div>
-          <div class="mb-5">
-            <label
-              for="base-input"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Email address
-            </label>
-            <input
-              type="text"
-              id="base-input"
-              class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled
-            />
-          </div>
-          <div className="mb-5 grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="givenName"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Location
-              </label>
-              <input
-                type="text"
-                id="givenName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="familyName"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Website
-              </label>
-              <input
-                type="text"
-                id="familyName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-              />
-            </div>
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Username (read-only) */}
+        <div>
           <label
-            for="message"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="username"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            disabled
+            className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+          />
+        </div>
+
+        {/* Name fields */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="givenName"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Given Name
+            </label>
+            <input
+              type="text"
+              id="givenName"
+              value={givenName}
+              onChange={(e) => setGivenName(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="familyName"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Family Name
+            </label>
+            <input
+              type="text"
+              id="familyName"
+              value={familyName}
+              onChange={(e) => setFamilyName(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+        </div>
+
+        {/* Email (read-only) */}
+        <div>
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Email Address
+          </label>
+          <input
+            type="text"
+            id="email"
+            value={email}
+            disabled
+            className="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+          />
+        </div>
+
+        {/* Location and Website */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="location"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="website"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Website
+            </label>
+            <input
+              type="text"
+              id="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+        </div>
+
+        {/* Bio */}
+        <div>
+          <label
+            htmlFor="bio"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Bio
           </label>
           <textarea
-            id="message"
+            id="bio"
             rows="4"
-            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Type your bio..."
             value={bio}
             onChange={(e) => setBio(e.target.value)}
+            placeholder="Tell us about yourself..."
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           ></textarea>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-      </div>
+        </div>
+
+        {/* Submit button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+        >
+          {loading ? "Submitting..." : "Submit"}
+        </button>
+      </form>
     </div>
   );
 }
