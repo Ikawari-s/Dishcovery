@@ -8,6 +8,7 @@ import {
   updateReviewApi,
 } from "../../api/reviewsApi";
 import DeleteReviewModal from "../modals/DeleteReviewModal";
+import { adminDeleteReviewApi } from "../../api/adminApi";
 
 function PopularReviews() {
   const [reviews, setReviews] = useState([]);
@@ -72,13 +73,18 @@ function PopularReviews() {
 
   const handleDelete = async () => {
     try {
-      await deleteReviewApi(selectedReviewId, token);
+      if (userInfo?.role === "admin") {
+        await adminDeleteReviewApi(selectedReviewId);
+      } else {
+        await deleteReviewApi(selectedReviewId, token);
+      }
+
       setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
       setShowModal(false);
       setSelectedReviewId(null);
     } catch (err) {
       alert("Failed to delete review");
-      console.error(err.message);
+      console.error(err);
     }
   };
 
