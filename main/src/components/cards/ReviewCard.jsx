@@ -110,8 +110,7 @@ function ReviewCard({
       </p>
 
       {userInfo &&
-        (userInfo._id === review.userId?._id ||
-          userInfo._id === review.userId) &&
+        (userInfo._id === review.userId?._id || userInfo.role === "admin") &&
         editingId !== review._id && (
           <div className="flex gap-2 mt-2">
             <button
@@ -120,12 +119,14 @@ function ReviewCard({
             >
               Delete
             </button>
-            <button
-              onClick={() => onEdit(review)}
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-            >
-              Update/Edit
-            </button>
+            {userInfo._id === review.userId?._id && (
+              <button
+                onClick={() => onEdit(review)}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                Update/Edit
+              </button>
+            )}
           </div>
         )}
 
