@@ -22,3 +22,21 @@ export const addRestaurantApi = async (restaurantData) => {
     throw error.response?.data?.message || error.message;
   }
 };
+
+export const adminDeleteReviewApi = async (reviewId) => {
+  try {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const token = userInfo?.token;
+    const response = await axios.delete(
+      `${API_URL}/delete/review/${reviewId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || error.message;
+  }
+};

@@ -11,6 +11,7 @@ import {
 import DeleteReviewModal from "../modals/DeleteReviewModal";
 import ReviewCard from "../cards/ReviewCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { adminDeleteReviewApi } from "../../api/adminApi";
 
 function RestaurantReviews({ restaurantId, reviewsUpdated }) {
   const { id } = useParams();
@@ -38,10 +39,16 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
 
   const handleDelete = async () => {
     try {
-      await deleteReviewApi(selectedReviewId);
+      if (userInfo?.role === "admin") {
+        await adminDeleteReviewApi(selectedReviewId);
+      } else {
+        await deleteReviewApi(selectedReviewId);
+      }
+
       setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
       setShowModal(false);
       setSelectedReviewId(null);
+
       if (startIndex > 0 && startIndex > reviews.length - VISIBLE_COUNT) {
         setStartIndex(startIndex - 1);
       }
