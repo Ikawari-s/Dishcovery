@@ -7,6 +7,7 @@ import {
   deleteReviewApi,
   updateReviewApi,
 } from "../../api/reviewsApi";
+import DeleteReviewModal from "../modals/DeleteReviewModal";
 
 function PopularReviews() {
   const [reviews, setReviews] = useState([]);
@@ -14,6 +15,10 @@ function PopularReviews() {
   const [editingId, setEditingId] = useState(null);
   const [editComment, setEditComment] = useState("");
   const [editRating, setEditRating] = useState(1);
+
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState(null);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo")); // logged-in user
   const token = userInfo?.token;
@@ -60,11 +65,19 @@ function PopularReviews() {
   };
 
   // === Delete ===
-  const handleDelete = async (reviewId) => {
+  const handleOpenModal = (reviewId) => {
+    setSelectedReviewId(reviewId);
+    setShowModal(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      await deleteReviewApi(reviewId, token);
-      setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+      await deleteReviewApi(selectedReviewId, token);
+      setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
+      setShowModal(false);
+      setSelectedReviewId(null);
     } catch (err) {
+      alert("Failed to delete review");
       console.error(err.message);
     }
   };
@@ -127,11 +140,16 @@ function PopularReviews() {
               onEdit={handleEdit}
               onCancelEdit={handleCancelEdit}
               onUpdate={handleUpdate}
-              onDelete={handleDelete}
+              onDelete={() => handleOpenModal(review._id)}
               onLikeToggle={handleLikeToggle}
             />
           ))
       )}
+      <DeleteReviewModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
