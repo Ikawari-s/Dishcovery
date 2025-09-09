@@ -102,7 +102,14 @@ function RestaurantDetailed() {
         <RestaurantReviews restaurantId={id} reviewsUpdated={reviewsUpdated} />
         <AddReviews restaurantId={id} onReviewAdded={handleReviewAdded} />
       </div>
-      <Map />
+      {restaurant.location?.coordinates ? (
+        <Map
+          coordinates={restaurant.location.coordinates}
+          name={restaurant.name}
+        />
+      ) : (
+        <p className="text-gray-500 mt-4">📍 Location not available</p>
+      )}
     </div>
   );
 }
