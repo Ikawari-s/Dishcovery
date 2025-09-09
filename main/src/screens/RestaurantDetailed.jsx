@@ -4,6 +4,7 @@ import { getRestaurantsById } from "../api/restaurantsApi";
 import RestaurantReviews from "../components/reviews/RestaurantReviews";
 import AddReviews from "../components/reviews/AddReviews";
 import RatingStats from "../components/reviews/RatingStats";
+import Map from "../components/Map";
 
 function RestaurantDetailed() {
   const { id } = useParams(); // Get restaurant ID from route
@@ -101,6 +102,7 @@ function RestaurantDetailed() {
         <RestaurantReviews restaurantId={id} reviewsUpdated={reviewsUpdated} />
         <AddReviews restaurantId={id} onReviewAdded={handleReviewAdded} />
       </div>
+      <Map />
     </div>
   );
 }

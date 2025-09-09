@@ -5,7 +5,7 @@ html {
 .pattern-img-bg {
   position: fixed;
   inset: 0;
-  background-image: url('../public/images/background.jpg');
+  background-image: url("../public/images/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -43,7 +43,6 @@ html {
   background-color: rgba(255, 251, 235, 0.65);
 }
 
-
 :root:not(.dark) .pattern-img-bg::after {
   background: linear-gradient(
     to bottom,
@@ -55,14 +54,26 @@ html {
 }
 
 @keyframes vibration {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px) rotate(-1deg); }
-    40% { transform: translate(-2px, -2px) rotate(1deg); }
-    60% { transform: translate(2px, 2px) rotate(0deg); }
-    80% { transform: translate(2px, -2px) rotate(1deg); }
-    100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
   }
-  .ca_fx-vibration {
-    display: inline-block;
-    animation: vibration 0.5s infinite;
+  20% {
+    transform: translate(-2px, 2px) rotate(-1deg);
   }
+  40% {
+    transform: translate(-2px, -2px) rotate(1deg);
+  }
+  60% {
+    transform: translate(2px, 2px) rotate(0deg);
+  }
+  80% {
+    transform: translate(2px, -2px) rotate(1deg);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+.ca_fx-vibration {
+  display: inline-block;
+  animation: vibration 0.5s infinite;
+}

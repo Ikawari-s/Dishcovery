@@ -9,6 +9,8 @@ import {
 } from "../api/reviewsApi";
 import PopularReviews from "../components/reviews/PopularReviews";
 import Spinner from "../components/others/Spinner";
+import { adminDeleteReviewApi } from "../api/adminApi";
+import DeleteReviewModal from "../components/modals/DeleteReviewModal";
 
 function Feed() {
   const [reviews, setReviews] = useState([]);
@@ -16,6 +18,8 @@ function Feed() {
   const [editingId, setEditingId] = useState(null);
   const [editComment, setEditComment] = useState("");
   const [editRating, setEditRating] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState(null);
 
   // ✅ Get logged-in user + token from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userInfo")); // { _id, name, token, ... }
@@ -63,12 +67,26 @@ function Feed() {
     }
   };
 
-  // === Delete Review ===
-  const handleDelete = async (reviewId) => {
+  // === Open Delete Modal ===
+  const handleOpenModal = (reviewId) => {
+    setSelectedReviewId(reviewId);
+    setShowModal(true);
+  };
+
+  // === Confirm Delete ===
+  const handleDelete = async () => {
     try {
-      await deleteReviewApi(reviewId, token);
-      setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+      if (userInfo?.role === "admin") {
+        await adminDeleteReviewApi(selectedReviewId); // ✅ admin delete
+      } else {
+        await deleteReviewApi(selectedReviewId, token); // ✅ user delete
+      }
+
+      setReviews((prev) => prev.filter((r) => r._id !== selectedReviewId));
+      setShowModal(false);
+      setSelectedReviewId(null);
     } catch (err) {
+      alert("Failed to delete review");
       console.error("Error deleting review:", err.message);
     }
   };
@@ -135,12 +153,17 @@ function Feed() {
               onEdit={handleEdit}
               onCancelEdit={handleCancelEdit}
               onUpdate={handleUpdate}
-              onDelete={handleDelete}
+              onDelete={handleOpenModal}
               onLikeToggle={handleLikeToggle}
             />
           ))
       )}
       <PopularReviews />
+      <DeleteReviewModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }
