@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { getRestaurants } from "../../api/restaurantsApi";
@@ -39,6 +40,7 @@ function NearMe() {
   const [userLocation, setUserLocation] = useState(null);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Fetch restaurants from API
   useEffect(() => {
@@ -161,7 +163,12 @@ function NearMe() {
                 icon={restaurantIcon}
               >
                 <Popup>
-                  <strong>{r.name}</strong>
+                  <strong
+                    className="cursor-pointer text-blue-600 hover:underline"
+                    onClick={() => navigate(`/restaurant/${r._id}`)}
+                  >
+                    {r.name}
+                  </strong>
                   <br />⭐ {r.rating} | {r.cuisine}
                   <br />
                   {r.distance.toFixed(2)} km away
