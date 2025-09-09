@@ -11,6 +11,7 @@ import PopularReviews from "../components/reviews/PopularReviews";
 import Spinner from "../components/others/Spinner";
 import { adminDeleteReviewApi } from "../api/adminApi";
 import DeleteReviewModal from "../components/modals/DeleteReviewModal";
+import NearMe from "../components/location/NearMe";
 
 function Feed() {
   const [reviews, setReviews] = useState([]);
@@ -159,6 +160,7 @@ function Feed() {
           ))
       )}
       <PopularReviews />
+      <NearMe />
       <DeleteReviewModal
         show={showModal}
         handleClose={() => setShowModal(false)}

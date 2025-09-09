@@ -4,7 +4,7 @@ import { getRestaurantsById } from "../api/restaurantsApi";
 import RestaurantReviews from "../components/reviews/RestaurantReviews";
 import AddReviews from "../components/reviews/AddReviews";
 import RatingStats from "../components/reviews/RatingStats";
-import Map from "../components/Map";
+import Map from "../components/location/Map";
 
 function RestaurantDetailed() {
   const { id } = useParams(); // Get restaurant ID from route
