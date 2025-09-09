@@ -40,6 +40,7 @@ function NearMe() {
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch restaurants from API
   useEffect(() => {
     const fetchRestaurants = async () => {
       setLoading(true);
@@ -51,9 +52,8 @@ function NearMe() {
     fetchRestaurants();
   }, []);
 
-  useEffect(() => {
-    if (!restaurants.length) return;
-
+  // Request user location
+  const requestLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -63,7 +63,7 @@ function NearMe() {
           };
           setUserLocation(loc);
 
-          // compute distances & filter within 10 km
+          // compute nearby restaurants
           const withDistances = restaurants
             .filter((r) => r.location?.coordinates)
             .map((r) => {
@@ -83,25 +83,35 @@ function NearMe() {
         },
         (err) => {
           console.error("Error getting location:", err);
+          alert("Unable to get location. Please enable GPS in settings.");
         }
       );
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-  }, [restaurants]);
+  };
 
   if (loading) return <p>Loading restaurants...</p>;
 
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Near Me (within 10km)</h2>
+
       {!userLocation ? (
-        <p>Allow location access to see nearby restaurants.</p>
+        <div>
+          <p className="mb-2">Click below to allow location access:</p>
+          <button
+            onClick={requestLocation}
+            className="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+          >
+            Enable Location
+          </button>
+        </div>
       ) : nearbyRestaurants.length === 0 ? (
         <p>No restaurants found within 10km of your location.</p>
       ) : (
         <>
-          {/* List */}
+          {/* List of nearby restaurants */}
           <ul className="mb-6">
             {nearbyRestaurants.map((r) => (
               <li key={r._id} className="mb-4 border p-2 rounded">
