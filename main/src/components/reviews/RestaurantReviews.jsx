@@ -27,10 +27,31 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+  // Fixed card width in pixels
+  const CARD_WIDTH_PX = 300;
+  // Visible cards count based on container width will be calculated dynamically, but we can keep a max visible count
+  const MAX_VISIBLE_CARDS = 3;
+
   const [startIndex, setStartIndex] = useState(0);
-  const VISIBLE_COUNT = 3;
 
   const sliderRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Calculate how many cards can fit in container
+  const [visibleCount, setVisibleCount] = useState(MAX_VISIBLE_CARDS);
+
+  useEffect(() => {
+    function handleResize() {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const count = Math.floor(containerWidth / CARD_WIDTH_PX);
+        setVisibleCount(count > 0 ? Math.min(count, MAX_VISIBLE_CARDS) : 1);
+      }
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleOpenModal = (reviewId) => {
     setSelectedReviewId(reviewId);
@@ -49,7 +70,7 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
       setShowModal(false);
       setSelectedReviewId(null);
 
-      if (startIndex > 0 && startIndex > reviews.length - VISIBLE_COUNT) {
+      if (startIndex > 0 && startIndex > reviews.length - visibleCount) {
         setStartIndex(startIndex - 1);
       }
     } catch (err) {
@@ -115,7 +136,9 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + 1, reviews.length - VISIBLE_COUNT));
+    setStartIndex((prev) =>
+      Math.min(prev + 1, reviews.length - visibleCount)
+    );
   };
 
   useEffect(() => {
@@ -141,25 +164,26 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
   if (loading) return <p className="p-4">Loading reviews...</p>;
   if (error) return <p className="p-4 text-red-600">{error}</p>;
 
+  // Only show navigation buttons if we have more cards than visible
+  const showNavigation = reviews.length > visibleCount;
+
   return (
-    <div className="w-full max-w-6xl p-4 mx-auto mt-6">
+    <div className="w-full max-w-6xl p-4 mx-auto mt-6" ref={containerRef}>
       <div className="relative overflow-hidden">
-        {/* Review slider container */}
+        {/* Slider container */}
         <div
           ref={sliderRef}
           className="flex transition-transform duration-500 ease-in-out"
           style={{
-            transform: `translateX(-${(startIndex * 60) / VISIBLE_COUNT}%)`,
-            width: `${(reviews.length * 100) / VISIBLE_COUNT}%`,
+            width: `${reviews.length * CARD_WIDTH_PX}px`,
+            transform: `translateX(-${startIndex * CARD_WIDTH_PX}px)`,
           }}
         >
           {reviews.map((review) => (
             <div
               key={review._id}
               className="flex-shrink-0 px-2"
-              style={{
-                width: `${100 / reviews.length}%`,
-              }}
+              style={{ width: `${CARD_WIDTH_PX}px` }}
             >
               <ReviewCard
                 review={review}
@@ -180,29 +204,33 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
         </div>
 
         {/* Navigation buttons */}
-        <button
-          onClick={handlePrev}
-          disabled={startIndex === 0}
-          className={`absolute top-1/2 left-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
-            startIndex === 0
-              ? "opacity-30 cursor-not-allowed"
-              : "hover:bg-gray-800"
-          }`}
-        >
-          <FaArrowLeft className="text-white" />
-        </button>
+        {showNavigation && (
+          <>
+            <button
+              onClick={handlePrev}
+              disabled={startIndex === 0}
+              className={`absolute top-1/2 left-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
+                startIndex === 0
+                  ? "opacity-30 cursor-not-allowed"
+                  : "hover:bg-gray-800"
+              }`}
+            >
+              <FaArrowLeft className="text-white" />
+            </button>
 
-        <button
-          onClick={handleNext}
-          disabled={startIndex >= reviews.length - VISIBLE_COUNT}
-          className={`absolute top-1/2 right-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
-            startIndex >= reviews.length - VISIBLE_COUNT
-              ? "opacity-30 cursor-not-allowed"
-              : "hover:bg-gray-800"
-          }`}
-        >
-          <FaArrowRight className="text-white" />
-        </button>
+            <button
+              onClick={handleNext}
+              disabled={startIndex >= reviews.length - visibleCount}
+              className={`absolute top-1/2 right-0 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-gray-700 text-white rounded-full shadow-md z-10 transition-opacity ${
+                startIndex >= reviews.length - visibleCount
+                  ? "opacity-30 cursor-not-allowed"
+                  : "hover:bg-gray-800"
+              }`}
+            >
+              <FaArrowRight className="text-white" />
+            </button>
+          </>
+        )}
       </div>
 
       <DeleteReviewModal
