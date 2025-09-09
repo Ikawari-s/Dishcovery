@@ -136,7 +136,7 @@ return (
   <div className="mx-auto mt-6 px-4">
     <h1 className="text-4xl font-bold mb-4">Your Feed</h1>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-red-50">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {/* === Review Cards in 4-column grid === */}
       {reviews.length === 0 ? (
         <p className="text-gray-500 col-span-full">
@@ -166,7 +166,7 @@ return (
       )}
 
       {/* === Popular Reviews (full width) === */}
-      <div className="col-span-full bg-gray-500">
+      <div className="col-span-full">
         <PopularReviews />
       </div>
 
