@@ -125,7 +125,7 @@ function PopularReviews() {
     return <p className="text-center mt-6">Loading popular reviews...</p>;
 
 return (
-  <div className="mt-10 px-4">
+  <div className="mt-10">
     <h1 className="text-4xl font-bold mb-4">Popular Reviews This Month</h1>
 
     {reviews.length === 0 ? (
