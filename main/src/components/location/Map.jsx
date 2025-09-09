@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   Polyline,
+  useMap,
 } from "react-leaflet";
 import L from "leaflet";
+import polyline from "@mapbox/polyline";
 import "leaflet/dist/leaflet.css";
 
-// Custom landmark icon
+// Landmark icon
 const landmarkIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [35, 35],
@@ -26,45 +28,54 @@ const userIcon = new L.Icon({
 });
 
 function Map({ coordinates, name }) {
-  const [route, setRoute] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const LOCATIONIQ_KEY = "YOUR_LOCATIONIQ_KEY"; // replace with your key
+  const [route, setRoute] = useState(null);
+  const LOCATIONIQ_KEY = "pk.47e097faba068ad1f4f542818037bd7e"; // replace with your key
+  const mapRef = useRef();
 
-  // Get user location on mount
+  // Get user location
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (err) => {
-          console.error("Error getting location:", err);
-          alert("Unable to get your location. Please allow location access.");
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (err) => {
+        console.error("Error getting location:", err);
+        alert("Unable to get your location. Please allow location access.");
+      }
+    );
   }, []);
 
+  // Fetch directions from LocationIQ
   const handleGetDirections = async () => {
     if (!userLocation) {
       alert("User location not available yet.");
       return;
     }
 
+    const url = `https://us1.locationiq.com/v1/directions/driving/${userLocation.lng},${userLocation.lat};${coordinates[1]},${coordinates[0]}?key=${LOCATIONIQ_KEY}&steps=true&alternatives=true&geometries=polyline&overview=full`;
+
     try {
-      const response = await fetch(
-        `https://us1.locationiq.com/v1/directions/driving/${userLocation.lng},${userLocation.lat};${coordinates[1]},${coordinates[0]}?key=${LOCATIONIQ_KEY}&steps=true&alternatives=true&geometries=polyline&overview=full`
-      );
+      const response = await fetch(url);
       const data = await response.json();
 
-      if (data && data.routes && data.routes.length > 0) {
-        const polylinePoints = decodePolyline(data.routes[0].geometry);
-        setRoute(polylinePoints);
+      if (data.routes && data.routes.length > 0) {
+        const points = polyline.decode(data.routes[0].geometry);
+        setRoute(points);
+
+        // Fit map to route bounds
+        if (mapRef.current) {
+          const bounds = L.latLngBounds(points);
+          mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+        }
       } else {
         alert("No route found.");
       }
@@ -74,86 +85,52 @@ function Map({ coordinates, name }) {
     }
   };
 
-  // Decode polyline string to LatLng array
-  const decodePolyline = (encoded) => {
-    // simple polyline decoder without plugins
-    const coords = [];
-    let index = 0,
-      lat = 0,
-      lng = 0;
-
-    while (index < encoded.length) {
-      let b,
-        shift = 0,
-        result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      const dlat = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      const dlng = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
-      lng += dlng;
-
-      coords.push([lat / 1e5, lng / 1e5]);
-    }
-
-    return coords;
-  };
-
-  if (!coordinates || coordinates.length !== 2) {
-    return <p className="p-4 text-red-600">No location available</p>;
-  }
-
   return (
-    <div className="w-full max-w-md h-96 rounded-lg overflow-hidden shadow-lg">
-      <MapContainer
-        center={
-          userLocation ? [userLocation.lat, userLocation.lng] : coordinates
-        }
-        zoom={15}
-        className="w-full h-full"
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-        />
+    <div className="w-full max-w-md">
+      {/* Get Directions Button */}
+      <div className="mb-2">
+        <button
+          onClick={handleGetDirections}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Get Directions
+        </button>
+      </div>
 
-        {/* Landmark marker */}
-        <Marker position={coordinates} icon={landmarkIcon}>
-          <Popup>
-            {name || "Location"} <br />
-            <button
-              onClick={handleGetDirections}
-              className="mt-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Get Directions
-            </button>
-          </Popup>
-        </Marker>
+      {/* Map */}
+      <div className="h-96 rounded-lg overflow-hidden shadow-lg">
+        <MapContainer
+          center={
+            userLocation ? [userLocation.lat, userLocation.lng] : coordinates
+          }
+          zoom={15}
+          className="w-full h-full"
+          whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+          />
 
-        {/* User marker */}
-        {userLocation && (
-          <Marker
-            position={[userLocation.lat, userLocation.lng]}
-            icon={userIcon}
-          >
-            <Popup>📍 You are here</Popup>
+          {/* Landmark marker */}
+          <Marker position={coordinates} icon={landmarkIcon}>
+            <Popup>{name || "Location"}</Popup>
           </Marker>
-        )}
 
-        {/* Route polyline */}
-        {route && <Polyline positions={route} color="blue" />}
-      </MapContainer>
+          {/* User marker */}
+          {userLocation && (
+            <Marker
+              position={[userLocation.lat, userLocation.lng]}
+              icon={userIcon}
+            >
+              <Popup>📍 You are here</Popup>
+            </Marker>
+          )}
+
+          {/* Route polyline */}
+          {route && <Polyline positions={route} color="blue" weight={5} />}
+        </MapContainer>
+      </div>
     </div>
   );
 }
