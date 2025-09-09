@@ -132,12 +132,16 @@ function Feed() {
       </p>
     );
 
-  return (
-    <div className="max-w-2xl mx-auto mt-6 px-4">
-      <h1 className="text-2xl font-bold mb-4">Your Feed</h1>
+return (
+  <div className="mx-auto mt-6 px-4">
+    <h1 className="text-4xl font-bold mb-4">Your Feed</h1>
 
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-red-50">
+      {/* === Review Cards in 4-column grid === */}
       {reviews.length === 0 ? (
-        <p className="text-gray-500">No reviews yet from people you follow.</p>
+        <p className="text-gray-500 col-span-full">
+          No reviews yet from people you follow.
+        </p>
       ) : (
         reviews
           .slice(0, 10)
@@ -156,18 +160,30 @@ function Feed() {
               onUpdate={handleUpdate}
               onDelete={handleOpenModal}
               onLikeToggle={handleLikeToggle}
+              className="bg-gray-500"
             />
           ))
       )}
-      <PopularReviews />
-      <NearMe />
-      <DeleteReviewModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        handleDelete={handleDelete}
-      />
+
+      {/* === Popular Reviews (full width) === */}
+      <div className="col-span-full bg-gray-500">
+        <PopularReviews />
+      </div>
+
+      {/* === Near Me (full width) === */}
+      <div className="col-span-full">
+        <NearMe />
+      </div>
     </div>
-  );
+
+    {/* === Delete Modal === */}
+    <DeleteReviewModal
+      show={showModal}
+      handleClose={() => setShowModal(false)}
+      handleDelete={handleDelete}
+    />
+  </div>
+);
 }
 
 export default Feed;
