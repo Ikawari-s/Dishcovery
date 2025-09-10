@@ -113,69 +113,70 @@ function NearMe() {
         <p>No restaurants found within 10km of your location.</p>
       ) : (
         <>
-          {/* List of nearby restaurants */}
-          <ul className="mb-6">
-            {nearbyRestaurants.map((r) => (
-              <li key={r._id} className="mb-4 border p-2 rounded">
-                <h3 className="font-semibold">{r.name}</h3>
-                <p>{r.cuisine}</p>
-                <p>
-                  📍 {r.address.street}, {r.address.city}
-                </p>
-                <p>⭐ {r.rating}</p>
-                <p>Distance: {r.distance.toFixed(2)} km</p>
-                <img
-                  src={r.image}
-                  alt={r.name}
-                  className="w-40 h-28 object-cover rounded"
-                />
-              </li>
-            ))}
-          </ul>
-
-          {/* Map */}
-          <MapContainer
-            center={[userLocation.lat, userLocation.lng]}
-            zoom={13}
-            className="h-[400px] w-full rounded-lg shadow"
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-            />
-
-            {/* User marker */}
-            <Marker
-              position={[userLocation.lat, userLocation.lng]}
-              icon={userIcon}
+          <div className="flex justify-center my-6">
+            <MapContainer
+              center={[userLocation.lat, userLocation.lng]}
+              zoom={13}
+              className="h-[400px] w-[600px] rounded-lg shadow"
             >
-              <Popup>📍 You are here</Popup>
-            </Marker>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+              />
 
-            {/* Nearby restaurants */}
-            {nearbyRestaurants.map((r) => (
+              {/* User marker */}
               <Marker
-                key={r._id}
-                position={[
-                  r.location.coordinates[0],
-                  r.location.coordinates[1],
-                ]}
-                icon={restaurantIcon}
+                position={[userLocation.lat, userLocation.lng]}
+                icon={userIcon}
               >
-                <Popup>
-                  <strong
-                    className="cursor-pointer text-blue-600 hover:underline"
-                    onClick={() => navigate(`/restaurant/${r._id}`)}
-                  >
-                    {r.name}
-                  </strong>
-                  <br />⭐ {r.rating} | {r.cuisine}
-                  <br />
-                  {r.distance.toFixed(2)} km away
-                </Popup>
+                <Popup>📍 You are here</Popup>
               </Marker>
-            ))}
-          </MapContainer>
+
+              {/* Nearby restaurants */}
+              {nearbyRestaurants.map((r) => (
+                <Marker
+                  key={r._id}
+                  position={[
+                    r.location.coordinates[0],
+                    r.location.coordinates[1],
+                  ]}
+                  icon={restaurantIcon}
+                >
+                  <Popup>
+                    <strong
+                      className="cursor-pointer text-blue-600 hover:underline"
+                      onClick={() => navigate(`/restaurant/${r._id}`)}
+                    >
+                      {r.name}
+                    </strong>
+                    <br />⭐ {r.rating} | {r.cuisine}
+                    <br />
+                    {r.distance.toFixed(2)} km away
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+          </div>
+          <div className="flex justify-center">
+            <ul className="mb-6 w-full max-w-md">
+              {nearbyRestaurants.map((r) => (
+                <li key={r._id} className="mb-4 border p-2 rounded">
+                  <h3 className="font-semibold">{r.name}</h3>
+                  <p>{r.cuisine}</p>
+                  <p>
+                    📍 {r.address.street}, {r.address.city}
+                  </p>
+                  <p>⭐ {r.rating}</p>
+                  <p>Distance: {r.distance.toFixed(2)} km</p>
+                  <img
+                    src={r.image}
+                    alt={r.name}
+                    className="w-40 h-28 object-cover rounded"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </>
       )}
     </div>
