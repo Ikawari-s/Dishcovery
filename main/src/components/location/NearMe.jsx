@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { getRestaurants } from "../../api/restaurantsApi";
+import Rating from "@mui/material/Rating";
 
 // Haversine formula to calculate distance in km
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -166,7 +167,16 @@ function NearMe() {
                   <p>
                     📍 {r.address.street}, {r.address.city}
                   </p>
-                  <p>⭐ {r.rating}</p>
+                  <div className="flex justify-center">
+                    <Rating
+                      name={`popup-rating-${r._id}`}
+                      value={r.rating}
+                      precision={0.5}
+                      readOnly
+                      size="small"
+                    />
+                    <p> {r.rating}</p>
+                  </div>
                   <p>Distance: {r.distance.toFixed(2)} km</p>
                   <img
                     src={r.image}
