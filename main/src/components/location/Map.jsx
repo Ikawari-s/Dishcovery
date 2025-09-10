@@ -30,7 +30,7 @@ const userIcon = new L.Icon({
 function Map({ coordinates, name }) {
   const [userLocation, setUserLocation] = useState(null);
   const [route, setRoute] = useState(null);
-  const LOCATIONIQ_KEY = "pk.47e097faba068ad1f4f542818037bd7e"; // replace with your key
+  const LOCATIONIQ_KEY = process.env.REACT_APP_LOCATIONIQ_API_URL; // replace with your key
   const mapRef = useRef();
 
   // Get user location
