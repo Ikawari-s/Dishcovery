@@ -51,27 +51,42 @@ const Restaurants = () => {
           starting due to long inactivity. This may take a few moments.
         </div>
       )}
-      <RestaurantSearch />
       <div className="mb-6">
-        <label
-          htmlFor="cuisine"
-          className="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300"
-        >
-          Filter by Cuisine:
-        </label>
-        <select
-          id="cuisine"
-          value={selectedCuisine}
-          onChange={(e) => setSelectedCuisine(e.target.value)}
-          className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-800"
-        >
-          {cuisines.map((cuisine) => (
-            <option key={cuisine} value={cuisine}>
-              {cuisine}
-            </option>
-          ))}
-        </select>
-      </div>
+  <label
+    htmlFor="cuisine"
+    className="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300 text-center"
+  >
+    Filter by Cuisine:
+  </label>
+
+  <div className="w-full flex items-center">
+    {/* Left spacer */}
+    <div className="flex-1" />
+
+    {/* Centered select */}
+    <div className="flex-1 flex justify-center">
+      <select
+        id="cuisine"
+        value={selectedCuisine}
+        onChange={(e) => setSelectedCuisine(e.target.value)}
+        className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-800"
+      >
+        {cuisines.map((cuisine) => (
+          <option key={cuisine} value={cuisine}>
+            {cuisine}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Right-aligned search */}
+    <div className="flex-1 flex justify-end">
+      <RestaurantSearch />
+    </div>
+  </div>
+</div>
+
+        
 
       {/* Restaurant Cards Grid */}
       {loading ? (
