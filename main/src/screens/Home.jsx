@@ -85,7 +85,25 @@ function Home() {
           </h1>
         </div>
       </div>
-      <div className="mt-32 mb-10 text-center">
+      <div className="relative w-full h-24">
+        <span
+          className={`text-2xl sm:text-4xl md:text-6xl ca_fx-vibration ${
+            visible ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            left: `${positionX}%`,
+            userSelect: "none",
+            transformOrigin: "center",
+            transform: "translateX(-50%)",
+          }}
+          onMouseEnter={handleHover}
+        >
+          {emoji}
+        </span>
+      </div>
+      <div className="mb-10 text-center">
         <Link
           to="/restaurants"
           className="px-8 py-3 bg-yellow-500 text-white text-lg font-semibold rounded-full shadow-md hover:bg-yellow-600 transition duration-300"
@@ -110,27 +128,10 @@ function Home() {
           </div>
         ))}
       </div>
-      <div className="px-4">
+      <div className="w-[80vw] mx-auto mb-8 mt-[6rem]">
         <PopularReviews />
       </div>
-      <div className="relative w-full h-24">
-        <span
-          className={`text-2xl sm:text-4xl md:text-6xl ca_fx-vibration ${
-            visible ? "opacity-100" : "opacity-0"
-          }`}
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            left: `${positionX}%`,
-            userSelect: "none",
-            transformOrigin: "center",
-            transform: "translateX(-50%)",
-          }}
-          onMouseEnter={handleHover}
-        >
-          {emoji}
-        </span>
-      </div>
+      
     </div>
   );
 }
