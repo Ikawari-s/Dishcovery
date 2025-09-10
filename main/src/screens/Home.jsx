@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HomeFood from "../components/images/homefood.jpg";
 import { Link } from "react-router-dom";
-
+import PopularReviews from "../components/reviews/PopularReviews";
 const foodEmojis = ["🍕", "🍔", "🍣", "🍩", "🍉", "🌮", "🍦", "🥗", "🍜", "🍰"];
 const features = [
   {
@@ -85,7 +85,6 @@ function Home() {
           </h1>
         </div>
       </div>
-
       <div className="mt-32 mb-10 text-center">
         <Link
           to="/restaurants"
@@ -110,6 +109,9 @@ function Home() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="px-4">
+        <PopularReviews />
       </div>
       <div className="relative w-full h-24">
         <span

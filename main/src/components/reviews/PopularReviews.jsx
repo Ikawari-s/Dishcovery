@@ -124,43 +124,42 @@ function PopularReviews() {
   if (loading)
     return <p className="text-center mt-6">Loading popular reviews...</p>;
 
-return (
-  <div className="mt-10">
-    <h1 className="text-4xl font-bold mb-4">Popular Reviews This Month</h1>
+  return (
+    <div className="mt-10">
+      <h1 className="text-4xl font-bold mb-4">Popular Reviews This Month</h1>
 
-    {reviews.length === 0 ? (
-      <p className="text-gray-500">No popular reviews yet.</p>
-    ) : (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {reviews.slice(0, 8).map((review) => (
-          <ReviewCard
-            key={review._id}
-            review={review}
-            userInfo={userInfo}
-            editingId={editingId}
-            editComment={editComment}
-            editRating={editRating}
-            setEditComment={setEditComment}
-            setEditRating={setEditRating}
-            onEdit={handleEdit}
-            onCancelEdit={handleCancelEdit}
-            onUpdate={handleUpdate}
-            onDelete={() => handleOpenModal(review._id)}
-            onLikeToggle={handleLikeToggle}
-          />
-        ))}
-      </div>
-    )}
+      {reviews.length === 0 ? (
+        <p className="text-gray-500">No popular reviews yet.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {reviews.slice(0, 8).map((review) => (
+            <ReviewCard
+              key={review._id}
+              review={review}
+              userInfo={userInfo}
+              editingId={editingId}
+              editComment={editComment}
+              editRating={editRating}
+              setEditComment={setEditComment}
+              setEditRating={setEditRating}
+              onEdit={handleEdit}
+              onCancelEdit={handleCancelEdit}
+              onUpdate={handleUpdate}
+              onDelete={() => handleOpenModal(review._id)}
+              onLikeToggle={handleLikeToggle}
+            />
+          ))}
+        </div>
+      )}
 
-    {/* Delete Modal */}
-    <DeleteReviewModal
-      show={showModal}
-      handleClose={() => setShowModal(false)}
-      handleDelete={handleDelete}
-    />
-  </div>
-);
-
+      {/* Delete Modal */}
+      <DeleteReviewModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
+    </div>
+  );
 }
 
 export default PopularReviews;
