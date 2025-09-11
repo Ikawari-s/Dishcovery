@@ -30,7 +30,7 @@ const userIcon = new L.Icon({
 });
 
 const restaurantIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // landmark/building icon
   iconSize: [30, 30],
   iconAnchor: [15, 30],
   popupAnchor: [0, -25],
