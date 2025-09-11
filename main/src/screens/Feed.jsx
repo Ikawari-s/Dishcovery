@@ -132,58 +132,53 @@ function Feed() {
       </p>
     );
 
-return (
-  <div className="mx-auto mt-6 p-8">
-    <h1 className="text-4xl font-bold mb-4">Your Feed</h1>
+  return (
+    <div className="mx-auto mt-6 p-8">
+      <h1 className="text-4xl font-bold mb-4">Your Feed</h1>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {/* === Review Cards in 4-column grid === */}
-      {reviews.length === 0 ? (
-        <p className="text-gray-500 col-span-full">
-          No reviews yet from people you follow.
-        </p>
-      ) : (
-        reviews
-          .slice(0, 10)
-          .map((review) => (
-            <ReviewCard
-              key={review._id}
-              review={review}
-              userInfo={userInfo}
-              editingId={editingId}
-              editComment={editComment}
-              editRating={editRating}
-              setEditComment={setEditComment}
-              setEditRating={setEditRating}
-              onEdit={handleEdit}
-              onCancelEdit={handleCancelEdit}
-              onUpdate={handleUpdate}
-              onDelete={handleOpenModal}
-              onLikeToggle={handleLikeToggle}
-              className="bg-gray-500"
-            />
-          ))
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* === Review Cards in 4-column grid === */}
+        {reviews.length === 0 ? (
+          <p className="text-gray-500 col-span-full">
+            No reviews yet from people you follow.
+          </p>
+        ) : (
+          reviews
+            .slice(0, 10)
+            .map((review) => (
+              <ReviewCard
+                key={review._id}
+                review={review}
+                userInfo={userInfo}
+                editingId={editingId}
+                editComment={editComment}
+                editRating={editRating}
+                setEditComment={setEditComment}
+                setEditRating={setEditRating}
+                onEdit={handleEdit}
+                onCancelEdit={handleCancelEdit}
+                onUpdate={handleUpdate}
+                onDelete={handleOpenModal}
+                onLikeToggle={handleLikeToggle}
+                className="bg-gray-500"
+              />
+            ))
+        )}
 
-      {/* === Popular Reviews (full width) === */}
-      <div className="col-span-full">
-        <PopularReviews />
+        {/* === Popular Reviews (full width) === */}
+        <div className="col-span-full">
+          <PopularReviews />
+        </div>
       </div>
 
-      {/* === Near Me (full width) === */}
-      <div className="col-span-full">
-        <NearMe />
-      </div>
+      {/* === Delete Modal === */}
+      <DeleteReviewModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
-
-    {/* === Delete Modal === */}
-    <DeleteReviewModal
-      show={showModal}
-      handleClose={() => setShowModal(false)}
-      handleDelete={handleDelete}
-    />
-  </div>
-);
+  );
 }
 
 export default Feed;
