@@ -53,7 +53,7 @@ export default function VerifyAccount() {
   return (
     <div className="max-w-xl mx-auto p-6">
       <div>
-        <h2 className="text-4xl font-bold mb-4">Verify Account</h2>
+        <h2 className="text-4xl px-6 font-bold mb-4">Verify Account</h2>
         {message && (
           <div
             className={`flex items-center p-4 mb-4 text-sm border rounded-lg ${
@@ -83,7 +83,7 @@ export default function VerifyAccount() {
               disabled
               type="email"
               id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -110,7 +110,7 @@ export default function VerifyAccount() {
             <input
               type="text"
               id="otp"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
