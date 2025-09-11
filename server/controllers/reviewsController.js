@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import Review from "../models/reviewModel.js";
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
+import Restaurant from "../models/restaurantModel.js";
 
 // Get all reviews
 export const getAllReviews = async (req, res) => {
@@ -57,6 +58,9 @@ export const addReview = async (req, res) => {
       "name profilePicture"
     );
 
+    // ✅ Update average rating
+    await updateRestaurantRating(restaurantId);
+
     res.status(201).json({
       message: "Review added successfully",
       review: populatedReview,
@@ -64,6 +68,53 @@ export const addReview = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+export const updateReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    if (review.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this review" });
+    }
+
+    if (rating !== undefined) review.rating = rating;
+    if (comment !== undefined) review.comment = comment;
+
+    const updatedReview = await review.save();
+
+    // ✅ Update average rating
+    await updateRestaurantRating(review.restaurantId);
+
+    res.json({
+      message: "Review updated successfully",
+      review: updatedReview,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const updateRestaurantRating = async (restaurantId) => {
+  const reviews = await Review.find({ restaurantId });
+  if (!reviews.length) {
+    await Restaurant.findByIdAndUpdate(restaurantId, { rating: 0 });
+    return;
+  }
+
+  const avgRating =
+    reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+
+  await Restaurant.findByIdAndUpdate(restaurantId, { rating: avgRating });
 };
 
 export const getReviewsByRestaurantId = async (req, res) => {
@@ -128,39 +179,6 @@ export const deleteReview = async (req, res) => {
     await review.deleteOne();
 
     res.json({ message: "Review deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-export const updateReview = async (req, res) => {
-  try {
-    const { id } = req.params; // reviewId
-    const { rating, comment } = req.body;
-
-    const review = await Review.findById(id);
-
-    if (!review) {
-      return res.status(404).json({ message: "Review not found" });
-    }
-
-    // check if logged-in user owns the review
-    if (review.userId.toString() !== req.user._id.toString()) {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to update this review" });
-    }
-
-    // update fields if provided
-    if (rating !== undefined) review.rating = rating;
-    if (comment !== undefined) review.comment = comment;
-
-    const updatedReview = await review.save();
-
-    res.json({
-      message: "Review updated successfully",
-      review: updatedReview,
-    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

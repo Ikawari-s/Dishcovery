@@ -71,7 +71,7 @@ function RestaurantDetailed() {
             <strong>Cuisine:</strong> {restaurant.cuisine}
           </p>
           <p className="mb-2 text-lg">
-            <strong>Rating:</strong> ⭐ {restaurant.rating} / 5
+            <strong>Rating:</strong> ⭐ {restaurant.rating.toFixed(2)} / 5
           </p>
           <p className="mb-2 text-lg">
             <strong>Status:</strong>{" "}
