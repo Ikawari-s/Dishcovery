@@ -172,24 +172,28 @@ function TailwindTabs() {
       {/* Tab Content */}
       <div className="p-4">
         {activeTab === "profile" && (
-          <div>
-            <Avatar />
-            <ProfileSettings />
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+            <h2 className="text-4xl font-bold mb-12 text-center">Profile Settings</h2>
+            <div className="flex items-start gap-6">
+              <Avatar />
+              <ProfileSettings />
+            </div>
           </div>
+
         )}
         {activeTab === "dashboard" && (
-          <div>
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
             {" "}
             <ChangePass />
           </div>
         )}
         {activeTab === "settings" && (
-          <div>
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
             <VerifyAccount />
           </div>
         )}
         {activeTab === "avatar" && (
-          <div>
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
             <UserCard user={user} />
           </div>
         )}
