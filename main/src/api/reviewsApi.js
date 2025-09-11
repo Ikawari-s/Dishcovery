@@ -49,7 +49,7 @@ export const addReviewApi = async ({ restaurantId, rating, comment }) => {
   const token = userInfo?.token;
 
   const res = await axios.post(
-    `http://localhost:5000/api/reviews/add`,
+    `${API_URL}/add`,
     { restaurantId, rating, comment },
     {
       headers: {
