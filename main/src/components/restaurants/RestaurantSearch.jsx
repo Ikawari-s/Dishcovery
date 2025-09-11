@@ -57,7 +57,7 @@ function RestaurantSearch() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search restaurants, cuisine..."
-              className="bg-yellow-100 dark:bg-gray-800 dark:text-white p-2 rounded w-full text-gray-800 shadow-xl pr-16"
+              className="bg-yellow-50 dark:bg-gray-800 dark:text-white p-2 rounded w-full text-gray-800 shadow-xl pr-16"
             />
             {query && (
               <button

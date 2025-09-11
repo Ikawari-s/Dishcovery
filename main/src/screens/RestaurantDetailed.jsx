@@ -73,14 +73,14 @@ function RestaurantDetailed() {
           <p className="mb-2 text-lg">
             <strong>Rating:</strong> ⭐ {restaurant.rating.toFixed(2)} / 5
           </p>
-          <p className="mb-2 text-lg">
+          {/* <p className="mb-2 text-lg">
             <strong>Status:</strong>{" "}
             <span
               className={restaurant.is_open ? "text-green-600" : "text-red-600"}
             >
               {restaurant.is_open ? "Open" : "Closed"}
             </span>
-          </p>
+          </p> */}
           <p className="text-lg">
             <strong>Address:</strong> {restaurant.address.street},{" "}
             {restaurant.address.city}, {restaurant.address.zipcode}
