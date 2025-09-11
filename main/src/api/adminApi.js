@@ -8,7 +8,7 @@ export const addRestaurantApi = async (restaurantData) => {
     const token = userInfo?.token;
 
     const response = await axios.post(
-      `http://localhost:5000/api/admin/add-restaurant`,
+      `${API_URL}/add-restaurant`,
       restaurantData,
       {
         headers: {
