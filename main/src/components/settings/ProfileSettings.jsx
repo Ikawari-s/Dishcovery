@@ -64,8 +64,7 @@ function ProfileSettings() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h2 className="text-4xl font-bold mb-6">Profile Settings</h2>
+    <div className="max-w-xl mx-auto px-6 pb-6">
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Username (read-only) */}
@@ -81,7 +80,7 @@ function ProfileSettings() {
             id="username"
             value={username}
             disabled
-            className="bg-yellow-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+            className="bg-yellow-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:text-white"
           />
         </div>
 
@@ -99,7 +98,7 @@ function ProfileSettings() {
               id="givenName"
               value={givenName}
               onChange={(e) => setGivenName(e.target.value)}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:text-white"
             />
           </div>
           <div>
@@ -114,7 +113,7 @@ function ProfileSettings() {
               id="familyName"
               value={familyName}
               onChange={(e) => setFamilyName(e.target.value)}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:text-white"
             />
           </div>
         </div>
@@ -132,7 +131,7 @@ function ProfileSettings() {
             id="email"
             value={email}
             disabled
-            className="bg-yellow-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+            className="bg-yellow-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-900 dark:text-white"
           />
         </div>
 
@@ -150,7 +149,7 @@ function ProfileSettings() {
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:text-white"
             />
           </div>
           <div>
@@ -165,7 +164,7 @@ function ProfileSettings() {
               id="website"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:text-white"
             />
           </div>
         </div>
@@ -184,7 +183,7 @@ function ProfileSettings() {
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             placeholder="Tell us about yourself..."
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg dark:bg-gray-700 dark:text-white"
           ></textarea>
         </div>
 
