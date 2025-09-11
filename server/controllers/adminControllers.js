@@ -42,19 +42,20 @@ export const adminDeleteReview = async (req, res) => {
 };
 
 export const adminAddRestaurant = asyncHandler(async (req, res) => {
-  const { name, cuisine, address, rating, is_open, tags, image } = req.body;
+  const { name, cuisine, address, rating, is_open, tags, image, location } =
+    req.body;
 
   if (
     !name ||
     !cuisine ||
-    !address ||
-    !address.street ||
-    !address.city ||
-    !address.zipcode
+    !address?.street ||
+    !address?.city ||
+    !address?.zipcode ||
+    !location?.coordinates
   ) {
     res.status(400);
     throw new Error(
-      "Please provide all required fields (name, cuisine, address)"
+      "Please provide all required fields (name, cuisine, address, location)"
     );
   }
 
@@ -65,6 +66,8 @@ export const adminAddRestaurant = asyncHandler(async (req, res) => {
     is_open: is_open !== undefined ? is_open : true,
     tags: tags || [],
     image: image || "",
+    rating: rating || 0,
+    location, // ✅ save coordinates
   });
 
   await restaurant.save();

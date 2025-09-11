@@ -10,6 +10,7 @@ function AddRestaurantForm() {
     is_open: true,
     tags: "",
     image: "",
+    location: { lat: "", lng: "" }, // 👈 make sure this is here
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -22,6 +23,12 @@ function AddRestaurantForm() {
       setForm((prev) => ({
         ...prev,
         address: { ...prev.address, [key]: value },
+      }));
+    } else if (name.startsWith("location.")) {
+      const key = name.split(".")[1];
+      setForm((prev) => ({
+        ...prev,
+        location: { ...prev.location, [key]: value },
       }));
     } else if (type === "checkbox") {
       setForm((prev) => ({ ...prev, [name]: checked }));
@@ -40,6 +47,13 @@ function AddRestaurantForm() {
         ...form,
         tags: form.tags.split(",").map((t) => t.trim()),
         rating: Number(form.rating),
+        location: {
+          type: "Point",
+          coordinates: [
+            parseFloat(form.location.lng),
+            parseFloat(form.location.lat),
+          ],
+        },
       };
 
       const res = await addRestaurantApi(data);
@@ -124,6 +138,26 @@ function AddRestaurantForm() {
           placeholder="Image URL"
           value={form.image}
           onChange={handleChange}
+          className="w-full p-2 border rounded text-black"
+        />
+        <input
+          type="number"
+          step="any"
+          name="location.lat"
+          placeholder="Latitude"
+          value={form.location?.lat || ""} // 👈 safe access
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded text-black"
+        />
+        <input
+          type="number"
+          step="any"
+          name="location.lng"
+          placeholder="Longitude"
+          value={form.location?.lng || ""} // 👈 safe access
+          onChange={handleChange}
+          required
           className="w-full p-2 border rounded text-black"
         />
         <label className="flex items-center space-x-2 text-black">
