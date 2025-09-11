@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import HomeFood from "../components/images/homefood.jpg";
 import { Link } from "react-router-dom";
 import PopularReviews from "../components/reviews/PopularReviews";
+import NearMe from "../components/location/NearMe";
 const foodEmojis = ["🍕", "🍔", "🍣", "🍩", "🍉", "🌮", "🍦", "🥗", "🍜", "🍰"];
 const features = [
   {
@@ -129,9 +130,9 @@ function Home() {
         ))}
       </div>
       <div className="w-[80vw] mx-auto mb-8 mt-[6rem]">
+        <NearMe />
         <PopularReviews />
       </div>
-      
     </div>
   );
 }
