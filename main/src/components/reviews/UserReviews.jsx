@@ -121,11 +121,12 @@ function UserReviews() {
     return <p className="p-4 text-gray-500">No reviews found for this user.</p>;
 
   return (
-    <div className="w-full max-w-2xl p-4 mx-auto mt-6">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        User Reviews
-      </h2>
-
+    <div className="mt-10">
+      <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
+      {reviews.length === 0 ? (
+        <p className="text-gray-500">No reviews yet.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {reviews.map((review) => (
         <ReviewCard
           key={review._id}
@@ -142,7 +143,9 @@ function UserReviews() {
           onDelete={handleOpenModal}
           onLikeToggle={handleLikeToggle}
         />
-      ))}
+          ))}
+        </div>
+      )}
       <DeleteReviewModal
         show={showModal}
         handleClose={() => setShowModal(false)}
