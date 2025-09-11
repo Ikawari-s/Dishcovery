@@ -76,7 +76,7 @@ function Avatar() {
         <img
           src={profileSrc}
           alt={userInfo?.name || "User avatar"}
-          className="w-40 h-40 rounded-full border object-cover cursor-pointer transition transform duration-200 group-hover:scale-105 group-hover:brightness-90"
+          className="w-40 h-40 rounded-full border border-yellow-50 dark:border-gray-800 object-cover cursor-pointer transition transform duration-200 group-hover:scale-105 group-hover:brightness-90"
         />
       </button>
 
