@@ -45,7 +45,7 @@ function ListDetailed() {
   if (!list) return <p className="text-center mt-10">List not found.</p>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 py-12 px-4 sm:px-6 lg:px-12 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gradient-to-r from-yellow-50 via-yellow-100 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-12 text-gray-900 dark:text-white">
       <div className="max-w-7xl mx-auto">
 
         {/* Header Section */}
