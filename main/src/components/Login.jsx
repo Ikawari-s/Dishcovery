@@ -144,32 +144,67 @@ function Login({ setShowRegister }) {
           >
             Password
           </label>
-          <input
-            type={showPass ? "text" : "password"}
-            id="loginPassword"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="flex items-start mb-5">
-          <div className="flex items-center h-5">
+          <div className="relative">
             <input
-              id="loginShowPass"
-              type="checkbox"
-              value=""
-              className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-              checked={showPass}
-              onChange={() => setShowPass(!showPass)}
+              type={showPass ? "text" : "password"}
+              id="loginPassword"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <button
+              type="button"
+              onClick={() => setShowPass(!showPass)}
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white focus:outline-none"
+            >
+              {showPass ? (
+                // 👁 Eye Open Icon
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              ) : (
+                // 🙈 Eye Closed Icon
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.255-3.605M6.1 6.1A9.956 9.956 0 012.458 12c1.274 4.057 5.065 7 9.542 7 1.146 0 2.246-.195 3.275-.55M9.88 9.88a3 3 0 104.24 4.24"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 3l18 18"
+                  />
+                </svg>
+              )}
+            </button>
           </div>
-          <label
-            htmlFor="showpass"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Show Password
-          </label>
         </div>
 
         <div className="flex items-center mb-5">
@@ -202,13 +237,13 @@ function Login({ setShowRegister }) {
           >
             Forgot your password?
           </Link>
-          <div className="mt-4 text-center">
-            <div
-              onClick={() => setShowRegister(true)}
-              className="text-sm text-blue-600 hover:underline dark:text-blue-500 cursor-pointer"
-            >
-              Don't have an account? Register
-            </div>
+        </div>
+        <div className="mt-4 text-center">
+          <div
+            onClick={() => setShowRegister(true)}
+            className="text-sm text-blue-600 hover:underline dark:text-blue-500 cursor-pointer"
+          >
+            Don't have an account? Register
           </div>
         </div>
       </form>
