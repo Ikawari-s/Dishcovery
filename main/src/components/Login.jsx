@@ -67,7 +67,7 @@ function Login({ setShowRegister }) {
 
   return (
     <div>
-      <div className="w-[600px] p-10 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+      <div className="w-full max-w-lg p-6 sm:p-8 md:p-10rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
         <h2 className="text-3xl font-bold mb-4">Login</h2>
         {loading && showColdStartAlert && (
           <div
