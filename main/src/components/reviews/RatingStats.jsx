@@ -18,15 +18,15 @@ function RatingStats({ restaurantId }) {
   }, [restaurantId]);
 
   return (
-    <div>
+    <div className=" mx-auto mt-12">
       <div className="flex flex-col mb-2">
-        <div className="flex justify-center mb-1">
+        <div className="flex justify-center mt-3 bg-yellow-50 dark:bg-gray-800 w-fit rounded-full p-3 px-8 mx-auto mb-4">
   <Rating
     name="average-rating"
     value={Number(stats.avgRating) || 0}
     precision={0.1}
     readOnly
-    size="small"
+    size="large"
   />
 </div>
         <p className="ml-2 text-sm font-medium text-gray-500">
