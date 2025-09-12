@@ -68,7 +68,7 @@ function Login({ setShowRegister }) {
   return (
     <div>
       <div className="w-[600px] p-10 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
-        <h2 className="text-xl font-bold mb-4">Login</h2>
+        <h2 className="text-3xl font-bold mb-4">Login</h2>
         {loading && showColdStartAlert && (
           <div
             className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
@@ -119,7 +119,7 @@ function Login({ setShowRegister }) {
             </div>
           </div>
         )}
-        <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
+        <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label
               htmlFor="loginEmail"
