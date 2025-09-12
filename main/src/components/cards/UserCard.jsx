@@ -5,7 +5,7 @@ function UserCard({ user }) {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col items-center p-5 bg-yellow-50 dark:bg-gray-800 border-gray-200 rounded-lg shadow-sm md:flex-row dark:border-gray-700 dark:bg-gray-800 ">
+      <div className="text-start flex flex-col items-center p-5 bg-yellow-50 dark:bg-gray-800 border-gray-200 rounded-lg shadow-sm md:flex-row dark:border-gray-700 dark:bg-gray-800 transition-all duration-300">
         <img
           className="w-32 h-32 rounded-full object-cover"
           src={
