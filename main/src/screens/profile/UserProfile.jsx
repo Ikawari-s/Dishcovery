@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import UserReviews from "../../components/reviews/UserReviews";
-import Followers from "../../components/profile/Followers";
-import Following from "../../components/profile/Following";
 import UserCard from "../../components/cards/UserCard";
 import { getUserProfileApi } from "../../api/usersApi";
 import UserStats from "../../components/profile/UserStats";
@@ -20,18 +18,21 @@ function UserProfile({ userId }) {
     };
     fetchProfile();
   }, [userId]);
+
   return (
-    <div className="p-16">
-      <div>
-        <div className="flex flex-start items-center gap-4">
+    <div className="w-fit p-12 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+      <div className="flex flex-row gap-8">
+        {/* Left Column */}
+        <div className="flex flex-col gap-4">
+          <h1 className="text-4xl text-start font-bold">Profile</h1>
           <UserCard user={userProfile} />
           <UserStats userId={userId} />
         </div>
-        {/* <Followers userId={userId} />
-          <Following userId={userId} /> */}
-      </div>
-      <div>
-        <UserReviews userId={userId} />
+
+        {/* Right Column */}
+        <div className="w-[40%]">
+          <UserReviews userId={userId} />
+        </div>
       </div>
     </div>
   );
