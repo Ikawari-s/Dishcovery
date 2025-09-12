@@ -92,10 +92,18 @@ function ListDetailed() {
                       image={r.restaurantId.image}
                       cuisine={r.restaurantId.cuisine}
                     />
+                    {(r.rank || r.notes) && (
                     <div className="mt-2 text-sm bg-yellow-50 dark:bg-gray-800 rounded-lg p-3 shadow hover:shadow-lg transition duration-300 min-h-28 flex flex-col justify-center">
-                    {r.rank && (<p className="text-yellow-600 dark:text-yellow-400 font-semibold">Rank: {r.rank}</p>)}
-                      {r.notes && (<p className="italic text-gray-800 dark:text-gray-300">"{r.notes}"</p>)}
-                  </div>
+                      {r.rank && (
+                        <p className="text-yellow-600 dark:text-yellow-400 font-semibold">
+                          Rank: {r.rank}
+                        </p>
+                      )}
+                      {r.notes && (
+                        <p className="italic text-gray-800 dark:text-gray-300">"{r.notes}"</p>
+                      )}
+                    </div>
+                    )}
                   </div>
                 ))}
               </div>
