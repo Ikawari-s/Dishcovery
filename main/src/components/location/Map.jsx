@@ -86,8 +86,7 @@ function Map({ coordinates, name }) {
   };
 
   return (
-    <div className="w-full max-w-md">
-      {/* Get Directions Button */}
+    <div className="w-full">
       <div className="mb-2">
         <button
           onClick={handleGetDirections}
