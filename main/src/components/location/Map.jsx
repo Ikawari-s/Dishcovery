@@ -5,7 +5,6 @@ import {
   Marker,
   Popup,
   Polyline,
-  useMap,
 } from "react-leaflet";
 import L from "leaflet";
 import polyline from "@mapbox/polyline";
@@ -30,8 +29,10 @@ const userIcon = new L.Icon({
 function Map({ coordinates, name }) {
   const [userLocation, setUserLocation] = useState(null);
   const [route, setRoute] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const LOCATIONIQ_KEY = process.env.REACT_APP_LOCATIONIQ_API_URL; // replace with your key
   const mapRef = useRef();
+  const containerRef = useRef();
 
   // Get user location
   useEffect(() => {
@@ -85,19 +86,71 @@ function Map({ coordinates, name }) {
     }
   };
 
+  // Toggle fullscreen mode
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      } else if (containerRef.current.mozRequestFullScreen) {
+        containerRef.current.mozRequestFullScreen();
+      } else if (containerRef.current.webkitRequestFullscreen) {
+        containerRef.current.webkitRequestFullscreen();
+      } else if (containerRef.current.msRequestFullscreen) {
+        containerRef.current.msRequestFullscreen();
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  // When fullscreen changes, invalidate map size so Leaflet recalculates correctly
+  useEffect(() => {
+    const onFullScreenChange = () => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", onFullScreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullScreenChange);
+    };
+  }, []);
+
   return (
     <div className="w-full">
-      <div className="mb-2">
+      <div className="mb-2 space-x-2">
         <button
           onClick={handleGetDirections}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Get Directions
         </button>
+        <button
+          onClick={toggleFullscreen}
+          className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900"
+        >
+          {isFullscreen ? "Exit Full Screen" : "Full Screen"}
+        </button>
       </div>
 
-      {/* Map */}
-      <div className="h-96 rounded-lg overflow-hidden shadow-lg">
+      {/* Map container with ref for fullscreen */}
+      <div
+        ref={containerRef}
+        className="h-96 rounded-lg overflow-hidden shadow-lg"
+        style={{ width: "100%", height: isFullscreen ? "100vh" : "24rem" }}
+      >
         <MapContainer
           center={
             userLocation ? [userLocation.lat, userLocation.lng] : coordinates
