@@ -33,39 +33,27 @@ function AddReviews({ restaurantId, onReviewAdded }) {
   }
 
   return (
-    <div className="flex flex-col bg-yellow-50 rounded-lg shadow-lg p-4 sm:p-6 dark:bg-gray-800 transition-all duration-300 text-gray-900 dark:text-white w-full max-w-2xl mx-auto">
-      <h1>ADD REVIEW</h1>
+    <div className="text-start flex flex-col bg-yellow-50 rounded-lg shadow-lg p-10 dark:bg-gray-800 transition-all duration-300 text-gray-900 dark:text-white w-full max-w-xl mx-auto">
+      <h1 className="font-medium text-4xl dark:text-white mb-4">ADD REVIEW</h1>
       {message && <p className="mb-2 text-sm">{message}</p>}
-      <form class="max-w-xl mx-auto" onSubmit={handleSubmit}>
+      <form class="max-w-xl" onSubmit={handleSubmit}>
+        <div>
+          <Rating
+            name="rating-input"
+            value={rating} 
+            precision={0.5}
+            onChange={(event, newValue) => setRating(newValue)} 
+            size="large"
+          />
+        </div>
         <div class="mb-5">
-          <label
-            for="large-input"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Comment
-          </label>
           <input
             type="text"
             id="large-input"
-            class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="Write your review..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-          />
-        </div>
-        <div>
-          <label
-            for="small-input"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Rating
-          </label>
-          <Rating
-            name="rating-input"
-            value={rating} // already a number
-            precision={0.5}
-            onChange={(event, newValue) => setRating(newValue)} // don't cast to string
-            size="large"
           />
         </div>
         <button
