@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { loginUser } from "../api/authenticationsApi";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Login({ setShowRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -202,6 +202,14 @@ function Login() {
           >
             Forgot your password?
           </Link>
+          <div className="mt-4 text-center">
+            <div
+              onClick={() => setShowRegister(true)}
+              className="text-sm text-blue-600 hover:underline dark:text-blue-500 cursor-pointer"
+            >
+              Don't have an account? Register
+            </div>
+          </div>
         </div>
       </form>
     </div>

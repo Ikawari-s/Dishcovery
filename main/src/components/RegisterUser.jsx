@@ -3,7 +3,7 @@ import { registerUser } from "../api/authenticationsApi";
 import { Filter } from "bad-words";
 import PasswordChecklist from "react-password-checklist";
 
-function RegisterUser() {
+function RegisterUser({ setShowRegister }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
@@ -227,6 +227,14 @@ function RegisterUser() {
         >
           {loading ? "Creating Account" : "Create Account"}
         </button>
+        <div className="mt-4 text-center">
+          <div
+            onClick={() => setShowRegister(false)}
+            className="text-sm text-blue-600 hover:underline dark:text-blue-500 cursor-pointer"
+          >
+            Already have an account? Login
+          </div>
+        </div>
       </form>
     </div>
   );
