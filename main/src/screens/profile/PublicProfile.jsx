@@ -84,19 +84,19 @@ function PublicProfile({ userId }) {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col items-center gap-4">
-        <UserCard user={userProfile} />
-        <UserStats userId={userId} />
-      </div>
-
-      {/* Show only one button depending on follow state */}
-      {isFollowing ? (
+    <div className="w-fit p-12 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+      <div className="flex flex-row gap-8">
+        {/* Left Column */}
+        <div className="flex flex-col gap-4">
+          <h1 className="text-4xl text-start font-bold">Profile</h1>
+          <UserCard user={userProfile} />
+          <UserStats userId={userId} />
+          {isFollowing ? (
         <button
           type="button"
           onClick={handleUnfollow}
           disabled={loading}
-          className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 
+          className="w-full text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 
                      hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 
                      font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
         >
@@ -116,8 +116,11 @@ function PublicProfile({ userId }) {
       )}
 
       {message && <p className="mt-2 text-sm text-gray-700">{message}</p>}
+        </div>
 
       <UserReviews userId={userId} />
+      
+      </div>
     </div>
   );
 }
