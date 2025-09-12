@@ -87,7 +87,7 @@ function PublicProfile({ userId }) {
     <div className="w-fit p-12 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
       <div className="flex flex-row gap-8">
         {/* Left Column */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-[110%]">
           <h1 className="text-4xl text-start font-bold">Profile</h1>
           <UserCard user={userProfile} />
           <UserStats userId={userId} />
