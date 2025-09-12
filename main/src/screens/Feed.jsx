@@ -127,9 +127,9 @@ function Feed() {
 
   if (loading)
     return (
-      <p className="text-center mt-6">
+      <div className="text-center mt-6">
         <Spinner />
-      </p>
+      </div>
     );
 
   return (
