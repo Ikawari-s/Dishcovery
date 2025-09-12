@@ -121,8 +121,8 @@ function UserReviews() {
     return <p className="p-4 text-gray-500">No reviews found for this user.</p>;
 
   return (
-    <div className="mt-10 flex flex-col items-center">
-  <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
+    <div className="flex flex-col items-center w-full">
+    <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
 
   <div
     className="scroll-container flex flex-col gap-4 overflow-y-auto"
