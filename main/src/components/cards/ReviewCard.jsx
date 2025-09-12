@@ -21,7 +21,7 @@ function ReviewCard({
   return (
     <article
       key={review._id}
-      className="flex flex-col bg-yellow-50 rounded-lg shadow-lg sm:p-6 dark:bg-gray-800 pb-4 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700 hover:-translate-y-1 text-gray-900 dark:text-white"
+      className="flex flex-col bg-yellow-50 rounded-lg shadow-lg p-4 sm:p-6 dark:bg-gray-800 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700 hover:-translate-y-1 text-gray-900 dark:text-white w-full max-w-3xl mx-auto"
       style={{ minHeight: 260 }} // Increase or tweak this height as needed
     >
       <div className="flex items-center mb-2">

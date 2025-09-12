@@ -33,7 +33,7 @@ function AddReviews({ restaurantId, onReviewAdded }) {
   }
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col bg-yellow-50 rounded-lg shadow-lg p-4 sm:p-6 dark:bg-gray-800 transition-all duration-300 text-gray-900 dark:text-white w-full max-w-2xl mx-auto">
       <h1>ADD REVIEW</h1>
       {message && <p className="mb-2 text-sm">{message}</p>}
       <form class="max-w-xl mx-auto" onSubmit={handleSubmit}>
