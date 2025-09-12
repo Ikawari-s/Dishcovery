@@ -51,7 +51,10 @@ function NewList() {
   };
 
   return (
-    <div>
+    <div className="w-fit p-8 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto transition-all duration-300 mt-12">
+      <h2 className="text-4xl font-bold text-center">
+        New List
+      </h2>
       <ListRestaurantSearch
         selectedRestaurants={restaurants}
         setSelectedRestaurants={setRestaurants}
@@ -148,7 +151,7 @@ function NewList() {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white p-2 px-4 rounded hover:bg-blue-600"
           disabled={loading}
         >
           {loading ? "Submitting..." : "Submit"}
