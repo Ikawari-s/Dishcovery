@@ -73,8 +73,9 @@ function RestaurantDetailed() {
           </p>
           <p className="mb-2 text-lg">
             <strong>Rating:</strong> ⭐{" "}
-            {(avgRating !== null ? avgRating : restaurant.rating).toFixed(2)} /
-            5
+            {(avgRating !== null ? avgRating : restaurant.rating ?? 0) // fallback to 0 if undefined
+              .toFixed(2)}{" "}
+            / 5
           </p>
           {/* <p className="mb-2 text-lg">
             <strong>Status:</strong>{" "}
