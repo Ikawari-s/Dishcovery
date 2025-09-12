@@ -22,15 +22,17 @@ function UserProfile({ userId }) {
   }, [userId]);
   return (
     <div>
-        <div className="flex justify-center">
+      <div>
+        <div className="flex flex-col items-center gap-4">
           <UserCard user={userProfile} />
           <UserStats userId={userId} />
-          {/* <Followers userId={userId} />
+        </div>
+        {/* <Followers userId={userId} />
           <Following userId={userId} /> */}
-        </div>
-        <div>
-          <UserReviews userId={userId} />
-        </div>
+      </div>
+      <div>
+        <UserReviews userId={userId} />
+      </div>
     </div>
   );
 }

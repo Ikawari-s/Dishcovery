@@ -5,12 +5,9 @@ function UserCard({ user }) {
 
   return (
     <div>
-      <a
-        href="#"
-        className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-      >
+      <div className="flex flex-col items-center p-5 bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl  dark:border-gray-700 dark:bg-gray-800 ">
         <img
-          className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+          className="w-32 h-32 rounded-full object-cover"
           src={
             user.profilePicture
               ? `${process.env.REACT_APP_API_BASE_URL}${user.profilePicture}`
@@ -24,17 +21,25 @@ function UserCard({ user }) {
               ? `${user.givenName} ${user.familyName}`
               : user.name}
           </h5>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {user.location || "-"}
-          </p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {user.website || "-"}
-          </p>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {user.bio || "-"}
-          </p>
+          {user.location && (
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              {user.location}
+            </p>
+          )}
+
+          {user.website && (
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              {user.website}
+            </p>
+          )}
+
+          {user.bio && (
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              {user.bio}
+            </p>
+          )}
         </div>
-      </a>
+      </div>
     </div>
   );
 }
