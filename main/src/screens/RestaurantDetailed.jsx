@@ -12,6 +12,7 @@ function RestaurantDetailed() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reviewsUpdated, setReviewsUpdated] = useState(false);
+  const [avgRating, setAvgRating] = useState(null);
 
   const heroRef = useRef(null); // Ref for hero section
   const contentRef = useRef(null); // Ref for the section to scroll to
@@ -71,7 +72,9 @@ function RestaurantDetailed() {
             <strong>Cuisine:</strong> {restaurant.cuisine}
           </p>
           <p className="mb-2 text-lg">
-            <strong>Rating:</strong> ⭐ {restaurant.rating.toFixed(2)} / 5
+            <strong>Rating:</strong> ⭐{" "}
+            {(avgRating !== null ? avgRating : restaurant.rating).toFixed(2)} /
+            5
           </p>
           {/* <p className="mb-2 text-lg">
             <strong>Status:</strong>{" "}
@@ -99,7 +102,11 @@ function RestaurantDetailed() {
       {/* Content below Hero */}
       <div ref={contentRef}>
         <RatingStats restaurantId={id} />
-        <RestaurantReviews restaurantId={id} reviewsUpdated={reviewsUpdated} />
+        <RestaurantReviews
+          restaurantId={id}
+          reviewsUpdated={reviewsUpdated}
+          onAverageCalculated={setAvgRating}
+        />
         <AddReviews restaurantId={id} onReviewAdded={handleReviewAdded} />
       </div>
       {restaurant.location?.coordinates ? (

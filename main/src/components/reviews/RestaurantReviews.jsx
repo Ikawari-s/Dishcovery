@@ -13,7 +13,11 @@ import ReviewCard from "../cards/ReviewCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { adminDeleteReviewApi } from "../../api/adminApi";
 
-function RestaurantReviews({ restaurantId, reviewsUpdated }) {
+function RestaurantReviews({
+  restaurantId,
+  reviewsUpdated,
+  onAverageCalculated,
+}) {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -136,9 +140,7 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
   };
 
   const handleNext = () => {
-    setStartIndex((prev) =>
-      Math.min(prev + 1, reviews.length - visibleCount)
-    );
+    setStartIndex((prev) => Math.min(prev + 1, reviews.length - visibleCount));
   };
 
   useEffect(() => {
@@ -149,6 +151,15 @@ function RestaurantReviews({ restaurantId, reviewsUpdated }) {
           setError("No reviews yet for this restaurant.");
         } else {
           setReviews(data);
+
+          if (data.length > 0 && onAverageCalculated) {
+            const avg =
+              data.reduce((sum, r) => sum + r.rating, 0) / data.length;
+            onAverageCalculated(avg);
+          } else if (onAverageCalculated) {
+            onAverageCalculated(0);
+          }
+
           setStartIndex(0);
           setError("");
         }
