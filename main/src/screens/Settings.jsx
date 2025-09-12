@@ -172,7 +172,7 @@ function TailwindTabs() {
       {/* Tab Content */}
       <div className="p-4">
         {activeTab === "profile" && (
-          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto transition-all duration-300 mt-4">
             <h2 className="text-4xl mt-4 font-bold mb-12 text-center">
               Profile Settings
             </h2>
@@ -183,18 +183,18 @@ function TailwindTabs() {
           </div>
         )}
         {activeTab === "dashboard" && (
-          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto transition-all duration-300 mt-4">
             {" "}
             <ChangePass />
           </div>
         )}
         {activeTab === "settings" && (
-          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto transition-all duration-300 mt-4">
             <VerifyAccount />
           </div>
         )}
         {activeTab === "avatar" && (
-          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
+          <div className="w-fit p-4 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto transition-all duration-300 mt-4">
             <UserCard user={user} />
           </div>
         )}
