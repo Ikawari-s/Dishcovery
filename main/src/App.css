@@ -77,3 +77,24 @@ html {
   display: inline-block;
   animation: vibration 0.5s infinite;
 }
+
+.scroll-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+
+    /* Firefox */
+    .scroll-container {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+    }

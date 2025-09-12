@@ -32,22 +32,6 @@ function RestaurantSearch() {
   };
 
   return (
-    <>
-      <style>{`
-        ul::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        ul::-webkit-scrollbar-thumb {
-          background-color: rgba(0,0,0,0.3);
-          border-radius: 4px;
-          border: 2px solid transparent;
-          background-clip: content-box;
-        }
-        /* Firefox */
-        ul {
-          scrollbar-color: rgba(0,0,0,0.3) transparent;
-        }
-      `}</style>
 
       <div className="max-w-md mr-4 relative">
         <form onSubmit={handleSearch} className="flex gap-2 relative">
@@ -102,7 +86,7 @@ function RestaurantSearch() {
 
         {results.length > 0 && (
           <ul
-            className={`text-left absolute left-0 right-0 mt-2 bg-yellow-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-2xl z-50 max-h-80 overflow-y-auto`}
+            className={`scroll-container text-left absolute left-0 right-0 mt-2 bg-yellow-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-2xl z-50 max-h-80 overflow-y-auto`}
           >
             {results.map((restaurant) => (
               <li
@@ -135,7 +119,6 @@ function RestaurantSearch() {
           </ul>
         )}
       </div>
-    </>
   );
 }
 

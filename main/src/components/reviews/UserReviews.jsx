@@ -121,37 +121,38 @@ function UserReviews() {
     return <p className="p-4 text-gray-500">No reviews found for this user.</p>;
 
   return (
-    <div className="mt-10">
-      <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
-      {reviews.length === 0 ? (
-        <p className="text-gray-500">No reviews yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {reviews.map((review) => (
-        <ReviewCard
-          key={review._id}
-          review={review}
-          userInfo={userInfo}
-          editingId={editingId}
-          editComment={editComment}
-          editRating={editRating}
-          setEditComment={setEditComment}
-          setEditRating={setEditRating}
-          onEdit={handleEdit}
-          onUpdate={handleUpdate}
-          onCancelEdit={() => setEditingId(null)}
-          onDelete={handleOpenModal}
-          onLikeToggle={handleLikeToggle}
-        />
-          ))}
-        </div>
-      )}
-      <DeleteReviewModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        handleDelete={handleDelete}
+    <div className="mt-10 flex flex-col items-center">
+  <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
+
+  <div
+    className="scroll-container flex flex-col gap-4 overflow-y-auto"
+    style={{ maxHeight: "600px", width: "100%", maxWidth: "300px" }} // Adjust width to match one grid column
+  >
+    {reviews.map((review) => (
+      <ReviewCard
+        key={review._id}
+        review={review}
+        userInfo={userInfo}
+        editingId={editingId}
+        editComment={editComment}
+        editRating={editRating}
+        setEditComment={setEditComment}
+        setEditRating={setEditRating}
+        onEdit={handleEdit}
+        onUpdate={handleUpdate}
+        onCancelEdit={() => setEditingId(null)}
+        onDelete={handleOpenModal}
+        onLikeToggle={handleLikeToggle}
       />
-    </div>
+    ))}
+  </div>
+
+  <DeleteReviewModal
+    show={showModal}
+    handleClose={() => setShowModal(false)}
+    handleDelete={handleDelete}
+  />
+</div>
   );
 }
 

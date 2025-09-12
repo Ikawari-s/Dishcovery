@@ -21,9 +21,9 @@ function UserProfile({ userId }) {
     fetchProfile();
   }, [userId]);
   return (
-    <div>
+    <div className="p-16">
       <div>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-start items-center gap-4">
           <UserCard user={userProfile} />
           <UserStats userId={userId} />
         </div>
