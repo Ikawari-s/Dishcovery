@@ -85,9 +85,11 @@ function PublicProfile({ userId }) {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-2">Public Profile</h2>
-      <UserCard user={userProfile} />
-      <UserStats userId={userId} />
+      <div className="flex flex-col items-center gap-4">
+        <UserCard user={userProfile} />
+        <UserStats userId={userId} />
+      </div>
+
       {/* Show only one button depending on follow state */}
       {isFollowing ? (
         <button
