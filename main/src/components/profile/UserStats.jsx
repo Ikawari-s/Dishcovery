@@ -28,18 +28,18 @@ function UserStats({ userId }) {
   if (loading) return <p>Loading stats...</p>;
 
   return (
-    <div className="flex justify-around p-5 gap-10 bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-70 ">
+    <div className="flex justify-around p-5 gap-10 bg-yellow-50 w-full rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800 transition-all duration-300">
       <div className="text-center">
         <p className="font-bold text-lg">{stats.reviews}</p>
-        <p className="text-gray-100 text-sm">Reviews</p>
+        <p className="dark:text-gray-100 text-sm">Reviews</p>
       </div>
       <div className="text-center">
         <p className="font-bold text-lg">{stats.followers}</p>
-        <p className="text-gray-100 text-sm">Followers</p>
+        <p className="dark:text-gray-100 text-sm">Followers</p>
       </div>
       <div className="text-center">
         <p className="font-bold text-lg">{stats.following}</p>
-        <p className="text-gray-100 text-sm">Following</p>
+        <p className="dark:text-gray-100 text-sm">Following</p>
       </div>
     </div>
   );
