@@ -104,17 +104,36 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
     }
   };
 
+  const handleClear = () => {
+    setQuery("");
+    setResults([]);
+    setError("");
+    setLoading(false);
+  };
+
   return (
-    <div className="flex flex-col items-center p-10 shadow-sm md:flex-row md:max-w-4xl mx-auto mt-10 text-gray-700 dark:text-gray-400">
+    <div className="flex flex-col items-center p-10 shadow-sm md:flex-row md:max-w-4xl mx-auto text-gray-700 dark:text-gray-400">
       <div className="w-full">
-        <form onSubmit={handleSearch} className="flex gap-2 mb-4 ">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search Restaurant"
-            className="border p-2 rounded w-full text-black"
-          />
+        <form onSubmit={handleSearch} className="flex gap-2 mb-4 relative">
+          <div className="relative w-full">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search Restaurant"
+              className="border p-2 pr-8 rounded w-[21rem] text-black"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={handleClear}
+                aria-label="Clear search"
+                className="absolute right-2 top-5 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-bold text-xl leading-none"
+              >
+                ×
+              </button>
+            )}
+          </div>
           <button
             type="submit"
             className="bg-green-500 text-white px-4 rounded hover:bg-green-600"
@@ -137,7 +156,7 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
               <li
                 key={restaurant._id}
                 onClick={() => toggleSelect(restaurant)}
-                className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 border rounded flex items-center gap-3 cursor-pointer transition dark:text-white ${
+                className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 rounded flex items-center gap-3 cursor-pointer transition dark:text-white ${
                   isSelected
                     ? "bg-yellow-100 dark:bg-gray-500"
                     : "hover:bg-yellow-100 dark:hover:bg-gray-700"
