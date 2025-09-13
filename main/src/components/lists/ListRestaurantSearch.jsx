@@ -37,12 +37,13 @@ function SortableItem({ restaurant, toggleSelect }) {
       <img
         src={restaurant.image || "https://via.placeholder.com/40"}
         alt={restaurant.name}
-        className="w-10 h-10 rounded object-cover"
+        className="w-10 h-10 rounded object-cover flex-shrink-0"
       />
-      <span className="font-medium">{restaurant.name}</span>
+      <span className="font-medium truncate">{restaurant.name}</span>
       <button
         onClick={() => toggleSelect(restaurant)}
-        className="ml-auto text-red-500 hover:text-red-700 text-sm"
+        className="ml-auto text-red-500 hover:text-red-700 text-sm flex-shrink-0"
+        aria-label={`Remove ${restaurant.name}`}
       >
         ✕
       </button>
@@ -112,23 +113,26 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 shadow-sm md:flex-row md:max-w-4xl mx-auto text-gray-700 dark:text-gray-400">
+    <div className="flex flex-col items-center md:p-10 shadow-sm max-w-full md:max-w-4xl mx-auto text-gray-700 dark:text-gray-400">
       <div className="w-full">
-        <form onSubmit={handleSearch} className="flex gap-2 mb-4 relative">
-          <div className="relative w-full">
+        <form
+          onSubmit={handleSearch}
+          className="flex flex-col sm:flex-row gap-2 mb-4 relative"
+        >
+          <div className="relative w-full sm:w-auto flex-grow">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search Restaurant"
-              className="border p-2 pr-8 rounded w-[21rem] text-black"
+              className="border p-2 pr-8 rounded w-full text-black dark:text-black"
             />
             {query && (
               <button
                 type="button"
                 onClick={handleClear}
                 aria-label="Clear search"
-                className="absolute right-2 top-5 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-bold text-xl leading-none"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 font-bold text-xl leading-none"
               >
                 ×
               </button>
@@ -136,7 +140,7 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white px-4 rounded hover:bg-green-600"
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 flex-shrink-0"
           >
             Search
           </button>
@@ -146,7 +150,7 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
         {error && <p className="mt-2 text-red-500">{error}</p>}
 
         {/* Search Results */}
-        <ul className="space-y-2 mb-6">
+        <ul className="space-y-2 mb-6 max-h-80 overflow-auto scroll-container">
           {results.map((restaurant) => {
             const isSelected = selectedRestaurants.some(
               (r) => r._id === restaurant._id
@@ -156,7 +160,7 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
               <li
                 key={restaurant._id}
                 onClick={() => toggleSelect(restaurant)}
-                className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 rounded flex items-center gap-3 cursor-pointer transition dark:text-white ${
+                className={`p-3 px-6 bg-yellow-50 dark:bg-gray-900 rounded flex flex-col sm:flex-row items-center sm:items-start gap-3 cursor-pointer transition dark:text-white ${
                   isSelected
                     ? "bg-yellow-100 dark:bg-gray-500"
                     : "hover:bg-yellow-100 dark:hover:bg-gray-700"
@@ -169,14 +173,16 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
                       : "https://via.placeholder.com/60"
                   }
                   alt={restaurant.name}
-                  className="w-16 h-16 rounded object-cover"
+                  className="w-16 h-16 rounded object-cover flex-shrink-0"
                 />
-                <div>
-                  <p className="font-semibold text-lg">{restaurant.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-300">
+                <div className="text-center sm:text-left">
+                  <p className="font-semibold text-lg truncate max-w-xs sm:max-w-sm">
+                    {restaurant.name}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-300 truncate max-w-xs sm:max-w-sm">
                     {restaurant.cuisine}
                   </p>
-                  <p className="text-xs text-gray-400 dark:text-gray-400">
+                  <p className="text-xs text-gray-400 dark:text-gray-400 truncate max-w-xs sm:max-w-sm">
                     {restaurant.address.city}, {restaurant.address.zipcode}
                   </p>
                 </div>
@@ -196,7 +202,7 @@ function ListRestaurantSearch({ selectedRestaurants, setSelectedRestaurants }) {
             items={selectedRestaurants.map((r) => r._id)}
             strategy={verticalListSortingStrategy}
           >
-            <ul className="space-y-2">
+            <ul className="space-y-2 max-h-72 overflow-auto">
               {selectedRestaurants.map((r) => (
                 <SortableItem
                   key={r._id}
