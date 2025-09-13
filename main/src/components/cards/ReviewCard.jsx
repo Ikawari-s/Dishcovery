@@ -34,8 +34,10 @@ function ReviewCard({
           }
           alt={review.userId?.name}
         />
+        
         {/* Name and restaurant */}
         <div className="flex flex-col">
+        <div className="flex flex-row gap-4">
           {review.userId?._id ? (
             <Link
               to={`/profile/${review.userId._id}`}
@@ -46,6 +48,28 @@ function ReviewCard({
           ) : (
             <p className="font-medium dark:text-white">{review.userId?.name}</p>
           )}
+                {userInfo &&
+        (userInfo._id === review.userId?._id || userInfo.role === "admin") &&
+        editingId !== review._id && (
+          <div className="flex gap-2 mt-2">
+            <button
+              onClick={() => onDelete(review._id)}
+              className="text-red-600 hover:text-red-800 text-sm font-medium"
+            >
+              Delete
+            </button>
+            {userInfo._id === review.userId?._id && (
+              <button
+                onClick={() => onEdit(review)}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                Update/Edit
+              </button>
+            )}
+          </div>
+        )}
+        </div>
+
 
           {review.restaurantId && (
             <Link
@@ -57,6 +81,7 @@ function ReviewCard({
           )}
         </div>
       </div>
+      
 
       {/* Main content area grows to fill space */}
       <div className="flex-grow text-start">
@@ -108,27 +133,6 @@ function ReviewCard({
       <p className="text-sm text-gray-500 dark:text-gray-400 text-left">
         {new Date(review.createdAt).toLocaleDateString()}
       </p>
-
-      {userInfo &&
-        (userInfo._id === review.userId?._id || userInfo.role === "admin") &&
-        editingId !== review._id && (
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => onDelete(review._id)}
-              className="text-red-600 hover:text-red-800 text-sm font-medium"
-            >
-              Delete
-            </button>
-            {userInfo._id === review.userId?._id && (
-              <button
-                onClick={() => onEdit(review)}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-              >
-                Update/Edit
-              </button>
-            )}
-          </div>
-        )}
 
       <div className="flex items-center gap-2 mt-2">
         {userInfo && (
