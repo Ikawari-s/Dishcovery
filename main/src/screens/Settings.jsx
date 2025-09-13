@@ -176,7 +176,7 @@ function TailwindTabs() {
             <h2 className="text-4xl mt-4 font-bold mb-12 text-center">
               Profile Settings
             </h2>
-            <div className="flex items-start gap-6">
+            <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
               <Avatar />
               <ProfileSettings />
             </div>
