@@ -185,7 +185,7 @@ function NearMe() {
                     alt={r.name}
                     className="w-full h-28 object-cover rounded"
                   />
-                  <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{r.name}</h3>
+                  <h3 className="mb-2 mt-4 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{r.name}</h3>
                   <p>{r.cuisine}</p>
                   <p>
                     📍 {r.address.street}, {r.address.city}
@@ -198,7 +198,6 @@ function NearMe() {
                       readOnly
                       size="small"
                     />
-                    <p> {r.rating}</p>
                   </div>
                   <p>Distance: {r.distance.toFixed(2)} km</p>
                 </li>
