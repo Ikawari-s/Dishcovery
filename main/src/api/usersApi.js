@@ -98,7 +98,7 @@ export const uploadProfilePictureApi = async (file, token) => {
 
 export const getFeedReviewsApi = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/feed`, {
+    const response = await axios.get(`http://localhost:5000/api/users/feed`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data; // array of reviews

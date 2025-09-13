@@ -141,6 +141,7 @@ export const getFeedReviews = asyncHandler(async (req, res) => {
       userId: { $in: user.following },
     })
       .populate("userId", "name profilePicture") // attach name & profilePicture
+      .populate("restaurantId", "name") // attach restaurant name
       .sort({ createdAt: -1 }); // newest first
 
     res.json(reviews);

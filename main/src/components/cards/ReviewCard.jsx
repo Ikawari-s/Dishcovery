@@ -46,12 +46,13 @@ function ReviewCard({
           ) : (
             <p className="font-medium dark:text-white">{review.userId?.name}</p>
           )}
-          {review.restaurant && (
+
+          {review.restaurantId && (
             <Link
-              to={`/restaurant/${review.restaurantId}`}
-              className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+              to={`/restaurants/${review.restaurantId._id}`}
+              className="text-gray-600 text-lg hover:underline dark:text-gray-300"
             >
-              {review.restaurant}
+              {review.restaurantId.name}
             </Link>
           )}
         </div>
