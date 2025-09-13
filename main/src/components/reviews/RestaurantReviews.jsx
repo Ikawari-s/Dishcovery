@@ -31,30 +31,31 @@ function RestaurantReviews({
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-  // Fixed card width in pixels
-  const CARD_WIDTH_PX = 300;
-  // Visible cards count based on container width will be calculated dynamically, but we can keep a max visible count
-  const MAX_VISIBLE_CARDS = 3;
-
   const [startIndex, setStartIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [cardWidth, setCardWidth] = useState(360);
 
   const sliderRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Calculate how many cards can fit in container
-  const [visibleCount, setVisibleCount] = useState(MAX_VISIBLE_CARDS);
+  const updateVisibleCount = () => {
+    const width = window.innerWidth;
+    if (width < 640) {
+      setVisibleCount(1);
+      setCardWidth(window.innerWidth - 32); // padding adjustment
+    } else if (width < 1024) {
+      setVisibleCount(2);
+      setCardWidth(300);
+    } else {
+      setVisibleCount(3);
+      setCardWidth(375);
+    }
+  };
 
   useEffect(() => {
-    function handleResize() {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const count = Math.floor(containerWidth / CARD_WIDTH_PX);
-        setVisibleCount(count > 0 ? Math.min(count, MAX_VISIBLE_CARDS) : 1);
-      }
-    }
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
 
   const handleOpenModal = (reviewId) => {
@@ -75,7 +76,7 @@ function RestaurantReviews({
       setSelectedReviewId(null);
 
       if (startIndex > 0 && startIndex > reviews.length - visibleCount) {
-        setStartIndex(startIndex - 1);
+        setStartIndex((prev) => Math.max(prev - visibleCount, 0));
       }
     } catch (err) {
       alert("Failed to delete review");
@@ -136,11 +137,13 @@ function RestaurantReviews({
   };
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(prev - 1, 0));
+    setStartIndex((prev) => Math.max(prev - visibleCount, 0));
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(prev + 1, reviews.length - visibleCount));
+    setStartIndex((prev) =>
+      Math.min(prev + visibleCount, Math.max(reviews.length - visibleCount, 0))
+    );
   };
 
   useEffect(() => {
@@ -152,12 +155,10 @@ function RestaurantReviews({
         } else {
           setReviews(data);
 
-          if (data.length > 0 && onAverageCalculated) {
+          if (onAverageCalculated) {
             const avg =
               data.reduce((sum, r) => sum + r.rating, 0) / data.length;
             onAverageCalculated(avg);
-          } else if (onAverageCalculated) {
-            onAverageCalculated(0);
           }
 
           setStartIndex(0);
@@ -175,26 +176,24 @@ function RestaurantReviews({
   if (loading) return <p className="p-4">Loading reviews...</p>;
   if (error) return <p className="p-4 text-red-600">{error}</p>;
 
-  // Only show navigation buttons if we have more cards than visible
   const showNavigation = reviews.length > visibleCount;
 
   return (
-    <div className="w-full max-w-6xl p-4 mx-auto mt-6" ref={containerRef}>
+    <div className="w-full max-w-7xl mx-auto mt-6" ref={containerRef}>
       <div className="relative overflow-hidden">
-        {/* Slider container */}
         <div
           ref={sliderRef}
           className="flex transition-transform duration-500 ease-in-out"
           style={{
-            width: `${reviews.length * CARD_WIDTH_PX}px`,
-            transform: `translateX(-${startIndex * CARD_WIDTH_PX}px)`,
+            width: `${reviews.length * cardWidth}px`,
+            transform: `translateX(-${startIndex * cardWidth}px)`,
           }}
         >
           {reviews.map((review) => (
             <div
               key={review._id}
               className="flex-shrink-0 px-2"
-              style={{ width: `${CARD_WIDTH_PX}px` }}
+              style={{ width: `${cardWidth}px` }}
             >
               <ReviewCard
                 review={review}
@@ -214,7 +213,6 @@ function RestaurantReviews({
           ))}
         </div>
 
-        {/* Navigation buttons */}
         {showNavigation && (
           <>
             <button

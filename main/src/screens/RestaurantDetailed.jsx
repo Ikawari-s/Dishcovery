@@ -13,6 +13,7 @@ function RestaurantDetailed() {
   const [error, setError] = useState("");
   const [reviewsUpdated, setReviewsUpdated] = useState(false);
   const [avgRating, setAvgRating] = useState(null);
+  const [showReviewModal, setShowReviewModal] = useState(false); // NEW: modal toggle
 
   const heroRef = useRef(null); // Ref for hero section
   const contentRef = useRef(null); // Ref for the section to scroll to
@@ -73,18 +74,8 @@ function RestaurantDetailed() {
           </p>
           <p className="mb-2 text-lg">
             <strong>Rating:</strong> ⭐{" "}
-            {(avgRating !== null ? avgRating : restaurant.rating ?? 0) // fallback to 0 if undefined
-              .toFixed(2)}{" "}
-            / 5
+            {(avgRating !== null ? avgRating : restaurant.rating ?? 0).toFixed(2)} / 5
           </p>
-          {/* <p className="mb-2 text-lg">
-            <strong>Status:</strong>{" "}
-            <span
-              className={restaurant.is_open ? "text-green-600" : "text-red-600"}
-            >
-              {restaurant.is_open ? "Open" : "Closed"}
-            </span>
-          </p> */}
           <p className="text-lg">
             <strong>Address:</strong> {restaurant.address.street},{" "}
             {restaurant.address.city}, {restaurant.address.zipcode}
@@ -101,15 +92,32 @@ function RestaurantDetailed() {
       </div>
 
       {/* Content below Hero */}
-      <div ref={contentRef}>
+      <div ref={contentRef} className="w-full px-4 max-w-6xl space-y-8">
         <RatingStats restaurantId={id} />
+          <button
+            onClick={() => setShowReviewModal(true)}
+            className="mt-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          >
+            Write a Review
+          </button>
+
         <RestaurantReviews
           restaurantId={id}
           reviewsUpdated={reviewsUpdated}
           onAverageCalculated={setAvgRating}
         />
-        <AddReviews restaurantId={id} onReviewAdded={handleReviewAdded} />
+
+        {/* Modal component rendered conditionally */}
+        {showReviewModal && (
+          <AddReviews
+            restaurantId={id}
+            onReviewAdded={handleReviewAdded}
+            onClose={() => setShowReviewModal(false)}
+          />
+        )}
       </div>
+
+      {/* Map */}
       {restaurant.location?.coordinates ? (
         <Map
           coordinates={restaurant.location.coordinates}

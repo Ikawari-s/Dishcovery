@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import UserReviews from "../../components/reviews/UserReviews";
-
 import {
   fetchFollowing,
   followUserApi,
@@ -16,7 +15,7 @@ function PublicProfile({ userId }) {
   const [loading, setLoading] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  // Get logged-in user from localStorage
+  // Get logged-in user info from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const token = userInfo?.token;
   const currentUserId = userInfo?._id;
@@ -34,7 +33,7 @@ function PublicProfile({ userId }) {
     fetchProfile();
   }, [userId]);
 
-  // Check if logged-in user is following this profile
+  // Check if the current user is following this user
   useEffect(() => {
     const checkFollowing = async () => {
       if (!currentUserId) return;
@@ -49,6 +48,7 @@ function PublicProfile({ userId }) {
     checkFollowing();
   }, [currentUserId, userId]);
 
+  // Handle follow
   const handleFollow = async () => {
     if (!token) {
       setMessage("You must be logged in to follow users");
@@ -66,6 +66,7 @@ function PublicProfile({ userId }) {
     }
   };
 
+  // Handle unfollow
   const handleUnfollow = async () => {
     if (!token) {
       setMessage("You must be logged in to unfollow users");
@@ -84,42 +85,47 @@ function PublicProfile({ userId }) {
   };
 
   return (
-    <div className="w-fit p-12 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mx-auto mt-4">
-      <div className="flex flex-row gap-8">
+    <div className="w-- mx-auto p-6 md:p-12 rounded-xl bg-white/40 dark:bg-gray-900/70 backdrop-blur-md shadow-xl mt-4">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* Left Column */}
-        <div className="flex flex-col gap-4 w-[110%]">
-          <h1 className="text-4xl text-start font-bold">Profile</h1>
-          <UserCard user={userProfile} />
-          <UserStats userId={userId} />
-          {isFollowing ? (
-        <button
-          type="button"
-          onClick={handleUnfollow}
-          disabled={loading}
-          className="w-full text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 
-                     hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 
-                     font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-        >
-          {loading ? "Processing..." : "Unfollow"}
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={handleFollow}
-          disabled={loading}
-          className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
-                     hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 
-                     font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-        >
-          {loading ? "Processing..." : "Follow"}
-        </button>
-      )}
+        <div className="w-full lg:w-2/  3 flex flex-col gap-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-start">Profile</h1>
 
-      {message && <p className="mt-2 text-sm text-gray-700">{message}</p>}
+          <UserCard user={userProfile} />
+
+          <UserStats userId={userId} />
+
+          {isFollowing ? (
+            <button
+              type="button"
+              onClick={handleUnfollow}
+              disabled={loading}
+              className="w-full text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 
+                         hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 
+                         font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              {loading ? "Processing..." : "Unfollow"}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleFollow}
+              disabled={loading}
+              className="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 
+                         hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 
+                         font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              {loading ? "Processing..." : "Follow"}
+            </button>
+          )}
+
+          {message && <p className="mt-2 text-sm text-gray-700">{message}</p>}
         </div>
 
-      <UserReviews userId={userId} />
-      
+        {/* Right Column */}
+        <div className="w-full lg:w-1/3">
+          <UserReviews userId={userId} />
+        </div>
       </div>
     </div>
   );
