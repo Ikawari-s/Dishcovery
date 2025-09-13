@@ -130,8 +130,8 @@ function Home() {
         ))}
       </div>
       <div className="w-[80vw] mx-auto mb-8 mt-[6rem]">
-        <NearMe />
         <PopularReviews />
+        <NearMe />
       </div>
     </div>
   );

@@ -97,8 +97,8 @@ function NearMe() {
   if (loading) return <p>Loading restaurants...</p>;
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Near Me (within 10km)</h2>
+    <div className="mt-24">
+      <h2 className="text-4xl font-bold mb-4">Near Me (within 10km)</h2>
 
       {!userLocation ? (
         <div>
@@ -177,10 +177,15 @@ function NearMe() {
             </div>
           </div>
           <div className="flex justify-center">
-            <ul className="mb-6 w-full max-w-md">
+            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {nearbyRestaurants.map((r) => (
-                <li key={r._id} className="mb-4 border p-2 rounded">
-                  <h3 className="font-semibold">{r.name}</h3>
+                <li key={r._id} className="shadow-xl bg-yellow-50 dark:bg-gray-800 rounded-lg p-2 transition-all duration-300 hover:bg-yellow-100 hover:dark:bg-gray-700 hover:-translate-y-1 min-h-80">
+                  <img
+                    src={r.image}
+                    alt={r.name}
+                    className="w-full h-28 object-cover rounded"
+                  />
+                  <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{r.name}</h3>
                   <p>{r.cuisine}</p>
                   <p>
                     📍 {r.address.street}, {r.address.city}
@@ -196,11 +201,6 @@ function NearMe() {
                     <p> {r.rating}</p>
                   </div>
                   <p>Distance: {r.distance.toFixed(2)} km</p>
-                  <img
-                    src={r.image}
-                    alt={r.name}
-                    className="w-40 h-28 object-cover rounded"
-                  />
                 </li>
               ))}
             </ul>
