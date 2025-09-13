@@ -39,7 +39,7 @@ function ReviewCard({
           {review.userId?._id ? (
             <Link
               to={`/profile/${review.userId._id}`}
-              className="font-medium text-2xl dark:text-white"
+              className="font-medium text-2xl dark:text-white text-start"
             >
               {review.userId?.name}
             </Link>
@@ -59,7 +59,7 @@ function ReviewCard({
       </div>
 
       {/* Main content area grows to fill space */}
-      <div className="flex-grow">
+      <div className="flex-grow text-start">
         {editingId === review._id ? (
           <>
             <Rating
@@ -72,19 +72,19 @@ function ReviewCard({
             <textarea
               value={editComment}
               onChange={(e) => setEditComment(e.target.value)}
-              className="w-full border rounded p-2 mb-2 text-black"
+              className="block w-full mb-4 p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               rows={3}
             />
             <div className="flex gap-2">
               <button
                 onClick={() => onUpdate(review._id)}
-                className="px-3 py-1 bg-green-500 text-white rounded"
+                className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-white rounded w-full"
               >
                 Save
               </button>
               <button
                 onClick={onCancelEdit}
-                className="px-3 py-1 bg-gray-400 text-white rounded"
+                className="bg-gray-600 text-white px-3 py-2 rounded hover:bg-gray-500 text-white rounded w-full"
               >
                 Cancel
               </button>
@@ -98,7 +98,6 @@ function ReviewCard({
                 value={review.rating}
                 precision={0.5}
                 readOnly
-                size="small"
               />
             </div>
             <p className="mb-2 text-lg text-left">{review.comment}</p>
