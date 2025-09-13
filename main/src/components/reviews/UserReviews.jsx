@@ -125,8 +125,7 @@ function UserReviews() {
     <h1 className="text-4xl font-bold mb-4">User Reviews</h1>
 
   <div
-    className="scroll-container flex flex-col gap-4 overflow-y-auto"
-    style={{ maxHeight: "550px", width: "100%", maxWidth: "300px" }} // Adjust width to match one grid column
+    className="scroll-container flex flex-col gap-4 overflow-y-auto"// Adjust width to match one grid column
   >
     {reviews.map((review) => (
       <ReviewCard
