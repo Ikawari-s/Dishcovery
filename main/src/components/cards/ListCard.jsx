@@ -32,7 +32,7 @@ function ListCard({ list }) {
         </div>
 
         {/* Display up to 3 restaurants */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex justify-evenly items-center mb-2">
           {list.restaurants.slice(0, 3).map((r) =>
             r.restaurantId ? (
               <img
@@ -52,14 +52,17 @@ function ListCard({ list }) {
           )}
         </div>
 
-        {/* Restaurant names below images */}
-        <div className="flex justify-between">
+        {/* 
+        
+            <div className="flex justify-between">
           {list.restaurants.slice(0, 3).map((r) => (
             <p key={r._id} className="text-sm text-gray-600">
               {r.restaurantId ? r.restaurantId.name : "Unknown"}
             </p>
           ))}
         </div>
+        
+        */}
       </div>
     </div>
   );
