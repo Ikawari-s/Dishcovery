@@ -59,31 +59,31 @@ const Restaurants = () => {
     Filter by Cuisine:
   </label>
 
-  <div className="w-full flex items-center">
-    {/* Left spacer */}
-    <div className="flex-1" />
+  <div className="w-full flex flex-col md:flex-row items-center gap-4 md:gap-0">
+  {/* Left spacer for alignment on desktop */}
+  <div className="flex-1 hidden md:block" />
 
-    {/* Centered select */}
-    <div className="flex-1 flex justify-center">
-      <select
-        id="cuisine"
-        value={selectedCuisine}
-        onChange={(e) => setSelectedCuisine(e.target.value)}
-        className="p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-800"
-      >
-        {cuisines.map((cuisine) => (
-          <option key={cuisine} value={cuisine}>
-            {cuisine}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Right-aligned search */}
-    <div className="flex-1 flex justify-end">
-      <RestaurantSearch />
-    </div>
+  {/* Centered select */}
+  <div className="w-full md:flex-1 flex justify-center">
+    <select
+      id="cuisine"
+      value={selectedCuisine}
+      onChange={(e) => setSelectedCuisine(e.target.value)}
+      className="w-full md:w-auto p-2 rounded-md shadow-lg text-black dark:text-white bg-yellow-50 dark:bg-gray-800"
+    >
+      {cuisines.map((cuisine) => (
+        <option key={cuisine} value={cuisine}>
+          {cuisine}
+        </option>
+      ))}
+    </select>
   </div>
+
+  {/* Right-aligned search */}
+  <div className="w-full md:flex-1 flex justify-center md:justify-end">
+    <RestaurantSearch />
+  </div>
+</div>
 </div>
 
         
