@@ -159,7 +159,7 @@ function NearMe() {
             </MapContainer>
           </div>
           <div
-            class="flex items-center  p-4 text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300"
+            class="flex items-center  p-4 text-sm text-gray-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-gray-300"
             role="alert"
           >
             <svg
@@ -173,7 +173,7 @@ function NearMe() {
             </svg>
             <span class="sr-only">Info</span>
             <div>
-              <span class="font-medium">Location not be accurate on PCs</span>
+              <span class="font-medium">Location may not be accurate on Computers</span>
             </div>
           </div>
           <div className="flex justify-center">
