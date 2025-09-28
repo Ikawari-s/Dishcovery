@@ -1,4 +1,4 @@
-# 🍽️ Dishcovery
+# 🍽️ Dishcovery 
 
 A full-stack social platform for discovering restaurants, creating lists, and sharing reviews. Built with **MongoDB**, **Express**, **Node.js**, **React**, and **Tailwind CSS**. Users can follow each other, post reviews, create restaurant lists, and interact in a social feed.
 
