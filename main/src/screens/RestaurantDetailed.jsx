@@ -74,7 +74,11 @@ function RestaurantDetailed() {
           </p>
           <p className="mb-2 text-lg">
             <strong>Rating:</strong> ⭐{" "}
-            {(avgRating !== null ? avgRating : restaurant.rating ?? 0).toFixed(2)} / 5
+            {(avgRating !== null
+              ? avgRating
+              : (restaurant.rating ?? 0)
+            ).toFixed(2)}{" "}
+            / 5
           </p>
           <p className="text-lg">
             <strong>Address:</strong> {restaurant.address.street},{" "}
@@ -94,12 +98,12 @@ function RestaurantDetailed() {
       {/* Content below Hero */}
       <div ref={contentRef} className="w-full px-4 max-w-6xl space-y-8">
         <RatingStats restaurantId={id} />
-          <button
-            onClick={() => setShowReviewModal(true)}
-            className="mt-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-          >
-            Write a Review
-          </button>
+        <button
+          onClick={() => setShowReviewModal(true)}
+          className="mt-2 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        >
+          Write a Review
+        </button>
 
         <RestaurantReviews
           restaurantId={id}
@@ -117,7 +121,9 @@ function RestaurantDetailed() {
         )}
       </div>
 
-      {/* Map */}
+      {/*
+      
+  
       {restaurant.location?.coordinates ? (
         <Map
           coordinates={restaurant.location.coordinates}
@@ -126,6 +132,8 @@ function RestaurantDetailed() {
       ) : (
         <p className="text-gray-500 mt-4">📍 Location not available</p>
       )}
+      
+      */}
     </div>
   );
 }
