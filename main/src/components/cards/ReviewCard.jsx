@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 
@@ -17,6 +17,19 @@ function ReviewCard({
   setEditRating,
 }) {
   const API_URL = process.env.REACT_APP_API_BASE_URL;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close the menu when clicking outside of it
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <article
@@ -34,42 +47,72 @@ function ReviewCard({
           }
           alt={review.userId?.name}
         />
-        
-        {/* Name and restaurant */}
-        <div className="flex flex-col">
-        <div className="flex flex-row gap-4">
-          {review.userId?._id ? (
-            <Link
-              to={`/profile/${review.userId._id}`}
-              className="font-medium text-2xl dark:text-white text-start"
-            >
-              {review.userId?.name}
-            </Link>
-          ) : (
-            <p className="font-medium dark:text-white">{review.userId?.name}</p>
-          )}
-                {userInfo &&
-        (userInfo._id === review.userId?._id || userInfo.role === "admin") &&
-        editingId !== review._id && (
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => onDelete(review._id)}
-              className="text-red-600 hover:text-red-800 text-sm font-medium"
-            >
-              Delete
-            </button>
-            {userInfo._id === review.userId?._id && (
-              <button
-                onClick={() => onEdit(review)}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-              >
-                Update/Edit
-              </button>
-            )}
-          </div>
-        )}
-        </div>
 
+        {/* Name and restaurant */}
+        <div className="flex flex-col flex-grow">
+          <div className="flex flex-row items-center justify-between gap-4">
+            {review.userId?._id ? (
+              <Link
+                to={`/profile/${review.userId._id}`}
+                className="font-medium text-2xl dark:text-white text-start"
+              >
+                {review.userId?.name}
+              </Link>
+            ) : (
+              <p className="font-medium dark:text-white">
+                {review.userId?.name}
+              </p>
+            )}
+
+            {userInfo &&
+              (userInfo._id === review.userId?._id ||
+                userInfo.role === "admin") &&
+              editingId !== review._id && (
+                <div className="relative" ref={menuRef}>
+                  <button
+                    onClick={() => setMenuOpen((prev) => !prev)}
+                    aria-label="Review options"
+                    aria-haspopup="true"
+                    aria-expanded={menuOpen}
+                    className="p-1 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-200 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-600 transition-colors"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+                    </svg>
+                  </button>
+
+                  {menuOpen && (
+                    <div className="absolute right-0 mt-1 w-40 bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 z-10 overflow-hidden">
+                      {userInfo._id === review.userId?._id && (
+                        <button
+                          onClick={() => {
+                            onEdit(review);
+                            setMenuOpen(false);
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+                        >
+                          Update/Edit
+                        </button>
+                      )}
+                      <button
+                        onClick={() => {
+                          onDelete(review._id);
+                          setMenuOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+          </div>
 
           {review.restaurantId && (
             <Link
@@ -81,7 +124,6 @@ function ReviewCard({
           )}
         </div>
       </div>
-      
 
       {/* Main content area grows to fill space */}
       <div className="flex-grow text-start">
