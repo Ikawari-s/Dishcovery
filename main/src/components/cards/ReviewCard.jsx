@@ -48,7 +48,7 @@ function ReviewCard({
           alt={review.userId?.name}
         />
 
-        {/* Name and restaurant */}
+        {/* Name only (restaurant name moved down next to the rating) */}
         <div className="flex flex-col flex-grow">
           <div className="flex flex-row items-center justify-between gap-4">
             {review.userId?._id ? (
@@ -113,15 +113,6 @@ function ReviewCard({
                 </div>
               )}
           </div>
-
-          {review.restaurantId && (
-            <Link
-              to={`/restaurants/${review.restaurantId._id}`}
-              className="text-gray-600 text-lg hover:underline dark:text-gray-300"
-            >
-              {review.restaurantId.name}
-            </Link>
-          )}
         </div>
       </div>
 
@@ -159,7 +150,15 @@ function ReviewCard({
           </>
         ) : (
           <>
-            <div className="mb-1">
+            <div className="mb-1 flex flex-col gap-1">
+              {review.restaurantId && (
+                <Link
+                  to={`/restaurants/${review.restaurantId._id}`}
+                  className="font-serif font-bold text-lg text-gray-800 hover:underline dark:text-gray-200 leading-none"
+                >
+                  {review.restaurantId.name}
+                </Link>
+              )}
               <Rating
                 name="read-only-rating"
                 value={review.rating}
